@@ -19,7 +19,7 @@ const DefaultLineChart = () => {
             className='apexcharts-tooltip-style-1'
             options={defaultLineChartOptions}
             series={defaultLineChartSeries}
-            type='area'
+            type='line'
             height={264}
           />
         </div>

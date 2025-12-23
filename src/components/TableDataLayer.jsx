@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import Link from "next/link";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 const loadJQueryAndDataTables = async () => {
   const $ = (await import("jquery")).default;
   await import("datatables.net-dt/js/dataTables.dataTables.js");

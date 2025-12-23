@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 const LanguageLayer = () => {
@@ -71,14 +71,14 @@ const LanguageLayer = () => {
               <tbody>
                 <tr>
                   <td>01</td>
-                  <td className='text-center'>English(Default)</td>
+                  <td className='text-center'>Portuguese (Default)</td>
                   <td>
                     <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
                       <input
                         className='form-check-input'
                         type='checkbox'
                         role='switch'
-                        defaultChecked=''
+                        defaultChecked={true}
                       />
                     </div>
                   </td>
@@ -106,13 +106,14 @@ const LanguageLayer = () => {
                 </tr>
                 <tr>
                   <td>02</td>
-                  <td className='text-center'>Bangla</td>
+                  <td className='text-center'>English</td>
                   <td>
                     <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
                       <input
                         className='form-check-input'
                         type='checkbox'
                         role='switch'
+                        defaultChecked={true}
                       />
                     </div>
                   </td>

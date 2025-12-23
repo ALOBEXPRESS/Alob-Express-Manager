@@ -1,7 +1,9 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 const SignInLayer = () => {
+  const t = useTranslations('auth');
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -15,9 +17,9 @@ const SignInLayer = () => {
             <Link href='/' className='mb-40 max-w-290-px'>
               <img src='/assets/images/logo.png' alt='' />
             </Link>
-            <h4 className='mb-12'>Sign In to your Account</h4>
+            <h4 className='mb-12'>{t('sign_in_title')}</h4>
             <p className='mb-32 text-secondary-light text-lg'>
-              Welcome back! please enter your detail
+              {t('welcome_back')}
             </p>
           </div>
           <form action='#'>
@@ -28,7 +30,7 @@ const SignInLayer = () => {
               <input
                 type='email'
                 className='form-control h-56-px bg-neutral-50 radius-12'
-                placeholder='Email'
+                placeholder={t('email')}
               />
             </div>
             <div className='position-relative mb-20'>
@@ -40,7 +42,7 @@ const SignInLayer = () => {
                   type='password'
                   className='form-control h-56-px bg-neutral-50 radius-12'
                   id='your-password'
-                  placeholder='Password'
+                  placeholder={t('password')}
                 />
               </div>
               <span
@@ -58,11 +60,11 @@ const SignInLayer = () => {
                     id='remeber'
                   />
                   <label className='form-check-label' htmlFor='remeber'>
-                    Remember me{" "}
+                    {t('remember_me')}{" "}
                   </label>
                 </div>
                 <Link href='#' className='text-primary-600 fw-medium'>
-                  Forgot Password?
+                  {t('forgot_password')}
                 </Link>
               </div>
             </div>
@@ -71,10 +73,10 @@ const SignInLayer = () => {
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
             >
               {" "}
-              Sign In
+              {t('sign_in')}
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
-              <span className='bg-base z-1 px-4'>Or sign in with</span>
+              <span className='bg-base z-1 px-4'>{t('or_sign_in_with')}</span>
             </div>
             <div className='mt-32 d-flex align-items-center gap-3'>
               <button
@@ -85,7 +87,7 @@ const SignInLayer = () => {
                   icon='ic:baseline-facebook'
                   className='text-primary-600 text-xl line-height-1'
                 />
-                Google
+                {t('google')}
               </button>
               <button
                 type='button'
@@ -95,14 +97,14 @@ const SignInLayer = () => {
                   icon='logos:google-icon'
                   className='text-primary-600 text-xl line-height-1'
                 />
-                Google
+                {t('google')}
               </button>
             </div>
             <div className='mt-32 text-center text-sm'>
               <p className='mb-0'>
-                Don’t have an account?{" "}
+                {t('dont_have_account')}{" "}
                 <Link href='/sign-up' className='text-primary-600 fw-semibold'>
-                  Sign Up
+                  {t('sign_up')}
                 </Link>
               </p>
             </div>

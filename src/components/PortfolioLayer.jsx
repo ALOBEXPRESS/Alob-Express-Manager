@@ -1,7 +1,7 @@
 "use client";
 import useReactApexChart from "../hook/useReactApexChart";
 
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {

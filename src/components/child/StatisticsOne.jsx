@@ -1,5 +1,5 @@
 "use client";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
 import Link from "next/link";

@@ -4,19 +4,17 @@ import { useEffect } from "react";
 const SalesByCountries = () => {
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
-    Promise.all([
-      import("jsvectormap"),
-      import("jsvectormap/dist/maps/world.js"),
-    ])
-      .then(([jsVectorMapModule]) => {
+    import("jsvectormap")
+      .then((jsVectorMapModule) => {
         const jsVectorMap = jsVectorMapModule.default;
-
         // Ensure jsVectorMap is attached to window if the library expects it
         window.jsVectorMap = jsVectorMap;
-
+        return import("jsvectormap/dist/maps/world.js").then(() => jsVectorMap);
+      })
+      .then((jsVectorMap) => {
         // Initialize the map
         const map = new jsVectorMap({
-          selector: "#map",
+          selector: "#map-sales-countries",
           map: "world", // Use the map name you installed
           backgroundColor: "transparent",
           borderColor: "#fff",
@@ -102,7 +100,7 @@ const SalesByCountries = () => {
           </div>
           <div className='row gy-4'>
             <div className='col-lg-6'>
-              <div id='map' className='h-100 border radius-8' />
+              <div id='map-sales-countries' className='h-100 border radius-8' />
             </div>
             <div className='col-lg-6'>
               <div className='h-100 border p-16 pe-0 radius-8'>

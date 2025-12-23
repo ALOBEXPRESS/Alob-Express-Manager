@@ -1,7 +1,9 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 const SignUpLayer = () => {
+  const t = useTranslations('auth');
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -15,9 +17,9 @@ const SignUpLayer = () => {
             <Link href='/' className='mb-40 max-w-290-px'>
               <img src='/assets/images/logo.png' alt='' />
             </Link>
-            <h4 className='mb-12'>Sign Up to your Account</h4>
+            <h4 className='mb-12'>{t('sign_up_title')}</h4>
             <p className='mb-32 text-secondary-light text-lg'>
-              Welcome back! please enter your detail
+              {t('welcome_back')}
             </p>
           </div>
           <form action='#'>
@@ -28,7 +30,7 @@ const SignUpLayer = () => {
               <input
                 type='text'
                 className='form-control h-56-px bg-neutral-50 radius-12'
-                placeholder='Username'
+                placeholder={t('username')}
               />
             </div>
             <div className='icon-field mb-16'>
@@ -38,7 +40,7 @@ const SignUpLayer = () => {
               <input
                 type='email'
                 className='form-control h-56-px bg-neutral-50 radius-12'
-                placeholder='Email'
+                placeholder={t('email')}
               />
             </div>
             <div className='mb-20'>
@@ -51,7 +53,7 @@ const SignUpLayer = () => {
                     type='password'
                     className='form-control h-56-px bg-neutral-50 radius-12'
                     id='your-password'
-                    placeholder='Password'
+                    placeholder={t('password')}
                   />
                 </div>
                 <span
@@ -60,7 +62,7 @@ const SignUpLayer = () => {
                 />
               </div>
               <span className='mt-12 text-sm text-secondary-light'>
-                Your password must have at least 8 characters
+                {t('password_hint')}
               </span>
             </div>
             <div className=''>
@@ -76,13 +78,13 @@ const SignUpLayer = () => {
                     className='form-check-label text-sm'
                     htmlFor='condition'
                   >
-                    By creating an account means you agree to the
+                    {t('terms_agreement')}
                     <Link href='#' className='text-primary-600 fw-semibold'>
-                      Terms &amp; Conditions
+                      {t('terms_conditions')}
                     </Link>{" "}
-                    and our
+                    {t('and_our')}
                     <Link href='#' className='text-primary-600 fw-semibold'>
-                      Privacy Policy
+                      {t('privacy_policy')}
                     </Link>
                   </label>
                 </div>
@@ -93,10 +95,10 @@ const SignUpLayer = () => {
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
             >
               {" "}
-              Sign Up
+              {t('sign_up')}
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
-              <span className='bg-base z-1 px-4'>Or sign up with</span>
+              <span className='bg-base z-1 px-4'>{t('or_sign_up_with')}</span>
             </div>
             <div className='mt-32 d-flex align-items-center gap-3'>
               <button
@@ -107,7 +109,7 @@ const SignUpLayer = () => {
                   icon='ic:baseline-facebook'
                   className='text-primary-600 text-xl line-height-1'
                 />
-                Google
+                {t('google')}
               </button>
               <button
                 type='button'
@@ -117,14 +119,14 @@ const SignUpLayer = () => {
                   icon='logos:google-icon'
                   className='text-primary-600 text-xl line-height-1'
                 />
-                Google
+                {t('google')}
               </button>
             </div>
             <div className='mt-32 text-center text-sm'>
               <p className='mb-0'>
-                Already have an account?{" "}
+                {t('already_have_account')}{" "}
                 <Link href='/sign-in' className='text-primary-600 fw-semibold'>
-                  Sign In
+                  {t('sign_in')}
                 </Link>
               </p>
             </div>

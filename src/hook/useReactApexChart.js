@@ -1,9 +1,12 @@
+"use client";
+
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const useReactApexChart = () => {
+  // --- Area Chart (Existing) ---
   let chartSeries = [
     {
       name: "This month",
@@ -15,12 +18,8 @@ const useReactApexChart = () => {
     chart: {
       height: 264,
       type: "area",
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: false,
-      },
+      toolbar: { show: false },
+      zoom: { enabled: false },
       dropShadow: {
         enabled: false,
         top: 6,
@@ -30,7 +29,6 @@ const useReactApexChart = () => {
         opacity: 0.1,
       },
     },
-
     fill: {
       type: "gradient",
       gradient: {
@@ -41,5447 +39,747 @@ const useReactApexChart = () => {
         stops: [0, 90, 100],
       },
     },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      colors: ["#487FFF"], // Specify the line color here
-      width: 3,
-    },
-    markers: {
-      size: 0,
-      strokeWidth: 3,
-      hover: {
-        size: 8,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: true,
-      },
-      y: {
-        show: false,
-      },
-      z: {
-        show: false,
-      },
-    },
-    grid: {
-      row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5,
-      },
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-      crosshairs: {
-        show: true,
-        width: 20,
-        stroke: {
-          width: 0,
-        },
-        fill: {
-          type: "solid",
-          color: "#487FFF40",
-        },
-      },
-    },
-  };
-
-  let barChartSeries = [
-    {
-      name: "Sales",
-      data: [
-        {
-          x: "Sun",
-          y: 15,
-        },
-        {
-          x: "Mon",
-          y: 12,
-        },
-        {
-          x: "Tue",
-          y: 18,
-        },
-        {
-          x: "Wed",
-          y: 20,
-        },
-        {
-          x: "Thu",
-          y: 13,
-        },
-        {
-          x: "Fri",
-          y: 16,
-        },
-        {
-          x: "Sat",
-          y: 6,
-        },
-      ],
-    },
-  ];
-
-  let barChartOptions = {
-    chart: {
-      type: "bar",
-      height: 264,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 6,
-        horizontal: false,
-        columnWidth: 24,
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#dae5ff"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: ["#dae5ff"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 1, // Starting opacity
-        opacityTo: 1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    grid: {
-      show: false,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-      padding: {
-        top: -10,
-        right: -10,
-        bottom: -10,
-        left: -10,
-      },
-    },
-    xaxis: {
-      type: "category",
-      categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    },
-    yaxis: {
-      show: false,
-    },
-  };
-
-  let donutChartSeries = [500, 500, 500];
-  let donutChartOptions = {
-    colors: ["#FF9F29", "#487FFF", "#45B369"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 270,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-
-  let paymentStatusChartSeries = [
-    {
-      name: "Net Profit",
-      data: [
-        20000, 16000, 14000, 25000, 45000, 18000, 28000, 11000, 26000, 48000,
-        18000, 22000,
-      ],
-    },
-
-    {
-      name: "Revenue",
-      data: [
-        15000, 18000, 19000, 20000, 35000, 20000, 18000, 13000, 18000, 38000,
-        14000, 16000,
-      ],
-    },
-  ];
-
-  let paymentStatusChartOptions = {
-    colors: ["#487FFF", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 10,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      categories: [
-        "0",
-        "5000",
-        "10,000",
-        "20,000",
-        "30,000",
-        "50,000",
-        "60,000",
-        "60,000",
-        "70,000",
-        "80,000",
-        "90,000",
-        "100,000",
-      ],
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let createChart = (chartColor) => {
-    let currentYear = new Date().getFullYear();
-
-    let series = [
-      {
-        name: "series1",
-        data: [35, 45, 38, 41, 36, 43, 37, 55, 40],
-      },
-    ];
-
-    var options = {
-      chart: {
-        type: "area",
-        width: 80,
-        height: 42,
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [chartColor],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [chartColor], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${chartColor}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.75, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [chartColor],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        height={42}
-        width={80}
-      />
-    );
-  };
-
-  let createChartTwo = (chartColor, height) => {
-    let series = [
-      {
-        name: "This Day",
-        data: [4, 18, 13, 40, 30, 50, 30, 60, 40, 75, 45, 90],
-      },
-    ];
-
-    let options = {
-      chart: {
-        type: "area",
-        width: "100%",
-        height: 162,
-        sparkline: {
-          enabled: false, // Remove whitespace
-        },
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 4,
-        colors: [chartColor],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "red",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -30,
-          right: 0,
-          bottom: -10,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [chartColor], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${chartColor}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.6, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [chartColor],
-        strokeWidth: 3,
-        size: 0,
-        hover: {
-          size: 10,
-        },
-      },
-      xaxis: {
-        categories: [
-          `Jan`,
-          `Feb`,
-          `Mar`,
-          `Apr`,
-          `May`,
-          `Jun`,
-          `Jul`,
-          `Aug`,
-          `Sep`,
-          `Oct`,
-          `Nov`,
-          `Dec`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-        labels: {
-          formatter: function (value) {
-            return value;
-          },
-          style: {
-            fontSize: "14px",
-          },
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        height={height}
-      />
-    );
-  };
-
-  let createChartThree = (chartColor) => {
-    let currentYear = new Date().getFullYear();
-    let series = [
-      {
-        name: "series1",
-        data: [31, 24, 30, 25, 32, 28, 40, 32, 42, 38, 40, 32, 38, 35, 45],
-      },
-    ];
-    let options = {
-      chart: {
-        type: "area",
-
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [chartColor],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [chartColor], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${chartColor}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.7, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [chartColor],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        width={130}
-        height={50}
-      />
-    );
-  };
-
-  let createChartFour = (chartColor, height, width) => {
-    let currentYear = new Date().getFullYear();
-
-    let series = [
-      {
-        name: "series1",
-        data: [35, 45, 38, 41, 36, 43, 37, 55, 40],
-      },
-    ];
-    let options = {
-      chart: {
-        type: "area",
-        width: 100,
-        height: 42,
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [chartColor],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [chartColor], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${chartColor}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.75, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [chartColor],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        width={width}
-        height={height}
-      />
-    );
-  };
-
-  let createChartFive = (chartColor) => {
-    let currentYear = new Date().getFullYear();
-
-    let series = [
-      {
-        name: "series1",
-        data: [0, 10, 8, 25, 15, 26, 13, 35, 15, 39, 16, 46, 42],
-      },
-    ];
-    let options = {
-      chart: {
-        type: "area",
-        width: 164,
-        height: 72,
-
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [chartColor],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [chartColor], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${chartColor}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.8, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [chartColor],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        width={164}
-        height={72}
-      />
-    );
-  };
-  let createChartSix = (color1, color2) => {
-    let series = [
-      {
-        name: "series1",
-        data: [48, 35, 55, 32, 48, 30, 55, 50, 57],
-      },
-      {
-        name: "series2",
-        data: [12, 20, 15, 26, 22, 60, 40, 48, 25],
-      },
-    ];
-    let options = {
-      legend: {
-        show: false,
-      },
-      chart: {
-        type: "area",
-        width: "100%",
-        height: 270,
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 3,
-        colors: [color1, color2], // Use two colors for the lines
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "#D1D5DB",
-        strokeDashArray: 1,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -20,
-          right: 0,
-          bottom: -10,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [color1, color2],
-        gradient: {
-          shade: "light",
-          type: "vertical",
-          shadeIntensity: 0.5,
-          gradientToColors: [undefined, `${color2}00`], // Apply transparency to both colors
-          inverseColors: false,
-          opacityFrom: [0.4, 0.4], // Starting opacity for both colors
-          opacityTo: [0.3, 0.3], // Ending opacity for both colors
-          stops: [0, 100],
-        },
-      },
-      markers: {
-        colors: [color1, color2], // Use two colors for the markers
-        strokeWidth: 3,
-        size: 0,
-        hover: {
-          size: 10,
-        },
-      },
-      xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
-        tooltip: {
-          enabled: false,
-        },
-        labels: {
-          formatter: function (value) {
-            return value;
-          },
-          style: {
-            fontSize: "14px",
-          },
-        },
-      },
-      yaxis: {
-        labels: {
-          formatter: function (value) {
-            return "$" + value + "k";
-          },
-          style: {
-            fontSize: "14px",
-          },
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        height={270}
-      />
-    );
-  };
-
-  let createChartSeven = (color1, color2) => {
-    let series = [
-      {
-        name: "series2",
-        data: [
-          20000, 45000, 30000, 50000, 32000, 40000, 30000, 42000, 28000, 34000,
-          38000, 26000,
-        ],
-      },
-    ];
-    var options = {
-      legend: {
-        show: false,
-      },
-      chart: {
-        type: "area",
-        width: "100%",
-        height: 240,
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "straight",
-        width: 3,
-        colors: [color1], // Use two colors for the lines
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "#D1D5DB",
-        strokeDashArray: 1,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -20,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [color1],
-        gradient: {
-          shade: "light",
-          type: "vertical",
-          shadeIntensity: 0.5,
-          gradientToColors: [undefined, `${color2}00`], // Apply transparency to both colors
-          inverseColors: false,
-          opacityFrom: [0.4, 0.4], // Starting opacity for both colors
-          opacityTo: [0.1, 0.1], // Ending opacity for both colors
-          stops: [0, 100],
-        },
-      },
-      markers: {
-        colors: [color1], // Use two colors for the markers
-        strokeWidth: 3,
-        size: 0,
-        hover: {
-          size: 10,
-        },
-      },
-      xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
-        tooltip: {
-          enabled: false,
-        },
-        labels: {
-          formatter: function (value) {
-            return value;
-          },
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-      yaxis: {
-        labels: {
-          // formatter: function (value) {
-          //     return "$" + value + "k";
-          // },
-          style: {
-            fontSize: "12px",
-          },
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        height={240}
-      />
-    );
-  };
-
-  let createChartEight = (color) => {
-    let currentYear = new Date().getFullYear();
-
-    let series = [
-      {
-        name: "series1",
-        data: [0, 10, 8, 25, 15, 26, 13, 35, 15, 39, 16, 46, 42],
-      },
-    ];
-    let options = {
-      chart: {
-        type: "area",
-        width: 164,
-        height: 72,
-
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [color],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [color], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${color}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.8, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [color],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        height={72}
-        width={164}
-      />
-    );
-  };
-
-  let createChartNine = (color) => {
-    let series = [
-      {
-        name: "Bitcoin",
-        data: [
-          [1327359600000, 30.95],
-          [1327446000000, 31.34],
-          [1327532400000, 31.18],
-          [1327618800000, 31.05],
-          [1327878000000, 31.0],
-          [1327964400000, 30.95],
-          [1328050800000, 31.24],
-          [1328137200000, 31.29],
-          [1328223600000, 31.85],
-          [1328482800000, 31.86],
-          [1328569200000, 32.28],
-          [1328655600000, 32.1],
-          [1328742000000, 32.65],
-          [1328828400000, 32.21],
-          [1329087600000, 32.35],
-          [1329174000000, 32.44],
-          [1329260400000, 32.46],
-          [1329346800000, 32.86],
-          [1329433200000, 32.75],
-          [1329778800000, 32.54],
-          [1329865200000, 32.33],
-          [1329951600000, 32.97],
-          [1330038000000, 33.41],
-          [1330297200000, 33.27],
-          [1330383600000, 33.27],
-          [1330470000000, 32.89],
-          [1330556400000, 33.1],
-          [1330642800000, 33.73],
-        ],
-      },
-    ];
-
-    let options = {
-      chart: {
-        type: "area",
-        stacked: false,
-        width: 76,
-        height: 40,
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-        zoom: {
-          type: "x",
-          enabled: true,
-          autoScaleYaxis: true,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      stroke: {
-        curve: "straight",
-        width: 2,
-        colors: [color],
-        lineCap: "round",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      markers: {
-        colors: [color],
-        strokeWidth: 2,
-        size: 0,
-      },
-      grid: {
-        borderColor: "#D1D5DB",
-        strokeDashArray: 3,
-      },
-      fill: {
-        type: "gradient",
-        gradient: {
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 1, // Intensity of the gradient shading
-          gradientToColors: [color], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.4, // Starting opacity
-          opacityTo: 0.1, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-          formatter: function (val) {
-            return (val / 1000000).toFixed(0);
-          },
-        },
-      },
-      xaxis: {
-        type: "datetime",
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        shared: false,
-        y: {
-          formatter: function (val) {
-            return (val / 1000000).toFixed(0);
-          },
-        },
-      },
-    };
-
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        width={76}
-        height={40}
-      />
-    );
-  };
-
-  let createChartTen = (color) => {
-    let currentYear = new Date().getFullYear();
-    let series = [
-      {
-        name: "series1",
-        data: [35, 45, 38, 41, 36, 43, 37, 55, 40],
-      },
-    ];
-    let options = {
-      chart: {
-        type: "area",
-        width: 100,
-        height: 42,
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [color],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [color], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${color}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.75, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [color],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        width={100}
-        height={42}
-      />
-    );
-  };
-
-  let createChatEleven = (color) => {
-    let currentYear = new Date().getFullYear();
-    let series = [
-      {
-        name: "series1",
-        data: [31, 24, 30, 25, 32, 28, 40, 32, 42, 38, 40, 32, 38, 35, 45],
-      },
-    ];
-    let options = {
-      chart: {
-        type: "area",
-        width: 150,
-        height: 70,
-
-        sparkline: {
-          enabled: true, // Remove whitespace
-        },
-
-        toolbar: {
-          show: false,
-        },
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        },
-        // events: {
-        //     mounted: function (chartContext, config) {
-        //         // Apply CSS blur to markers
-        //         document.querySelectorAll(`#${color} .apexcharts-marker`).forEach(marker => {
-        //             marker.style.filter = 'blur(2px)';
-        //         });
-        //     },
-        //     updated: function (chartContext, config) {
-        //         // Apply CSS blur to markers
-        //         document.querySelectorAll(`#${chartId} .apexcharts-marker`).forEach(marker => {
-        //             marker.style.filter = 'blur(3px)';
-        //         });
-        //     }
-        // }
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-        width: 2,
-        colors: [color],
-        lineCap: "round",
-      },
-      grid: {
-        show: true,
-        borderColor: "transparent",
-        strokeDashArray: 0,
-        position: "back",
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        row: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        column: {
-          colors: undefined,
-          opacity: 0.5,
-        },
-        padding: {
-          top: -3,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        },
-      },
-      fill: {
-        type: "gradient",
-        colors: [color], // Set the starting color (top color) here
-        gradient: {
-          shade: "light", // Gradient shading type
-          type: "vertical", // Gradient direction (vertical)
-          shadeIntensity: 0.5, // Intensity of the gradient shading
-          gradientToColors: [`${color}00`], // Bottom gradient color (with transparency)
-          inverseColors: false, // Do not invert colors
-          opacityFrom: 0.7, // Starting opacity
-          opacityTo: 0.3, // Ending opacity
-          stops: [0, 100],
-        },
-      },
-      // Customize the circle marker color on hover
-      markers: {
-        colors: [color],
-        strokeWidth: 2,
-        size: 0,
-        hover: {
-          size: 8,
-        },
-      },
-      xaxis: {
-        labels: {
-          show: false,
-        },
-        categories: [
-          `Jan ${currentYear}`,
-          `Feb ${currentYear}`,
-          `Mar ${currentYear}`,
-          `Apr ${currentYear}`,
-          `May ${currentYear}`,
-          `Jun ${currentYear}`,
-          `Jul ${currentYear}`,
-          `Aug ${currentYear}`,
-          `Sep ${currentYear}`,
-          `Oct ${currentYear}`,
-          `Nov ${currentYear}`,
-          `Dec ${currentYear}`,
-        ],
-        tooltip: {
-          enabled: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          show: false,
-        },
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-    return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type='area'
-        height={70}
-      />
-    );
-  };
-
-  let barChartSeriesTwo = [
-    {
-      name: "Sales",
-      data: [
-        {
-          x: "Jan",
-          y: 85000,
-        },
-        {
-          x: "Feb",
-          y: 70000,
-        },
-        {
-          x: "Mar",
-          y: 40000,
-        },
-        {
-          x: "Apr",
-          y: 50000,
-        },
-        {
-          x: "May",
-          y: 60000,
-        },
-        {
-          x: "Jun",
-          y: 50000,
-        },
-        {
-          x: "Jul",
-          y: 40000,
-        },
-        {
-          x: "Aug",
-          y: 50000,
-        },
-        {
-          x: "Sep",
-          y: 40000,
-        },
-        {
-          x: "Oct",
-          y: 60000,
-        },
-        {
-          x: "Nov",
-          y: 30000,
-        },
-        {
-          x: "Dec",
-          y: 50000,
-        },
-      ],
-    },
-  ];
-
-  let barChartOptionsTwo = {
-    chart: {
-      type: "bar",
-      height: 310,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        horizontal: false,
-        columnWidth: "23%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#487FFF"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: ["#487FFF"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 1, // Starting opacity
-        opacityTo: 1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    xaxis: {
-      type: "category",
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return (value / 1000).toFixed(0) + "k";
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (value) {
-          return value / 1000 + "k";
-        },
-      },
-    },
-  };
-
-  let donutChartSeriesTwo = [500, 500, 500];
-  let donutChartOptionsTwo = {
-    colors: ["#45B369", "#FF9F29", "#487FFF"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 300,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: -100,
-        right: -100,
-        bottom: -100,
-        left: -100,
-      },
-      padding: {
-        top: -100,
-        right: -100,
-        bottom: -100,
-        left: -100,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-    plotOptions: {
-      pie: {
-        startAngle: -90,
-        endAngle: 90,
-        offsetY: 10,
-        customScale: 0.8,
-        donut: {
-          size: "70%",
-          labels: {
-            show: true,
-            total: {
-              showAlways: true,
-              show: true,
-              label: "Customer Report",
-              // formatter: function (w) {
-              //     return w.globals.seriesTotals.reduce((a, b) => {
-              //         return a + b;
-              //     }, 0);
-              // }
-            },
-          },
-        },
-      },
-    },
-  };
-
-  let paymentStatusChartSeriesTwo = [
-    {
-      name: "Net Profit",
-      data: [44, 100, 40, 56, 30, 58, 50],
-    },
-    {
-      name: "Revenue",
-      data: [90, 140, 80, 125, 70, 140, 110],
-    },
-    {
-      name: "Free Cash",
-      data: [60, 120, 60, 90, 50, 95, 90],
-    },
-  ];
-  let paymentStatusChartOptionsTwo = {
-    colors: ["#45B369", "#144bd6", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 350,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 8,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
-      },
-    },
-    stroke: {
-      show: true,
-      width: 0,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
-    },
-    yaxis: {
-      categories: [
-        "0",
-        "10,000",
-        "20,000",
-        "30,000",
-        "50,000",
-        "1,00,000",
-        "1,00,000",
-      ],
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let paymentStatusChartSeriesThree = [
-    {
-      name: "Net Profit",
-      data: [
-        20000, 16000, 14000, 25000, 45000, 18000, 28000, 11000, 26000, 48000,
-        18000, 22000,
-      ],
-    },
-    {
-      name: "Revenue",
-      data: [
-        15000, 18000, 19000, 20000, 35000, 20000, 18000, 13000, 18000, 38000,
-        14000, 16000,
-      ],
-    },
-  ];
-
-  let paymentStatusChartOptionsThree = {
-    colors: ["#487FFF", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 250,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 10,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      categories: [
-        "0",
-        "5000",
-        "10,000",
-        "20,000",
-        "30,000",
-        "50,000",
-        "60,000",
-        "60,000",
-        "70,000",
-        "80,000",
-        "90,000",
-        "100,000",
-      ],
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let statisticsDonutChartSeries = [30, 25];
-
-  let statisticsDonutChartOptions = {
-    colors: ["#FF9F29", "#487FFF"],
-    labels: ["Female", "Male"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 230,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-  let candleStickChartSeries = [
-    {
-      data: [
-        {
-          x: new Date(1538778600000),
-          y: [6629.81, 6650.5, 6623.04, 6633.33],
-        },
-        {
-          x: new Date(1538780400000),
-          y: [6632.01, 6643.59, 6620, 6630.11],
-        },
-        {
-          x: new Date(1538782200000),
-          y: [6630.71, 6648.95, 6623.34, 6635.65],
-        },
-        {
-          x: new Date(1538784000000),
-          y: [6635.65, 6651, 6629.67, 6638.24],
-        },
-        {
-          x: new Date(1538785800000),
-          y: [6638.24, 6640, 6620, 6624.47],
-        },
-        {
-          x: new Date(1538787600000),
-          y: [6624.53, 6636.03, 6621.68, 6624.31],
-        },
-        {
-          x: new Date(1538789400000),
-          y: [6624.61, 6632.2, 6617, 6626.02],
-        },
-        {
-          x: new Date(1538791200000),
-          y: [6627, 6627.62, 6584.22, 6603.02],
-        },
-        {
-          x: new Date(1538793000000),
-          y: [6605, 6608.03, 6598.95, 6604.01],
-        },
-        {
-          x: new Date(1538794800000),
-          y: [6604.5, 6614.4, 6602.26, 6608.02],
-        },
-        {
-          x: new Date(1538796600000),
-          y: [6608.02, 6610.68, 6601.99, 6608.91],
-        },
-        {
-          x: new Date(1538798400000),
-          y: [6608.91, 6618.99, 6608.01, 6612],
-        },
-        {
-          x: new Date(1538800200000),
-          y: [6612, 6615.13, 6605.09, 6612],
-        },
-        {
-          x: new Date(1538802000000),
-          y: [6612, 6624.12, 6608.43, 6622.95],
-        },
-        {
-          x: new Date(1538803800000),
-          y: [6623.91, 6623.91, 6615, 6615.67],
-        },
-        {
-          x: new Date(1538805600000),
-          y: [6618.69, 6618.74, 6610, 6610.4],
-        },
-        {
-          x: new Date(1538807400000),
-          y: [6611, 6622.78, 6610.4, 6614.9],
-        },
-        {
-          x: new Date(1538809200000),
-          y: [6614.9, 6626.2, 6613.33, 6623.45],
-        },
-        {
-          x: new Date(1538811000000),
-          y: [6623.48, 6627, 6618.38, 6620.35],
-        },
-        {
-          x: new Date(1538812800000),
-          y: [6619.43, 6620.35, 6610.05, 6615.53],
-        },
-        {
-          x: new Date(1538814600000),
-          y: [6615.53, 6617.93, 6610, 6615.19],
-        },
-        {
-          x: new Date(1538816400000),
-          y: [6615.19, 6621.6, 6608.2, 6620],
-        },
-        {
-          x: new Date(1538818200000),
-          y: [6619.54, 6625.17, 6614.15, 6620],
-        },
-        {
-          x: new Date(1538820000000),
-          y: [6620.33, 6634.15, 6617.24, 6624.61],
-        },
-        {
-          x: new Date(1538821800000),
-          y: [6625.95, 6626, 6611.66, 6617.58],
-        },
-        {
-          x: new Date(1538823600000),
-          y: [6619, 6625.97, 6595.27, 6598.86],
-        },
-        {
-          x: new Date(1538825400000),
-          y: [6598.86, 6598.88, 6570, 6587.16],
-        },
-        {
-          x: new Date(1538827200000),
-          y: [6588.86, 6600, 6580, 6593.4],
-        },
-        {
-          x: new Date(1538829000000),
-          y: [6593.99, 6598.89, 6585, 6587.81],
-        },
-        {
-          x: new Date(1538830800000),
-          y: [6587.81, 6592.73, 6567.14, 6578],
-        },
-        {
-          x: new Date(1538832600000),
-          y: [6578.35, 6581.72, 6567.39, 6579],
-        },
-        {
-          x: new Date(1538834400000),
-          y: [6579.38, 6580.92, 6566.77, 6575.96],
-        },
-        {
-          x: new Date(1538836200000),
-          y: [6575.96, 6589, 6571.77, 6588.92],
-        },
-        {
-          x: new Date(1538838000000),
-          y: [6588.92, 6594, 6577.55, 6589.22],
-        },
-        {
-          x: new Date(1538839800000),
-          y: [6589.3, 6598.89, 6589.1, 6596.08],
-        },
-        {
-          x: new Date(1538841600000),
-          y: [6597.5, 6600, 6588.39, 6596.25],
-        },
-        {
-          x: new Date(1538843400000),
-          y: [6598.03, 6600, 6588.73, 6595.97],
-        },
-        {
-          x: new Date(1538845200000),
-          y: [6595.97, 6602.01, 6588.17, 6602],
-        },
-        {
-          x: new Date(1538847000000),
-          y: [6602, 6607, 6596.51, 6599.95],
-        },
-        {
-          x: new Date(1538848800000),
-          y: [6600.63, 6601.21, 6590.39, 6591.02],
-        },
-        {
-          x: new Date(1538850600000),
-          y: [6591.02, 6603.08, 6591, 6591],
-        },
-        {
-          x: new Date(1538852400000),
-          y: [6591, 6601.32, 6585, 6592],
-        },
-        {
-          x: new Date(1538854200000),
-          y: [6593.13, 6596.01, 6590, 6593.34],
-        },
-        {
-          x: new Date(1538856000000),
-          y: [6593.34, 6604.76, 6582.63, 6593.86],
-        },
-        {
-          x: new Date(1538857800000),
-          y: [6593.86, 6604.28, 6586.57, 6600.01],
-        },
-        {
-          x: new Date(1538859600000),
-          y: [6601.81, 6603.21, 6592.78, 6596.25],
-        },
-        {
-          x: new Date(1538861400000),
-          y: [6596.25, 6604.2, 6590, 6602.99],
-        },
-        {
-          x: new Date(1538863200000),
-          y: [6602.99, 6606, 6584.99, 6587.81],
-        },
-        {
-          x: new Date(1538865000000),
-          y: [6587.81, 6595, 6583.27, 6591.96],
-        },
-        {
-          x: new Date(1538866800000),
-          y: [6591.97, 6596.07, 6585, 6588.39],
-        },
-        {
-          x: new Date(1538868600000),
-          y: [6587.6, 6598.21, 6587.6, 6594.27],
-        },
-        {
-          x: new Date(1538870400000),
-          y: [6596.44, 6601, 6590, 6596.55],
-        },
-        {
-          x: new Date(1538872200000),
-          y: [6598.91, 6605, 6596.61, 6600.02],
-        },
-        {
-          x: new Date(1538874000000),
-          y: [6600.55, 6605, 6589.14, 6593.01],
-        },
-        {
-          x: new Date(1538875800000),
-          y: [6593.15, 6605, 6592, 6603.06],
-        },
-        {
-          x: new Date(1538877600000),
-          y: [6603.07, 6604.5, 6599.09, 6603.89],
-        },
-        {
-          x: new Date(1538879400000),
-          y: [6604.44, 6604.44, 6600, 6603.5],
-        },
-        {
-          x: new Date(1538881200000),
-          y: [6603.5, 6603.99, 6597.5, 6603.86],
-        },
-        {
-          x: new Date(1538883000000),
-          y: [6603.85, 6605, 6600, 6604.07],
-        },
-        {
-          x: new Date(1538884800000),
-          y: [6604.98, 6606, 6604.07, 6606],
-        },
-      ],
-    },
-  ];
-
-  let candleStickChartOptions = {
-    plotOptions: {
-      candlestick: {
-        colors: {
-          upward: "#487FFF", // Color for bullish candles (green)
-          downward: "#FF9F29", // Color for bearish candles (red)
-        },
-        wick: {
-          useFillColor: true, // Use the same color as the candle body for the wick
-        },
-      },
-    },
-
-    chart: {
-      type: "candlestick",
-      height: 350,
-      toolbar: {
-        show: false,
-      },
-    },
-    xaxis: {
-      type: "datetime",
-    },
-    yaxis: {
-      tooltip: {
-        enabled: true,
-      },
-    },
-  };
-
-  let statisticsDonutChartSeriesThree = [30, 25];
-
-  var statisticsDonutChartOptionsThree = {
-    colors: ["#FF9F29", "#487FFF"],
-    labels: ["Female", "Male"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 260,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-
-  let upDownBarChartSeries = [
-    {
-      name: "Income",
-      data: [44, 42, 57, 86, 58, 55, 70, 44, 42, 57, 86, 58, 55, 70],
-    },
-    {
-      name: "Expenses",
-      data: [
-        -34, -22, -37, -56, -21, -35, -60, -34, -22, -37, -56, -21, -35, -60,
-      ],
-    },
-  ];
-  let upDownBarChartOptions = {
-    chart: {
-      stacked: true,
-      type: "bar",
-      height: 263,
-      fontFamily: "Poppins, sans-serif",
-      toolbar: {
-        show: false,
-      },
-    },
-    colors: ["#487FFF", "#EF4A00"],
-    plotOptions: {
-      bar: {
-        columnWidth: "8",
-        borderRadius: 2,
-        borderRadiusWhenStacked: "all",
-      },
-    },
-    stroke: {
-      width: [5, 5],
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: true,
-      position: "top",
-    },
-    yaxis: {
-      show: false,
-      title: {
-        text: undefined,
-      },
-      labels: {
-        formatter: function (y) {
-          return y.toFixed(0) + "";
-        },
-      },
-    },
-    xaxis: {
-      show: false,
-      type: "category",
-      categories: [
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun",
-      ],
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-      labels: {
-        show: true,
-        style: {
-          colors: "#d4d7d9",
-          fontSize: "10px",
-          fontWeight: 500,
-        },
-      },
-    },
-    tooltip: {
-      enabled: true,
-      shared: true,
-      intersect: false,
-      theme: "dark",
-      x: {
-        show: false,
-      },
-    },
-  };
-
-  let semiCircleGaugeSeriesOne = [75];
-  let semiCircleGaugeOptionsOne = {
-    chart: {
-      width: 200,
-      type: "radialBar",
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      radialBar: {
-        offsetY: -24,
-        offsetX: -14,
-        startAngle: -90,
-        endAngle: 90,
-        track: {
-          background: "#E3E6E9",
-          // strokeWidth: 32,
-          dropShadow: {
-            enabled: false,
-            top: 2,
-            left: 0,
-            color: "#999",
-            opacity: 1,
-            blur: 2,
-          },
-        },
-        dataLabels: {
-          show: false,
-          name: {
-            show: false,
-          },
-          value: {
-            offsetY: -2,
-            fontSize: "22px",
-          },
-        },
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#9DBAFF"],
-      gradient: {
-        shade: "dark",
-        type: "horizontal",
-        shadeIntensity: 0.5,
-        gradientToColors: ["#487FFF"],
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 100],
-      },
-    },
-    stroke: {
-      lineCap: "round",
-    },
-    labels: ["Percent"],
-  };
-
-  let dailyIconBarChartSeriesOne = [
-    {
-      name: "Sales",
-      data: [
-        {
-          x: "Mon",
-          y: 20,
-        },
-        {
-          x: "Tue",
-          y: 40,
-        },
-        {
-          x: "Wed",
-          y: 20,
-        },
-        {
-          x: "Thur",
-          y: 30,
-        },
-        {
-          x: "Fri",
-          y: 40,
-        },
-        {
-          x: "Sat",
-          y: 35,
-        },
-      ],
-    },
-  ];
-  let dailyIconBarChartOptionsOne = {
-    chart: {
-      type: "bar",
-      width: 164,
-      height: 80,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 6,
-        horizontal: false,
-        columnWidth: 14,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#E3E6E9"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: ["#E3E6E9"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 1, // Starting opacity
-        opacityTo: 1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    grid: {
-      show: false,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 1, // Use a number for dashed style
-      position: "back",
-    },
-    xaxis: {
-      labels: {
-        show: false, // Hide y-axis labels
-      },
-      type: "category",
-      categories: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat"],
-    },
-    yaxis: {
-      labels: {
-        show: false,
-        formatter: function (value) {
-          return (value / 1000).toFixed(0) + "k";
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (value) {
-          return value / 1000 + "k";
-        },
-      },
-    },
-  };
-
-  let transactionLineChartSeries = [
-    {
-      name: "This month",
-      data: [4, 16, 12, 28, 22, 38, 23],
-    },
-  ];
-
-  let transactionLineChartOptions = {
-    chart: {
-      height: 290,
-      type: "line",
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: false,
-      },
-      dropShadow: {
-        enabled: true,
-        top: 6,
-        left: 0,
-        blur: 4,
-        color: "#000",
-        opacity: 0.1,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 3,
-    },
-    markers: {
-      size: 0,
-      strokeWidth: 3,
-      hover: {
-        size: 8,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: true,
-      },
-      y: {
-        show: false,
-      },
-      z: {
-        show: false,
-      },
-    },
-    grid: {
-      row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5,
-      },
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    xaxis: {
-      categories: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-      crosshairs: {
-        show: true,
-        width: 20,
-        stroke: {
-          width: 0,
-        },
-        fill: {
-          type: "solid",
-          color: "#B1B9C4",
-          gradient: {
-            colorFrom: "#D8E3F0",
-            colorTo: "#BED1E6",
-            stops: [0, 100],
-            opacityFrom: 0.4,
-            opacityTo: 0.5,
-          },
-        },
-      },
-    },
-  };
-
-  let userOverviewDonutChartSeries = [500, 500, 500];
-  let userOverviewDonutChartOptions = {
-    colors: ["#FF9F29", "#487FFF", "#E4F1FF"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 270,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-
-  let paymentStatusChartSeriesOne = [
-    {
-      name: "Net Profit",
-      data: [44, 100, 40, 56, 30, 58, 50],
-    },
-    {
-      name: "Free Cash",
-      data: [60, 120, 60, 90, 50, 95, 90],
-    },
-  ];
-
-  let paymentStatusChartOptionsOne = {
-    colors: ["#45B369", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 420,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 8,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
-      },
-    },
-    stroke: {
-      show: true,
-      width: 0,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let dailyIconBarChartSeriesTwo = [
-    {
-      name: "Sales",
-      data: [
-        {
-          x: "Mon",
-          y: 20,
-        },
-        {
-          x: "Tue",
-          y: 40,
-        },
-        {
-          x: "Wed",
-          y: 20,
-        },
-        {
-          x: "Thur",
-          y: 30,
-        },
-        {
-          x: "Fri",
-          y: 40,
-        },
-        {
-          x: "Sat",
-          y: 35,
-        },
-      ],
-    },
-  ];
-  let dailyIconBarChartOptionsTwo = {
-    chart: {
-      type: "bar",
-      width: 164,
-      height: 80,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 6,
-        horizontal: false,
-        columnWidth: 14,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#E3E6E9"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: ["#E3E6E9"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 1, // Starting opacity
-        opacityTo: 1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    grid: {
-      show: false,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 1, // Use a number for dashed style
-      position: "back",
-    },
-    xaxis: {
-      labels: {
-        show: false, // Hide y-axis labels
-      },
-      type: "category",
-      categories: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat"],
-    },
-    yaxis: {
-      labels: {
-        show: false,
-        formatter: function (value) {
-          return (value / 1000).toFixed(0) + "k";
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (value) {
-          return value / 1000 + "k";
-        },
-      },
-    },
-  };
-
-  let columnChartSeriesOne = [
-    {
-      name: "Net Profit",
-      data: [
-        20000, 16000, 14000, 25000, 45000, 18000, 28000, 11000, 26000, 48000,
-        18000, 22000,
-      ],
-    },
-    {
-      name: "Revenue",
-      data: [
-        15000, 18000, 19000, 20000, 35000, 20000, 18000, 13000, 18000, 38000,
-        14000, 16000,
-      ],
-    },
-  ];
-  let columnChartOptionsOne = {
-    colors: ["#487FFF", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 264,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 10,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return (value / 1000).toFixed(0) + "k";
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (value) {
-          return value / 1000 + "k";
-        },
-      },
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let columnChartSeriesTwo = [
-    {
-      name: "Sales",
-      data: [
-        {
-          x: "Jan",
-          y: 85000,
-        },
-        {
-          x: "Feb",
-          y: 70000,
-        },
-        {
-          x: "Mar",
-          y: 40000,
-        },
-        {
-          x: "Apr",
-          y: 50000,
-        },
-        {
-          x: "May",
-          y: 60000,
-        },
-        {
-          x: "Jun",
-          y: 50000,
-        },
-        {
-          x: "Jul",
-          y: 40000,
-        },
-        {
-          x: "Aug",
-          y: 50000,
-        },
-        {
-          x: "Sep",
-          y: 40000,
-        },
-        {
-          x: "Oct",
-          y: 60000,
-        },
-        {
-          x: "Nov",
-          y: 30000,
-        },
-        {
-          x: "Dec",
-          y: 50000,
-        },
-      ],
-    },
-  ];
-
-  let columnChartOptionsTwo = {
-    chart: {
-      type: "bar",
-      height: 264,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        borderRadius: 8,
-        borderRadiusApplication: "end", // 'around', 'end'
-        borderRadiusWhenStacked: "last", // 'all', 'last'
-        columnWidth: "23%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#487FFF"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: ["#487FFF"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 1, // Starting opacity
-        opacityTo: 1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    xaxis: {
-      type: "category",
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return (value / 1000).toFixed(0) + "k";
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (value) {
-          return value / 1000 + "k";
-        },
-      },
-    },
-  };
-
-  let columnChartSeriesThree = [
-    {
-      name: "PRODUCT A",
-      data: [14, 18, 24, 35, 14, 22, 43, 14, 22, 43, 14, 18],
-    },
-    {
-      name: "PRODUCT B",
-      data: [13, 23, 20, 25, 13, 13, 27, 13, 13, 27, 13, 23],
-    },
-    {
-      name: "PRODUCT C",
-      data: [11, 17, 20, 25, 11, 21, 14, 11, 21, 14, 11, 17],
-    },
-    {
-      name: "PRODUCT D",
-      data: [21, 15, 20, 25, 21, 22, 8, 10, 22, 8, 21, 15],
-    },
-  ];
-
-  let columnChartOptionsThree = {
-    chart: {
-      type: "bar",
-      height: 264,
-      stacked: true,
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: true,
-      },
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          legend: {
-            show: false,
-            position: "bottom",
-            offsetX: -10,
-            offsetY: 0,
-          },
-        },
-      },
-    ],
-    colors: ["#487FFF", "#FF9F29", "#48AB69", "#45B369"],
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        borderRadius: 4,
-        columnWidth: 10,
-        borderRadiusApplication: "end", // 'around', 'end'
-        borderRadiusWhenStacked: "last", // 'all', 'last'
-        dataLabels: {
-          total: {
-            enabled: false, // Disable total data labels
-            style: {
-              fontSize: "13px",
-              fontWeight: 900,
-            },
-          },
-        },
-      },
-    },
-    dataLabels: {
-      enabled: false, // Disable data labels
-    },
-    xaxis: {
-      type: "category",
-      categories: [
-        "01",
-        "03",
-        "05",
-        "07",
-        "10",
-        "13",
-        "16",
-        "19",
-        "21",
-        "23",
-        "25",
-        "27",
-      ],
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return (value / 1000).toFixed(0) + "k";
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (value) {
-          return value / 1000 + "k";
-        },
-      },
-    },
-    legend: {
-      position: "right",
-      offsetY: 40,
-      show: false,
-    },
-    fill: {
-      opacity: 1,
-    },
-  };
-
-  let columnChartSeriesFour = [
-    {
-      name: "Income",
-      data: [44, 42, 57, 86, 58, 55, 70, 44, 42, 57, 86, 58, 55, 70],
-    },
-    {
-      name: "Expenses",
-      data: [
-        -34, -22, -37, -56, -21, -35, -60, -34, -22, -37, -56, -21, -35, -60,
-      ],
-    },
-  ];
-
-  let columnChartOptionsFour = {
-    chart: {
-      stacked: true,
-      type: "bar",
-      height: 263,
-      fontFamily: "Poppins, sans-serif",
-      toolbar: {
-        show: false,
-      },
-    },
-    colors: ["#487FFF", "#EF4A00"],
-    plotOptions: {
-      bar: {
-        columnWidth: "8",
-        borderRadius: [2],
-        borderRadiusWhenStacked: "all",
-      },
-    },
-    stroke: {
-      width: [5, 5],
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: true,
-      position: "top",
-    },
-    yaxis: {
-      show: false,
-      title: {
-        text: undefined,
-      },
-      labels: {
-        formatter: function (y) {
-          return y.toFixed(0) + "";
-        },
-      },
-    },
-    xaxis: {
-      show: false,
-      type: "week",
-      categories: [
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun",
-      ],
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-      labels: {
-        show: true,
-        style: {
-          colors: "#d4d7d9",
-          fontSize: "10px",
-          fontWeight: 500,
-        },
-      },
-    },
-    tooltip: {
-      enabled: true,
-      shared: true,
-      intersect: false,
-      theme: "dark",
-      x: {
-        show: false,
-      },
-    },
-  };
-
-  let defaultLineChartSeries = [
-    {
-      name: "This month",
-      data: [0, 48, 20, 24, 6, 33, 30, 48, 35, 18, 20, 5],
-    },
-  ];
-
-  let defaultLineChartOptions = {
-    chart: {
-      height: 264,
-      type: "line",
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
+    dataLabels: { enabled: false },
     stroke: {
       curve: "smooth",
       colors: ["#487FFF"],
-      width: 4,
-    },
-    markers: {
-      size: 0,
-      strokeWidth: 3,
-      hover: {
-        size: 8,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: true,
-      },
-      y: {
-        show: false,
-      },
-      z: {
-        show: false,
-      },
-    },
-    grid: {
-      row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5,
-      },
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-    },
-  };
-
-  let zoomAbleLineChartSeries = [
-    {
-      name: "This Day",
-      data: [12, 18, 12, 48, 18, 30, 18, 15, 88, 40, 65, 24, 48],
-    },
-  ];
-  let zoomAbleLineChartOptions = {
-    chart: {
-      type: "area",
-      width: "100%",
-      height: 264,
-      sparkline: {
-        enabled: false, // Remove whitespace
-      },
-      toolbar: {
-        show: false,
-      },
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "straight",
-      width: 4,
-      colors: ["#487fff"],
-      lineCap: "round",
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-      position: "back",
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      row: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      column: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#487fff"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: [`${"#487fff"}00`], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 0.6, // Starting opacity
-        opacityTo: 0.3, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    // Customize the circle marker color on hover
-    markers: {
-      colors: ["#487fff"],
-      strokeWidth: 3,
-      size: 0,
-      hover: {
-        size: 10,
-      },
-    },
-    xaxis: {
-      categories: [
-        `Jan`,
-        `Feb`,
-        `Mar`,
-        `Apr`,
-        `May`,
-        `Jun`,
-        `Jul`,
-        `Aug`,
-        `Sep`,
-        `Oct`,
-        `Nov`,
-        `Dec`,
-      ],
-
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    tooltip: {
-      x: {
-        format: "dd/MM/yy HH:mm",
-      },
-    },
-  };
-
-  let lineDataLabelSeries = [
-    {
-      name: "Desktops",
-      data: [5, 25, 35, 15, 21, 15, 35, 35, 51],
-    },
-  ];
-  let lineDataLabelOptions = {
-    chart: {
-      height: 264,
-      type: "line",
-      colors: "#000",
-      zoom: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    colors: ["#487FFF"], // Set the color of the series
-    dataLabels: {
-      enabled: true,
-    },
-    stroke: {
-      curve: "straight",
-      width: 4,
-      color: "#000",
-    },
-
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-      row: {
-        colors: ["#f3f3f3", "transparent"],
-        opacity: 0,
-      },
-    },
-    // Customize the circle marker color on hover
-    markers: {
-      colors: "#487FFF",
-      strokeWidth: 3,
-      size: 0,
-      hover: {
-        size: 10,
-      },
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      lines: {
-        show: false,
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-  };
-
-  let doubleLineChartSeries = [
-    {
-      name: "This Day",
-      data: [8, 15, 9, 20, 10, 33, 13, 22, 8, 17, 10, 15],
-    },
-    {
-      name: "Example",
-      data: [8, 24, 18, 40, 18, 48, 22, 38, 18, 30, 20, 28],
-    },
-  ];
-
-  let doubleLineChartOptions = {
-    chart: {
-      type: "line",
-      width: "100%",
-      height: 264,
-      sparkline: {
-        enabled: false, // Remove whitespace
-      },
-      toolbar: {
-        show: false,
-      },
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    colors: ["#487FFF", "#FF9F29"], // Set the color of the series
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 4,
-      colors: ["#FF9F29", "#487fff"],
-      lineCap: "round",
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-      position: "back",
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      row: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      column: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    // Customize the circle marker color on hover
-    markers: {
-      colors: ["#FF9F29", "#487fff"],
-      strokeWidth: 3,
-      size: 0,
-      hover: {
-        size: 10,
-      },
-    },
-    xaxis: {
-      categories: [
-        `Jan`,
-        `Feb`,
-        `Mar`,
-        `Apr`,
-        `May`,
-        `Jun`,
-        `Jul`,
-        `Aug`,
-        `Sep`,
-        `Oct`,
-        `Nov`,
-        `Dec`,
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    tooltip: {
-      x: {
-        format: "dd/MM/yy HH:mm",
-      },
-    },
-    legend: {
-      show: false,
-    },
-  };
-
-  let stepLineChartSeries = [
-    {
-      data: [16, 25, 38, 50, 32, 20, 42, 18, 4, 25, 12, 12],
-      name: "Example",
-    },
-  ];
-  let stepLineChartOptions = {
-    chart: {
-      type: "line",
-      height: 270,
-      toolbar: {
-        show: false,
-      },
-    },
-    stroke: {
-      curve: "stepline",
-    },
-    colors: ["#487FFF"], // Set the color of the series
-    dataLabels: {
-      enabled: false,
-    },
-    markers: {
-      hover: {
-        sizeOffset: 4,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-      position: "back",
-    },
-    xaxis: {
-      categories: [
-        `Jan`,
-        `Feb`,
-        `Mar`,
-        `Apr`,
-        `May`,
-        `Jun`,
-        `Jul`,
-        `Aug`,
-        `Sep`,
-        `Oct`,
-        `Nov`,
-        `Dec`,
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-  };
-
-  let timeSeriesChartSeries = [
-    {
-      name: "Bitcoin",
-      data: [
-        [1327359600000, 30.95],
-        [1327446000000, 31.34],
-        [1327532400000, 31.18],
-        [1327618800000, 31.05],
-        [1327878000000, 31.0],
-        [1327964400000, 30.95],
-        [1328050800000, 31.24],
-        [1328137200000, 31.29],
-        [1328223600000, 31.85],
-        [1328482800000, 31.86],
-        [1328569200000, 32.28],
-        [1328655600000, 32.1],
-        [1328742000000, 32.65],
-        [1328828400000, 32.21],
-        [1329087600000, 32.35],
-        [1329174000000, 32.44],
-        [1329260400000, 32.46],
-        [1329346800000, 32.86],
-        [1329433200000, 32.75],
-        [1329778800000, 32.54],
-        [1329865200000, 32.33],
-        [1329951600000, 32.97],
-        [1330038000000, 33.41],
-        [1330297200000, 33.27],
-        [1330383600000, 33.27],
-        [1330470000000, 32.89],
-        [1330556400000, 33.1],
-        [1330642800000, 33.73],
-      ],
-    },
-  ];
-  let timeSeriesChartOptions = {
-    chart: {
-      type: "area",
-      stacked: false,
-      height: 350,
-      zoom: {
-        type: "x",
-        enabled: true,
-        autoScaleYaxis: true,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    stroke: {
-      curve: "straight",
-      width: 2,
-      color: ["#000"],
-      lineCap: "round",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    markers: {
-      size: 0,
-    },
-    grid: {
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 1, // Intensity of the gradient shading
-        gradientToColors: ["#487FFF"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 0.4, // Starting opacity
-        opacityTo: 0.1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        },
-      },
-      title: {
-        text: "Price",
-      },
-    },
-    xaxis: {
-      type: "datetime",
-    },
-    tooltip: {
-      shared: false,
-      y: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        },
-      },
-    },
-  };
-
-  let pieChartSeriesOne = [70, 80, 90, 30];
-
-  let pieChartOptionsTwo = {
-    chart: {
-      height: 264,
-      type: "pie",
-    },
-    stroke: {
-      show: false, // This will remove the white border
-    },
-    labels: ["Team A", "Team B", "Team C", "Team D"],
-    colors: ["#487FFF", "#FF9F29", "#45B369", "#EF4A00"],
-    plotOptions: {
-      pie: {
-        dataLabels: {
-          dropShadow: {
-            enabled: true,
-          },
-        },
-      },
-    },
-    legend: {
-      position: "bottom",
-      horizontalAlign: "center",
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            show: false,
-            position: "bottom", // Ensure the legend is at the bottom
-            horizontalAlign: "center", // Align the legend horizontally
-            offsetX: -10,
-            offsetY: 0,
-          },
-        },
-      },
-    ],
-  };
-
-  let basicDonutChartSeries = [44, 55, 13, 33, 28, 14];
-  let basicDonutChartOptions = {
-    chart: {
-      height: 264,
-      type: "donut",
-    },
-    colors: ["#16a34a", "#487fff", "#2563eb", "#dc2626", "#f86624", "#ffc107"],
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            show: false,
-          },
-        },
-      },
-    ],
-    legend: {
-      position: "right",
-      offsetY: 0,
-      height: 230,
-      show: false,
-    },
-  };
-
-  let radarChartSeries = [
-    {
-      name: "Product 1",
-      data: [80, 50, 30, 40, 60, 20, 62, 30, 40, 80],
-    },
-    {
-      name: "Product 2",
-      data: [80, 60, 80, 70, 68, 60, 56, 50, 40, 45],
-    },
-  ];
-  let radarChartOptions = {
-    colors: ["#FF9F29", "#487FFF"],
-    chart: {
-      height: 264,
-      type: "radar",
-      toolbar: {
-        show: false,
-      },
-      dropShadow: {
-        enabled: true,
-        blur: 1,
-        left: 1,
-        top: 1,
-      },
-    },
-    stroke: {
-      width: 2,
-    },
-    fill: {
-      opacity: 0.25,
-    },
-    markers: {
-      size: 0,
-    },
-    yaxis: {
-      stepSize: 20,
-    },
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-    },
-  };
-
-  let multipleSeriesChartSeries = [20, 22, 28, 10];
-  let multipleSeriesChartOptions = {
-    chart: {
-      type: "polarArea",
-      height: 264,
-    },
-    labels: ["Product 1", "Product 2", "Product 3", "Product 4"],
-    colors: ["#487FFF", "#FF9F29", "#9935FE", "#EF4A00"],
-    stroke: {
-      colors: ["#487FFF", "#FF9F29", "#9935FE", "#EF4A00"],
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    legend: {
-      position: "bottom",
-      horizontalAlign: "center", // Align the legend horizontally
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-
-  let timeSeriesChartSeriesTwo = [
-    {
-      name: "Bitcoin",
-      data: [
-        [1327359600000, 30.95],
-        [1327446000000, 31.34],
-        [1327532400000, 31.18],
-        [1327618800000, 31.05],
-        [1327878000000, 31.0],
-        [1327964400000, 30.95],
-        [1328050800000, 31.24],
-        [1328137200000, 31.29],
-        [1328223600000, 31.85],
-        [1328482800000, 31.86],
-        [1328569200000, 32.28],
-        [1328655600000, 32.1],
-        [1328742000000, 32.65],
-        [1328828400000, 32.21],
-        [1329087600000, 32.35],
-        [1329174000000, 32.44],
-        [1329260400000, 32.46],
-        [1329346800000, 32.86],
-        [1329433200000, 32.75],
-        [1329778800000, 32.54],
-        [1329865200000, 32.33],
-        [1329951600000, 32.97],
-        [1330038000000, 33.41],
-        [1330297200000, 33.27],
-        [1330383600000, 33.27],
-        [1330470000000, 32.89],
-        [1330556400000, 33.1],
-        [1330642800000, 33.73],
-      ],
-    },
-  ];
-  let timeSeriesChartOptionsTwo = {
-    chart: {
-      type: "area",
-      stacked: false,
-      height: 350,
-      zoom: {
-        type: "x",
-        enabled: true,
-        autoScaleYaxis: true,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    stroke: {
-      curve: "straight",
-      width: 2,
-      color: ["#000"],
-      lineCap: "round",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    markers: {
-      size: 0,
-    },
-    grid: {
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 1, // Intensity of the gradient shading
-        gradientToColors: ["#487FFF"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 0.4, // Starting opacity
-        opacityTo: 0.1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        },
-      },
-      title: {
-        text: "Price",
-      },
-    },
-    xaxis: {
-      type: "datetime",
-    },
-    tooltip: {
-      shared: false,
-      y: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        },
-      },
-    },
-  };
-
-  let gradientLineChartSeries = [
-    {
-      name: "This month",
-      data: [12, 6, 22, 18, 38, 16, 40, 8, 35, 18, 35, 22, 50],
-    },
-  ];
-  let gradientLineChartOptions = {
-    chart: {
-      height: 264,
-      type: "line",
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      colors: ["#FF9F29"], // Specify the line color here
-      width: 4,
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: "dark",
-        gradientToColors: ["#0E53F4"],
-        shadeIntensity: 1,
-        type: "horizontal",
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 100, 100, 100],
-      },
-    },
-    markers: {
-      size: 0,
-      strokeWidth: 3,
-      hover: {
-        size: 8,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: true,
-      },
-      y: {
-        show: false,
-      },
-      z: {
-        show: false,
-      },
-    },
-    grid: {
-      row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5,
-      },
-      borderColor: "#D1D5DB",
-      strokeDashArray: 3,
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-    },
-  };
-
-  let expenseStatisticsOptions = {
-    chart: {
-      height: 240,
-      type: "pie",
-    },
-    labels: ["Entertainment", "Bill Expense", "Others", "Investment"],
-    colors: ["#02BCAF", "#F0437D", "#1C52F6", "#43DCFF"],
-    legend: {
-      show: true,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-
-  let expenseStatisticsSeries = [30, 30, 30, 30];
-
-  let balanceStatisticsOptions = {
-    colors: ["#487FFF", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 250,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 10,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      categories: [
-        "0",
-        "5000",
-        "10,000",
-        "20,000",
-        "30,000",
-        "50,000",
-        "60,000",
-        "60,000",
-        "70,000",
-        "80,000",
-        "90,000",
-        "100,000",
-      ],
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let balanceStatisticsSeries = [
-    {
-      name: "Net Profit",
-      data: [
-        20000, 16000, 14000, 25000, 45000, 18000, 28000, 11000, 26000, 48000,
-        18000, 22000,
-      ],
-    },
-    {
-      name: "Revenue",
-      data: [
-        15000, 18000, 19000, 20000, 35000, 20000, 18000, 13000, 18000, 38000,
-        14000, 16000,
-      ],
-    },
-  ];
-
-  let purchaseSaleChartOptions = {
-    colors: ["#45B369", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
-
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 260,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 8,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
-      },
-    },
-    stroke: {
-      show: true,
-      width: 0,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
-    },
-    fill: {
-      opacity: 1,
-      width: 18,
-    },
-  };
-
-  let purchaseSaleChartSeries = [
-    {
-      name: "Net Profit",
-      data: [44, 100, 40, 56, 30, 58, 50],
-    },
-    {
-      name: "Free Cash",
-      data: [60, 120, 60, 90, 50, 95, 90],
-    },
-  ];
-
-  let userOverviewDonutChartOptionsTwo = {
-    colors: ["#FF9F29", "#487FFF", "#45B369", "#9935FE"],
-    labels: ["Purchase", "Sales", "Expense", "Gross Profit"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 270,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: true,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-
-  let userOverviewDonutChartSeriesTwo = [30, 30, 20, 20];
-
-  let incomeExpenseOptions = {
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "area",
-      width: "100%",
-      height: 270,
-      toolbar: {
-        show: false,
-      },
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
       width: 3,
-      colors: ["#487FFF", "#FF9F29"], // Use two colors for the lines
-      lineCap: "round",
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 1,
-      position: "back",
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      row: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      column: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      padding: {
-        top: -20,
-        right: 0,
-        bottom: -10,
-        left: 0,
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#487FFF", "#FF9F29"], // Use two colors for the gradient
-
-      gradient: {
-        shade: "light",
-        type: "vertical",
-        shadeIntensity: 0.5,
-        gradientToColors: [undefined, `${"#FF9F29"}00`], // Apply transparency to both colors
-        inverseColors: false,
-        opacityFrom: [0.4, 0.6], // Starting opacity for both colors
-        opacityTo: [0.3, 0.3], // Ending opacity for both colors
-        stops: [0, 100],
-      },
     },
     markers: {
-      colors: ["#487FFF", "#FF9F29"], // Use two colors for the markers
+      size: 0,
       strokeWidth: 3,
-      size: 0,
-      hover: {
-        size: 10,
-      },
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
+      hover: { size: 8 },
     },
     tooltip: {
-      x: {
-        format: "dd/MM/yy HH:mm",
-      },
-    },
-  };
-
-  let incomeExpenseSeries = [
-    {
-      name: "series1",
-      data: [48, 35, 50, 32, 48, 40, 55, 50, 60],
-    },
-    {
-      name: "series2",
-      data: [12, 20, 15, 26, 22, 30, 25, 35, 25],
-    },
-  ];
-
-  let revenueChartOptionsOne = {
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "area",
-      width: "100%",
-      height: 150,
-      toolbar: {
-        show: false,
-      },
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 3,
-      colors: ["#CD20F9", "#6593FF"], // Use two colors for the lines
-      lineCap: "round",
+      enabled: true,
+      x: { show: true },
+      y: { show: false },
+      z: { show: false },
     },
     grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 1,
-      position: "back",
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
       row: {
-        colors: undefined,
+        colors: ["transparent", "transparent"],
         opacity: 0.5,
       },
-      column: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      padding: {
-        top: -20,
-        right: 0,
-        bottom: -10,
-        left: 0,
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#CD20F9", "#6593FF"], // Use two colors for the gradient
-
-      gradient: {
-        shade: "light",
-        type: "vertical",
-        shadeIntensity: 0.5,
-        gradientToColors: [undefined, `${"#6593FF"}00`], // Apply transparency to both colors
-        inverseColors: false,
-        opacityFrom: [0.4, 0.6], // Starting opacity for both colors
-        opacityTo: [0.3, 0.3], // Ending opacity for both colors
-        stops: [0, 100],
-      },
-    },
-
-    markers: {
-      colors: ["#CD20F9", "#6593FF"],
-      strokeWidth: 2,
-      size: 0,
-      hover: {
-        size: 8,
-      },
-    },
-
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
+      borderColor: "#D1D5DB",
+      strokeDashArray: 3,
     },
     yaxis: {
       labels: {
         formatter: function (value) {
           return "$" + value + "k";
         },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    tooltip: {
-      x: {
-        format: "dd/MM/yy HH:mm",
-      },
-    },
-  };
-  let revenueChartSeriesOne = [
-    {
-      name: "series1",
-      data: [6, 20, 15, 48, 28, 55, 28, 52, 25, 32, 15, 25],
-    },
-    {
-      name: "series2",
-      data: [0, 8, 4, 36, 16, 42, 16, 40, 12, 24, 4, 12],
-    },
-  ];
-  let barChartOptionsOne = {
-    chart: {
-      type: "bar",
-      height: 200,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 6,
-        horizontal: false,
-
-        columnWidth: "40%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#dae5ff"], // Set the starting color (top color) here
-      gradient: {
-        shade: "light", // Gradient shading type
-        type: "vertical", // Gradient direction (vertical)
-        shadeIntensity: 0.5, // Intensity of the gradient shading
-        gradientToColors: ["#dae5ff"], // Bottom gradient color (with transparency)
-        inverseColors: false, // Do not invert colors
-        opacityFrom: 1, // Starting opacity
-        opacityTo: 1, // Ending opacity
-        stops: [0, 100],
-      },
-    },
-    grid: {
-      show: false,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-      padding: {
-        top: -10,
-        right: -10,
-        bottom: -10,
-        left: -10,
+        style: { fontSize: "14px" },
       },
     },
     xaxis: {
-      type: "category",
-      categories: ["2hr", "4hr", "6hr", "8hr", "10hr", "12hr", "14hr"],
-    },
-    yaxis: {
-      show: false,
-    },
-  };
-
-  let barChartSeriesOne = [
-    {
-      name: "Sales",
-      data: [
-        {
-          x: "Sun",
-          y: 15,
-        },
-        {
-          x: "Mon",
-          y: 12,
-        },
-        {
-          x: "Tue",
-          y: 18,
-        },
-        {
-          x: "Wed",
-          y: 20,
-        },
-        {
-          x: "Thu",
-          y: 13,
-        },
-        {
-          x: "Fri",
-          y: 16,
-        },
-        {
-          x: "Sat",
-          y: 6,
-        },
+      categories: [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
       ],
+      labels: { style: { fontSize: "14px" } },
     },
-  ];
-
-  let userOverviewDonutChartOptionsOne = {
-    colors: ["#FF9F29", "#487FFF", "#45B369"],
-    labels: ["Active", "New", "Total"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 270,
-      sparkline: {
-        enabled: true, // Remove whitespace
-      },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
   };
 
-  let userOverviewDonutChartSeriesOne = [500, 500, 500];
-
-  let statisticsDonutChartOptionsTwo = {
-    colors: ["#FF9F29", "#45B369"],
-    labels: ["Female", "Male"],
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "donut",
-      height: 260,
-      sparkline: {
-        enabled: true, // Remove whitespace
+  // --- Helper to create simple Area Sparklines ---
+  const createAreaSparkline = (color, height = 50, width = 100) => {
+    const series = [{
+      name: "Data",
+      data: [10, 20, 15, 30, 25, 40, 35, 50]
+    }];
+    const options = {
+      chart: {
+        type: "area",
+        height: height,
+        sparkline: { enabled: true },
+        toolbar: { show: false }
       },
-      margin: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+      stroke: { curve: "smooth", width: 2, colors: [color] },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.4,
+          opacityTo: 0.1,
+          stops: [0, 100]
+        }
       },
-      padding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    },
-    stroke: {
-      width: 0,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
+      tooltip: { fixed: { enabled: false }, x: { show: false }, marker: { show: false } },
+      colors: [color]
+    };
+    
+    return (
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="area"
+        height={height}
+        width={width}
+      />
+    );
   };
 
-  let statisticsDonutChartSeriesTwo = [30, 25];
+  // --- Helper Functions ---
+  const createChart = (color) => createAreaSparkline(color, 50, 100);
+  const createChartTwo = (color, height) => createAreaSparkline(color, height, "100%");
+  const createChartThree = (color) => createAreaSparkline(color, 60, 120);
+  const createChartFive = (color) => createAreaSparkline(color, 60, 100);
+  const createChartNine = (color = "#487fff") => createAreaSparkline(color, 40, 80);
 
-  let radialMultipleBarOptions = {
-    chart: {
-      height: 300,
-      type: "radialBar",
-    },
-    colors: ["#3D7FF9", "#ff9f29", "#16a34a"],
-    stroke: {
-      lineCap: "round",
-    },
+  // --- Gauge / Radial ---
+  const semiCircleGaugeSeriesOne = [75];
+  const semiCircleGaugeOptionsOne = {
+    chart: { type: "radialBar", sparkline: { enabled: true } },
     plotOptions: {
       radialBar: {
-        hollow: {
-          size: "10%", // Adjust this value to control the bar width
-        },
+        startAngle: -90,
+        endAngle: 90,
+        track: { background: "#E5E7EB", strokeWidth: "97%", margin: 5 },
         dataLabels: {
-          name: {
-            fontSize: "16px",
-          },
-          value: {
-            fontSize: "16px",
-          },
-        },
-        track: {
-          margin: 20, // Space between the bars
-        },
-      },
+          name: { show: false },
+          value: { offsetY: -2, fontSize: "22px" }
+        }
+      }
     },
-    labels: ["Cardiology", "Psychiatry", "Pediatrics"],
+    colors: ["#487FFF"],
+    labels: ["Conversion"]
   };
-  let radialMultipleBarSeries = [80, 40, 10];
 
-  let paymentStatusChartOptionsFour = {
-    colors: ["#45B369", "#FF9F29"],
-    labels: ["Active", "New", "Total"],
+  const dailyIconBarChartSeriesOne = [{ name: "Income", data: [20, 40, 30, 50, 40, 60, 50] }];
+  const dailyIconBarChartOptionsOne = {
+    chart: { type: "bar", toolbar: { show: false }, sparkline: { enabled: true } },
+    plotOptions: { bar: { columnWidth: "50%", borderRadius: 4 } },
+    colors: ["#487FFF"],
+    xaxis: { categories: ["M", "T", "W", "T", "F", "S", "S"] },
+    tooltip: { enabled: false }
+  };
 
-    legend: {
-      show: false,
-    },
-    chart: {
-      type: "bar",
-      height: 260,
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 4, // Use a number for dashed style
-      position: "back",
-    },
+  // --- Bar Chart (TotalSubscriberOne) ---
+  const barChartSeries = [{ name: "Subscribers", data: [10, 20, 15, 25, 18, 30, 20] }];
+  const barChartOptions = {
+    chart: { type: "bar", height: 264, toolbar: { show: false } },
+    colors: ["#487fff"],
+    plotOptions: { bar: { borderRadius: 4, horizontal: false, columnWidth: "50%" } },
+    dataLabels: { enabled: false },
+    xaxis: { categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] }
+  };
+
+  // --- Donut Chart (BasicDonutChart) ---
+  const basicDonutChartSeries = [12, 22, 12, 12, 7, 7];
+  const basicDonutChartOptions = {
+    labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5", "Label 6"],
+    colors: ["#28a745", "#487fff", "#17a2b8", "#dc3545", "#fd7e14", "#ffc107"],
+    legend: { show: false },
     plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: 8,
-      },
+      pie: {
+        donut: {
+          size: "65%",
+          labels: {
+            show: true,
+            name: { show: false },
+            value: {
+              show: true,
+              fontSize: "24px",
+              fontWeight: 600,
+              offsetY: 10,
+              formatter: function (val) {
+                return val;
+              }
+            },
+            total: {
+              show: true,
+              fontSize: "16px",
+              label: "Total Value",
+              formatter: function (w) {
+                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+              }
+            }
+          }
+        }
+      }
+    },
+    dataLabels: { enabled: false },
+  };
+
+  // --- Polar Area Chart (MultipleSeries) ---
+  const multipleSeriesChartSeries = [14, 23, 21, 17, 15, 10, 12, 17, 21];
+  const multipleSeriesChartOptions = {
+    chart: { type: 'polarArea', height: 264, toolbar: { show: false } },
+    stroke: { colors: ['#fff'] },
+    fill: { opacity: 0.8 },
+    labels: ['Vote A', 'Vote B', 'Vote C', 'Vote D', 'Vote E', 'Vote F', 'Vote G', 'Vote H', 'Vote I'],
+    legend: { show: true, position: 'bottom' },
+    colors: ['#487fff', '#28a745', '#ffcf5c', '#dc3545', '#6c757d', '#17a2b8', '#6610f2', '#e83e8c', '#fd7e14'],
+    yaxis: { show: false },
+    grid: { show: false, padding: { left: 0, right: 0 } },
+    plotOptions: {
+      polarArea: {
+        rings: { strokeWidth: 0 },
+        spokes: { strokeWidth: 0 }
+      }
+    }
+  };
+
+  // --- Column Chart (ColumnChartLayer) ---
+  const columnChartSeriesOne = [{
+    name: 'Net Profit',
+    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+  }, {
+    name: 'Revenue',
+    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+  }, {
+    name: 'Free Cash Flow',
+    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+  }];
+  const columnChartOptionsOne = {
+    chart: { type: 'bar', height: 350, toolbar: { show: false } },
+    plotOptions: {
+      bar: { horizontal: false, columnWidth: '55%', endingShape: 'rounded' },
+    },
+    dataLabels: { enabled: false },
+    stroke: { show: true, width: 2, colors: ['transparent'] },
+    xaxis: {
+      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+    },
+    yaxis: { title: { text: '$ (thousands)' } },
+    fill: { opacity: 1 },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return "$ " + val + " thousands"
+        }
+      }
+    },
+    colors: ['#487fff', '#28a745', '#ffcf5c']
+  };
+
+  const columnChartSeriesTwo = [{
+    name: 'Inflation',
+    data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+  }];
+  const columnChartOptionsTwo = {
+    chart: { type: 'bar', height: 350, toolbar: { show: false } },
+    plotOptions: {
+      bar: { borderRadius: 10, dataLabels: { position: 'top' } }
     },
     dataLabels: {
-      enabled: false,
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
+      enabled: true,
+      formatter: function (val) {
+        return val + "%";
       },
-    },
-    stroke: {
-      show: true,
-      width: 0,
-      colors: ["transparent"],
+      offsetY: -20,
+      style: { fontSize: '12px', colors: ["#304758"] }
     },
     xaxis: {
-      categories: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
+      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      position: 'top',
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      crosshairs: {
+        fill: {
+          type: 'gradient',
+          gradient: {
+            colorFrom: '#D8E3F0',
+            colorTo: '#BED1E6',
+            stops: [0, 100],
+            opacityFrom: 0.4,
+            opacityTo: 0.5,
+          }
+        }
+      },
+      tooltip: { enabled: true, }
     },
-    fill: {
-      opacity: 1,
-      width: 18,
+    yaxis: {
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      labels: { show: false, formatter: function (val) { return val + "%"; } }
     },
+    title: {
+      text: 'Monthly Inflation in Argentina, 2002',
+      floating: true,
+      offsetY: 330,
+      align: 'center',
+      style: { color: '#444' }
+    },
+    colors: ['#487fff']
   };
 
-  let paymentStatusChartSeriesFour = [
-    {
-      name: "Net Profit",
-      data: [44, 100, 40, 56, 30, 58, 50],
+  const columnChartSeriesThree = [{
+    name: 'PRODUCT A',
+    data: [44, 55, 41, 67, 22, 43]
+  }, {
+    name: 'PRODUCT B',
+    data: [13, 23, 20, 8, 13, 27]
+  }, {
+    name: 'PRODUCT C',
+    data: [11, 17, 15, 15, 21, 14]
+  }, {
+    name: 'PRODUCT D',
+    data: [21, 7, 25, 13, 22, 8]
+  }];
+  const columnChartOptionsThree = {
+    chart: { type: 'bar', height: 350, stacked: true, toolbar: { show: false }, zoom: { enabled: true } },
+    responsive: [{
+      breakpoint: 480,
+      options: { legend: { position: 'bottom', offsetX: -10, offsetY: 0 } }
+    }],
+    plotOptions: { bar: { horizontal: false, borderRadius: 10 } },
+    xaxis: {
+      type: 'datetime',
+      categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT', '01/05/2011 GMT', '01/06/2011 GMT'],
     },
-    {
-      name: "Free Cash",
-      data: [60, 120, 60, 90, 50, 95, 90],
-    },
-  ];
+    legend: { position: 'right', offsetY: 40 },
+    fill: { opacity: 1 },
+    colors: ['#487fff', '#28a745', '#ffcf5c', '#dc3545']
+  };
 
-  let enrollmentChartOptions = {
-    legend: {
-      show: false,
+  const columnChartSeriesFour = [{
+    data: [21, 22, 10, 28, 16, 21, 13, 30]
+  }];
+  const columnChartOptionsFour = {
+    chart: { height: 350, type: 'bar', events: { click: function (chart, w, e) { } }, toolbar: { show: false } },
+    colors: ['#487fff', '#28a745', '#ffcf5c', '#dc3545', '#6c757d', '#17a2b8', '#6610f2', '#e83e8c'],
+    plotOptions: {
+      bar: { columnWidth: '45%', distributed: true, borderRadius: 8 }
     },
-    chart: {
-      type: "area",
-      width: "100%",
-      height: 270,
-      toolbar: {
-        show: false,
-      },
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 3,
-      colors: ["#487FFF", "#FF9F29"], // Use two colors for the lines
-      lineCap: "round",
-    },
-    grid: {
-      show: true,
-      borderColor: "#D1D5DB",
-      strokeDashArray: 1,
-      position: "back",
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      row: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      column: {
-        colors: undefined,
-        opacity: 0.5,
-      },
-      padding: {
-        top: -20,
-        right: 0,
-        bottom: -10,
-        left: 0,
-      },
-    },
-    fill: {
-      type: "gradient",
-      colors: ["#487FFF", "#FF9F29"], // Use two colors for the gradient
+    dataLabels: { enabled: false },
+    legend: { show: false },
+    xaxis: {
+      categories: [['John', 'Doe'], ['Joe', 'Smith'], ['Jake', 'Williams'], 'Amber', ['Peter', 'Brown'], ['Mary', 'Evans'], ['David', 'Wilson'], ['Lily', 'Roberts']],
+      labels: { style: { colors: ['#487fff', '#28a745', '#ffcf5c', '#dc3545', '#6c757d', '#17a2b8', '#6610f2', '#e83e8c'], fontSize: '12px' } }
+    }
+  };
 
-      gradient: {
-        shade: "light",
-        type: "vertical",
-        shadeIntensity: 0.5,
-        gradientToColors: [undefined, `${"#FF9F29"}00`], // Apply transparency to both colors
-        inverseColors: false,
-        opacityFrom: [0.4, 0.6], // Starting opacity for both colors
-        opacityTo: [0.3, 0.3], // Ending opacity for both colors
-        stops: [0, 100],
-      },
+  // --- Pie Chart (PieChartLayer) ---
+  const pieChartSeriesOne = [44, 55, 13, 43, 22];
+  const pieChartOptionsTwo = {
+    labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+    colors: ["#487fff", "#ffcf5c", "#28a745", "#dc3545", "#6c757d"],
+    legend: { show: true, position: "bottom" }
+  };
+
+  const userOverviewDonutChartSeries = [44, 55, 41, 17];
+  const userOverviewDonutChartOptions = {
+    labels: ["Direct", "Social", "Referral", "Organic"],
+    colors: ["#487fff", "#ffcf5c", "#28a745", "#dc3545"],
+    legend: { show: true, position: "bottom" }
+  };
+  
+  const userOverviewDonutChartSeriesOne = [30, 40, 30]; // Support Tracker
+  const userOverviewDonutChartOptionsOne = {
+      labels: ["Resolved", "Pending", "Open"],
+      colors: ["#28a745", "#ffcf5c", "#dc3545"],
+      legend: { show: false }
+  };
+
+  const userOverviewDonutChartSeriesTwo = [50, 20, 30]; // Overall Report
+  const userOverviewDonutChartOptionsTwo = {
+      labels: ["Sales", "Profit", "Growth"],
+      colors: ["#487fff", "#ffcf5c", "#28a745"],
+      legend: { show: false }
+  };
+
+  const statisticsDonutChartSeriesThree = [20, 50, 30]; // UserActivatesTwo
+  const statisticsDonutChartOptionsThree = {
+      labels: ["Active", "Inactive", "Banned"],
+      colors: ["#28a745", "#6c757d", "#dc3545"],
+      legend: { show: false }
+  };
+
+  const expenseStatisticsSeries = [44, 55, 13, 33];
+  const expenseStatisticsOptions = {
+      labels: ["Rent", "Utilities", "Salaries", "Supplies"],
+      colors: ["#487fff", "#ffcf5c", "#28a745", "#dc3545"],
+      legend: { show: true, position: 'bottom' }
+  };
+
+  // --- Double Line Chart (DoubleLineChart) ---
+  const doubleLineChartSeries = [{
+    name: 'High - 2013',
+    data: [28, 29, 33, 36, 32, 32, 33]
+  }, {
+    name: 'Low - 2013',
+    data: [12, 11, 14, 18, 17, 13, 13]
+  }];
+  const doubleLineChartOptions = {
+    chart: { height: 350, type: 'line', dropShadow: { enabled: true, color: '#000', top: 18, left: 7, blur: 10, opacity: 0.2 }, toolbar: { show: false } },
+    colors: ['#487fff', '#28a745'],
+    dataLabels: { enabled: true },
+    stroke: { curve: 'smooth' },
+    title: { text: 'Average High & Low Temperature', align: 'left' },
+    grid: { borderColor: '#e7e7e7', row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5 } },
+    markers: { size: 1 },
+    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], title: { text: 'Month' } },
+    yaxis: { title: { text: 'Temperature' }, min: 5, max: 40 },
+    legend: { position: 'top', horizontalAlign: 'right', floating: true, offsetY: -25, offsetX: -5 }
+  };
+
+  // --- Line Data Label (LineDataLabel) ---
+  const lineDataLabelSeries = [{
+    name: "Desktops",
+    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+  }];
+  const lineDataLabelOptions = {
+    chart: { height: 350, type: 'line', zoom: { enabled: false }, toolbar: { show: false } },
+    dataLabels: { enabled: false },
+    stroke: { curve: 'straight' },
+    title: { text: 'Product Trends by Month', align: 'left' },
+    grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5 } },
+    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'] },
+    colors: ['#487fff']
+  };
+
+  // --- Gradient Line Chart (GradientLineChart) ---
+  const gradientLineChartSeries = [{
+    name: 'Sales',
+    data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
+  }];
+  const gradientLineChartOptions = {
+    chart: { height: 350, type: 'line', toolbar: { show: false } },
+    stroke: { width: 7, curve: 'smooth' },
+    xaxis: { type: 'datetime', categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000', '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001', '4/11/2001', '5/11/2001', '6/11/2001'], tickAmount: 10, labels: { formatter: function (value, timestamp, opts) { return opts.dateFormatter(new Date(timestamp), 'dd MMM') } } },
+    title: { text: 'Social Media', align: 'left', style: { fontSize: "16px", color: '#666' } },
+    fill: { type: 'gradient', gradient: { shade: 'dark', gradientToColors: ['#FDD835'], shadeIntensity: 1, type: 'horizontal', opacityFrom: 1, opacityTo: 1, stops: [0, 100, 100, 100] } },
+    markers: { size: 4, colors: ["#FFA41B"], strokeColors: "#fff", strokeWidth: 2, hover: { size: 7 } },
+    yaxis: { min: -10, max: 40, title: { text: 'Engagement' } },
+    colors: ['#487fff']
+  };
+
+  // --- Line Charts ---
+  const defaultLineChartSeries = [{ name: "Desktops", data: [10, 41, 35, 51, 49, 62, 69, 91, 148] }];
+  const defaultLineChartOptions = {
+    chart: { type: "line", zoom: { enabled: false }, toolbar: { show: false } },
+    dataLabels: { enabled: false },
+    stroke: { curve: "straight" },
+    grid: { row: { colors: ["#f3f3f3", "transparent"], opacity: 0.5 } }
+  };
+
+  const stepLineChartSeries = [{ data: [34, 44, 54, 21, 12, 43, 33, 23, 66, 66, 58] }];
+  const stepLineChartOptions = {
+    chart: { type: "line", toolbar: { show: false } },
+    stroke: { curve: "stepline" },
+    dataLabels: { enabled: false }
+  };
+
+  const transactionLineChartSeries = [{ name: "Transactions", data: [10, 20, 15, 30, 25, 40, 35, 50] }];
+  const transactionLineChartOptions = {
+    chart: { type: "line", toolbar: { show: false } },
+    stroke: { curve: "smooth", width: 2 },
+    colors: ["#487fff"]
+  };
+
+  const zoomAbleLineChartSeries = [{ name: "XYZ MOTORS", data: [10, 20, 15, 30, 25, 40, 35, 50] }];
+  const zoomAbleLineChartOptions = {
+      chart: { type: "area", stacked: false, height: 350, zoom: { type: "x", enabled: true, autoScaleYaxis: true }, toolbar: { autoSelected: "zoom" } },
+      dataLabels: { enabled: false },
+      markers: { size: 0 },
+      fill: { type: "gradient", gradient: { shadeIntensity: 1, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } },
+      yaxis: { labels: { formatter: function (val) { return (val / 1000000).toFixed(0); } } },
+      xaxis: { type: "datetime", categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"] },
+      tooltip: { shared: false, y: { formatter: function (val) { return (val / 1000000).toFixed(0); } } }
+  };
+
+  // --- Radar Chart ---
+  const radarChartSeries = [{ name: "Series 1", data: [80, 50, 30, 40, 100, 20] }];
+  const radarChartOptions = {
+    chart: { height: 350, type: "radar", toolbar: { show: false } },
+    xaxis: { categories: ["January", "February", "March", "April", "May", "June"] }
+  };
+
+  // --- StatisticsOne ---
+  const dailyIconBarChartSeriesTwo = [{ name: "Sales", data: [44, 55, 41, 67, 22, 43] }];
+  const dailyIconBarChartOptionsTwo = {
+    chart: { type: "bar", height: 350, toolbar: { show: false } },
+    plotOptions: { bar: { horizontal: false, columnWidth: "55%", borderRadius: 4 } },
+    dataLabels: { enabled: false },
+    stroke: { show: true, width: 2, colors: ["transparent"] },
+    xaxis: { categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"] },
+    fill: { opacity: 1 },
+    tooltip: { y: { formatter: function (val) { return "$ " + val + " thousands"; } } }
+  };
+
+  // --- AverageDailySales ---
+  const barChartSeriesOne = [{ name: "Sales", data: [10, 20, 15, 25, 18, 30, 20] }];
+  const barChartOptionsOne = {
+      chart: { type: "bar", height: 264, toolbar: { show: false } },
+      colors: ["#28a745"],
+      plotOptions: { bar: { borderRadius: 4, horizontal: false, columnWidth: "50%" } },
+      dataLabels: { enabled: false },
+      xaxis: { categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] }
+  };
+
+  const paymentStatusChartSeries = [{
+    name: "Payment Status",
+    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60, 55, 70]
+  }];
+  const paymentStatusChartOptions = {
+    chart: { type: "bar", height: 250, toolbar: { show: false } },
+    colors: ["#487fff"],
+    plotOptions: { bar: { borderRadius: 4, columnWidth: "50%" } },
+    dataLabels: { enabled: false },
+    xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }
+  };
+
+  // --- CandleStick Chart (CoinAnalyticsOne) ---
+  const candleStickChartSeries = [{
+    data: [
+      { x: new Date(1538778600000), y: [6629.81, 6650.5, 6623.04, 6633.33] },
+      { x: new Date(1538780400000), y: [6632.01, 6643.59, 6620, 6630.11] },
+      { x: new Date(1538782200000), y: [6630.71, 6648.95, 6623.34, 6635.65] },
+      { x: new Date(1538784000000), y: [6635.65, 6651, 6629.67, 6638.24] },
+      { x: new Date(1538785800000), y: [6638.24, 6640, 6620, 6624.47] },
+      { x: new Date(1538787600000), y: [6624.53, 6636.03, 6621.68, 6624.31] },
+      { x: new Date(1538789400000), y: [6624.61, 6632.2, 6617, 6626.02] },
+      { x: new Date(1538791200000), y: [6627, 6627.62, 6584.22, 6603.02] },
+      { x: new Date(1538793000000), y: [6605, 6608.03, 6598.95, 6604.01] },
+      { x: new Date(1538794800000), y: [6604.5, 6614.4, 6602.26, 6608.02] }
+    ]
+  }];
+  const candleStickChartOptions = {
+    chart: { type: "candlestick", height: 350, toolbar: { show: false } },
+    xaxis: { type: "datetime" },
+    yaxis: { tooltip: { enabled: true } }
+  };
+
+  // --- Helper for StatisticsOne ---
+  const createChartEight = (color) => createAreaSparkline(color, 80, 160);
+  
+  // --- Helper for CoinAnalyticsTwo ---
+  const createChartFour = (color, height, width) => createAreaSparkline(color, height, width);
+
+  // --- Helper for UnitCountFive ---
+  const createChartSix = (color1, color2) => {
+    const series = [
+      { name: "Paid", data: [10, 20, 15, 30, 25, 40, 35, 50] },
+      { name: "Free", data: [5, 15, 10, 25, 20, 35, 30, 45] }
+    ];
+    const options = {
+      chart: { type: "area", height: 264, toolbar: { show: false } },
+      colors: [color1, color2],
+      fill: { type: "gradient", gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1, stops: [0, 100] } },
+      dataLabels: { enabled: false },
+      stroke: { curve: "smooth", width: 2 },
+      xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"], labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
+      yaxis: { show: false },
+      grid: { show: false, padding: { left: 0, right: 0 } },
+      tooltip: { x: { show: false } },
+      legend: { show: false }
+    };
+    return <ReactApexChart options={options} series={series} type="area" height={264} />;
+  };
+
+  // --- Helper for ETHPriceOne ---
+  const createChartSeven = (color) => createAreaSparkline(color, 80, 160);
+
+  // --- Helper for Metrics ---
+  const createChartTen = (color) => createAreaSparkline(color, 50, 80);
+  const createChatEleven = (color) => createAreaSparkline(color, 50, 80); // Note spelling match with component
+
+  // --- Payment Status Chart One (CourseActivityOne) ---
+  const paymentStatusChartSeriesOne = [{
+    name: "Course Activity",
+    data: [500, 300]
+  }];
+  const paymentStatusChartOptionsOne = {
+    chart: { type: "bar", height: 250, toolbar: { show: false } },
+    colors: ["#ffcf5c", "#28a745"],
+    plotOptions: { bar: { distributed: true, borderRadius: 4, columnWidth: "50%" } },
+    dataLabels: { enabled: false },
+    xaxis: { categories: ["Paid", "Free"] },
+    legend: { show: false }
+  };
+
+  // --- Bar Chart Two (EarningStaticOne) ---
+  const barChartSeriesTwo = [{
+    name: "Earnings",
+    data: [20, 30, 25, 40, 35, 50, 45]
+  }];
+  const barChartOptionsTwo = {
+    chart: { type: "bar", height: 350, toolbar: { show: false } },
+    colors: ["#487fff"],
+    plotOptions: { bar: { borderRadius: 4, columnWidth: "50%" } },
+    dataLabels: { enabled: false },
+    xaxis: { categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] }
+  };
+
+  // --- Payment Status Chart Two (ClientPaymentOne) ---
+  const paymentStatusChartSeriesTwo = [{
+    name: "Payment Status",
+    data: [500, 500, 1500]
+  }];
+  const paymentStatusChartOptionsTwo = {
+    chart: { type: "bar", height: 350, toolbar: { show: false } },
+    colors: ["#28a745", "#487fff", "#ffcf5c"],
+    plotOptions: { bar: { distributed: true, borderRadius: 4, columnWidth: "50%" } },
+    dataLabels: { enabled: false },
+    xaxis: { categories: ["Paid", "Pending", "Overdue"] },
+    legend: { show: false }
+  };
+
+  // --- Donut Chart Two (CampaignStaticOne) ---
+  const donutChartSeriesTwo = [44, 55, 41, 17];
+  const donutChartOptionsTwo = {
+    labels: ["Email", "Referral", "Social", "Organic"],
+    colors: ["#487fff", "#ffcf5c", "#28a745", "#dc3545"],
+    legend: { show: false }
+  };
+
+  // --- Up Down Bar Chart (RevenueStatisticsOne) ---
+  const upDownBarChartSeries = [{
+    name: 'Cash Flow',
+    data: [1.45, 5.42, 5.9, -0.42, -12.6, -18.1, -18.2, -14.16, -11.1, -6.09, 0.34, 3.88, 13.07,
+      5.8, 2, 7.37, 8.1, 13.57, 15.75, 17.1, 19.8, -27.03, -54.4, -47.2, -43.3, -18.6, -
+      48.6, -41.1, -39.6, -37.6, -29.4, -21.4, -2.4
+    ]
+  }];
+  const upDownBarChartOptions = {
+    chart: { type: 'bar', height: 350, toolbar: { show: false } },
+    plotOptions: {
+      bar: {
+        colors: {
+          ranges: [{ from: -100, to: -46, color: '#dc3545' }, { from: -45, to: 0, color: '#dc3545' }]
+        },
+        columnWidth: '80%',
+      }
     },
-    markers: {
-      colors: ["#487FFF", "#FF9F29"], // Use two colors for the markers
-      strokeWidth: 3,
-      size: 0,
-      hover: {
-        size: 10,
-      },
+    dataLabels: { enabled: false },
+    yaxis: {
+      labels: {
+        formatter: function (y) { return y.toFixed(0) + "%"; }
+      }
     },
     xaxis: {
       categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        '2011-01-01', '2011-02-01', '2011-03-01', '2011-04-01', '2011-05-01', '2011-06-01',
+        '2011-07-01', '2011-08-01', '2011-09-01', '2011-10-01', '2011-11-01', '2011-12-01',
+        '2012-01-01', '2012-02-01', '2012-03-01', '2012-04-01', '2012-05-01', '2012-06-01',
+        '2012-07-01', '2012-08-01', '2012-09-01', '2012-10-01', '2012-11-01', '2012-12-01',
+        '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01', '2013-06-01',
+        '2013-07-01', '2013-08-01', '2013-09-01'
       ],
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return "$" + value + "k";
-        },
-        style: {
-          fontSize: "14px",
-        },
-      },
-    },
-    tooltip: {
-      x: {
-        format: "dd/MM/yy HH:mm",
-      },
-    },
+      labels: { rotate: -90 }
+    }
   };
 
-  let enrollmentChartSeries = [
-    {
-      name: "series1",
-      data: [48, 35, 55, 32, 48, 30, 55, 50, 57],
+  // --- Balance Statistic ---
+  const balanceStatisticsSeries = [{
+    name: 'Balance',
+    data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31, 87, 65]
+  }];
+  const balanceStatisticsOptions = {
+    chart: { type: 'bar', height: 250, toolbar: { show: false } },
+    plotOptions: { bar: { borderRadius: 4, horizontal: false, columnWidth: '55%' } },
+    dataLabels: { enabled: false },
+    stroke: { show: true, width: 2, colors: ['transparent'] },
+    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
+    fill: { opacity: 1 },
+    colors: ['#487fff'],
+    tooltip: { y: { formatter: function (val) { return "$ " + val + " thousands" } } }
+  };
+
+  // --- Revenue Report One (PaymentStatusChartThree) ---
+  const paymentStatusChartSeriesThree = [{
+    name: 'Earning',
+    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+  }, {
+    name: 'Expense',
+    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+  }];
+  const paymentStatusChartOptionsThree = {
+    chart: { type: 'bar', height: 250, toolbar: { show: false } },
+    plotOptions: { bar: { horizontal: false, columnWidth: '55%', borderRadius: 5 } },
+    dataLabels: { enabled: false },
+    stroke: { show: true, width: 2, colors: ['transparent'] },
+    xaxis: { categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'] },
+    yaxis: { title: { text: '$ (thousands)' } },
+    fill: { opacity: 1 },
+    colors: ['#487fff', '#ffcf5c'],
+    tooltip: { y: { formatter: function (val) { return "$ " + val + " thousands" } } }
+  };
+
+  // --- Revenue Statistic One ---
+  const revenueChartSeriesOne = [{
+    name: 'Profit',
+    data: [31, 40, 28, 51, 42, 109, 100]
+  }, {
+    name: 'Loss',
+    data: [11, 32, 45, 32, 34, 52, 41]
+  }];
+  const revenueChartOptionsOne = {
+    chart: { height: 150, type: 'area', toolbar: { show: false }, sparkline: { enabled: true } },
+    dataLabels: { enabled: false },
+    stroke: { curve: 'smooth', width: 2 },
+    xaxis: { type: 'datetime', categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"] },
+    tooltip: { x: { format: 'dd/MM/yy HH:mm' } },
+    colors: ['#487fff', '#dc3545'],
+    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1, stops: [0, 100] } }
+  };
+
+  // --- Income Vs Expense ---
+  const incomeExpenseSeries = [{
+    name: 'Income',
+    data: [31, 40, 28, 51, 42, 109, 100]
+  }, {
+    name: 'Expense',
+    data: [11, 32, 45, 32, 34, 52, 41]
+  }];
+  const incomeExpenseOptions = {
+    chart: { height: 270, type: 'area', toolbar: { show: false } },
+    dataLabels: { enabled: false },
+    stroke: { curve: 'smooth' },
+    xaxis: { type: 'datetime', categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"] },
+    tooltip: { x: { format: 'dd/MM/yy HH:mm' } },
+    colors: ['#487fff', '#ffcf5c'],
+    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1, stops: [0, 100] } }
+  };
+
+  // --- Purchase and Sales ---
+  const purchaseSaleChartSeries = [{
+    name: 'Purchase',
+    data: [12, 22, 12, 12, 7, 7, 12, 22]
+  }, {
+    name: 'Sales',
+    data: [22, 12, 22, 22, 12, 12, 22, 12]
+  }];
+  const purchaseSaleChartOptions = {
+    chart: { type: 'bar', height: 300, toolbar: { show: false } },
+    plotOptions: { bar: { horizontal: false, columnWidth: '50%', borderRadius: 4 } },
+    dataLabels: { enabled: false },
+    stroke: { show: true, width: 2, colors: ['transparent'] },
+    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'] },
+    fill: { opacity: 1 },
+    colors: ['#487fff', '#ffcf5c'],
+    tooltip: { y: { formatter: function (val) { return "$ " + val + " thousands" } } }
+  };
+
+  // --- Customers Statistics One ---
+  const statisticsDonutChartSeries = [20000, 25000];
+  const statisticsDonutChartOptions = {
+    labels: ["Male", "Female"],
+    colors: ["#487fff", "#ffcf5c"],
+    legend: { show: false },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: "65%",
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              label: 'Customers',
+              fontSize: '16px',
+              formatter: () => '45k'
+            }
+          }
+        }
+      }
     },
-    {
-      name: "series2",
-      data: [12, 20, 15, 26, 22, 60, 40, 48, 25],
-    },
-  ];
+    dataLabels: { enabled: false }
+  };
 
   return {
-    expenseStatisticsOptions,
-    expenseStatisticsSeries,
-    balanceStatisticsOptions,
-    balanceStatisticsSeries,
-    purchaseSaleChartOptions,
-    purchaseSaleChartSeries,
-    userOverviewDonutChartOptionsTwo,
-    userOverviewDonutChartSeriesTwo,
-    incomeExpenseOptions,
-    incomeExpenseSeries,
-    revenueChartOptionsOne,
-    revenueChartSeriesOne,
-    barChartOptionsOne,
-    barChartSeriesOne,
-    userOverviewDonutChartOptionsOne,
-    userOverviewDonutChartSeriesOne,
-    statisticsDonutChartOptionsTwo,
-    statisticsDonutChartSeriesTwo,
-    radialMultipleBarOptions,
-    radialMultipleBarSeries,
-    paymentStatusChartOptionsFour,
-    paymentStatusChartSeriesFour,
-    chartSeries,
     chartOptions,
-    barChartSeries,
-    barChartOptions,
-    donutChartSeries,
-    donutChartOptions,
-    paymentStatusChartSeries,
-    paymentStatusChartOptions,
-    barChartSeriesTwo,
-    barChartOptionsTwo,
-    donutChartSeriesTwo,
-    donutChartOptionsTwo,
-    paymentStatusChartSeriesTwo,
-    paymentStatusChartOptionsTwo,
+    chartSeries,
     createChart,
     createChartTwo,
     createChartThree,
@@ -5489,30 +787,50 @@ const useReactApexChart = () => {
     createChartFive,
     createChartSix,
     createChartSeven,
-    createChartEight,
     createChartNine,
+    createChartEight,
     createChartTen,
     createChatEleven,
-    paymentStatusChartSeriesThree,
-    paymentStatusChartOptionsThree,
-    statisticsDonutChartSeries,
-    statisticsDonutChartOptions,
-    candleStickChartSeries,
-    candleStickChartOptions,
-    statisticsDonutChartSeriesThree,
-    statisticsDonutChartOptionsThree,
-    upDownBarChartSeries,
-    upDownBarChartOptions,
     semiCircleGaugeSeriesOne,
     semiCircleGaugeOptionsOne,
     dailyIconBarChartSeriesOne,
     dailyIconBarChartOptionsOne,
-    transactionLineChartSeries,
-    transactionLineChartOptions,
+    barChartSeries,
+    barChartOptions,
+    barChartSeriesTwo,
+    barChartOptionsTwo,
+    basicDonutChartSeries,
+    basicDonutChartOptions,
+    multipleSeriesChartSeries,
+    multipleSeriesChartOptions,
+    pieChartSeriesOne,
+    pieChartOptionsTwo,
     userOverviewDonutChartSeries,
     userOverviewDonutChartOptions,
-    paymentStatusChartSeriesOne,
-    paymentStatusChartOptionsOne,
+    userOverviewDonutChartSeriesOne,
+    userOverviewDonutChartOptionsOne,
+    userOverviewDonutChartSeriesTwo,
+    userOverviewDonutChartOptionsTwo,
+    statisticsDonutChartSeriesThree,
+    statisticsDonutChartOptionsThree,
+    expenseStatisticsSeries,
+    expenseStatisticsOptions,
+    defaultLineChartSeries,
+    defaultLineChartOptions,
+    stepLineChartSeries,
+    stepLineChartOptions,
+    transactionLineChartSeries,
+    transactionLineChartOptions,
+    zoomAbleLineChartSeries,
+    zoomAbleLineChartOptions,
+    doubleLineChartSeries,
+    doubleLineChartOptions,
+    lineDataLabelSeries,
+    lineDataLabelOptions,
+    gradientLineChartSeries,
+    gradientLineChartOptions,
+    radarChartSeries,
+    radarChartOptions,
     dailyIconBarChartSeriesTwo,
     dailyIconBarChartOptionsTwo,
     columnChartSeriesOne,
@@ -5523,32 +841,34 @@ const useReactApexChart = () => {
     columnChartOptionsThree,
     columnChartSeriesFour,
     columnChartOptionsFour,
-    defaultLineChartSeries,
-    defaultLineChartOptions,
-    zoomAbleLineChartSeries,
-    zoomAbleLineChartOptions,
-    lineDataLabelSeries,
-    lineDataLabelOptions,
-    doubleLineChartSeries,
-    doubleLineChartOptions,
-    stepLineChartSeries,
-    stepLineChartOptions,
-    timeSeriesChartSeries,
-    timeSeriesChartOptions,
-    pieChartSeriesOne,
-    pieChartOptionsTwo,
-    basicDonutChartSeries,
-    basicDonutChartOptions,
-    radarChartSeries,
-    radarChartOptions,
-    multipleSeriesChartSeries,
-    multipleSeriesChartOptions,
-    timeSeriesChartSeriesTwo,
-    timeSeriesChartOptionsTwo,
-    gradientLineChartSeries,
-    gradientLineChartOptions,
-    enrollmentChartOptions,
-    enrollmentChartSeries,
+    barChartSeriesOne,
+    barChartOptionsOne,
+    donutChartSeries: userOverviewDonutChartSeries,
+    donutChartOptions: userOverviewDonutChartOptions,
+    paymentStatusChartSeries,
+    paymentStatusChartOptions,
+    paymentStatusChartSeriesOne,
+    paymentStatusChartOptionsOne,
+    candleStickChartSeries,
+    candleStickChartOptions,
+    paymentStatusChartSeriesTwo,
+    paymentStatusChartOptionsTwo,
+    donutChartSeriesTwo,
+    donutChartOptionsTwo,
+    upDownBarChartSeries,
+    upDownBarChartOptions,
+    balanceStatisticsSeries,
+    balanceStatisticsOptions,
+    paymentStatusChartSeriesThree,
+    paymentStatusChartOptionsThree,
+    revenueChartSeriesOne,
+    revenueChartOptionsOne,
+    incomeExpenseSeries,
+    incomeExpenseOptions,
+    purchaseSaleChartSeries,
+    purchaseSaleChartOptions,
+    statisticsDonutChartSeries,
+    statisticsDonutChartOptions
   };
 };
 

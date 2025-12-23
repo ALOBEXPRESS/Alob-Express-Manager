@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 const InvoiceListLayer = () => {
@@ -43,7 +43,7 @@ const InvoiceListLayer = () => {
             <option value='Paid'>Paid</option>
             <option value='Pending'>Pending</option>
           </select>
-          <Link href='invoice-add.html' className='btn btn-sm btn-primary-600'>
+          <Link href='/invoice-add' className='btn btn-sm btn-primary-600'>
             <i className='ri-add-line' /> Create Invoice
           </Link>
         </div>

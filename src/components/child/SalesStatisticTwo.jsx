@@ -1,12 +1,15 @@
 "use client";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+import { useTranslations } from 'next-intl';
+
 const SalesStatisticTwo = () => {
+  const t = useTranslations('dashboard');
   let {
     createChartFive,
     semiCircleGaugeSeriesOne,
@@ -18,12 +21,12 @@ const SalesStatisticTwo = () => {
     <div className='col-xxl-4'>
       <div className='card h-100 radius-8 border-0'>
         <div className='card-body p-24'>
-          <h6 className='mb-2 fw-bold text-lg'>Statistic</h6>
+          <h6 className='mb-2 fw-bold text-lg'>{t('statistic')}</h6>
           <div className='mt-24'>
             <div className='d-flex align-items-center gap-1 justify-content-between mb-44'>
               <div>
                 <span className='text-secondary-light fw-normal mb-12 text-xl'>
-                  Daily Conversions
+                  {t('daily_conversions')}
                 </span>
                 <h5 className='fw-semibold mb-0'>%60</h5>
               </div>
@@ -46,7 +49,7 @@ const SalesStatisticTwo = () => {
             <div className='d-flex align-items-center gap-1 justify-content-between mb-44'>
               <div>
                 <span className='text-secondary-light fw-normal mb-12 text-xl'>
-                  Visits By Day
+                  {t('visits_by_day')}
                 </span>
                 <h5 className='fw-semibold mb-0'>20k</h5>
               </div>
@@ -58,7 +61,7 @@ const SalesStatisticTwo = () => {
             <div className='d-flex align-items-center gap-1 justify-content-between'>
               <div>
                 <span className='text-secondary-light fw-normal mb-12 text-xl'>
-                  Today Income
+                  {t('today_income')}
                 </span>
                 <h5 className='fw-semibold mb-0'>$5.5k</h5>
               </div>

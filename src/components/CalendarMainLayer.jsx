@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 const Calendar = dynamic(() => import("./child/Calendar"), { ssr: false });
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 

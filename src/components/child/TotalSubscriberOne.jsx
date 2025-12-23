@@ -1,18 +1,21 @@
 "use client";
 import useReactApexChart from "@/hook/useReactApexChart";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+import { useTranslations } from 'next-intl';
+
 const TotalSubscriberOne = () => {
+  const t = useTranslations('dashboard');
   let { barChartSeries, barChartOptions } = useReactApexChart();
   return (
     <div className='col-xxl-3 col-xl-6'>
       <div className='card h-100 radius-8 border'>
         <div className='card-body p-24'>
-          <h6 className='mb-12 fw-semibold text-lg mb-16'>Total Subscriber</h6>
+          <h6 className='mb-12 fw-semibold text-lg mb-16'>{t('total_subscriber')}</h6>
           <div className='d-flex align-items-center gap-2 mb-20'>
             <h6 className='fw-semibold mb-0'>5,000</h6>
             <p className='text-sm mb-0'>
@@ -20,7 +23,7 @@ const TotalSubscriberOne = () => {
                 10%
                 <Icon icon='iconamoon:arrow-down-2-fill' className='icon' />
               </span>
-              - 20 Per Day
+              - 20 {t('per_day')}
             </p>
           </div>
           <ReactApexChart

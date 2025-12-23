@@ -5,23 +5,26 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+import { useTranslations } from 'next-intl';
+
 const UsersOverviewOne = () => {
+  const t = useTranslations('dashboard');
   let { donutChartSeries, donutChartOptions } = useReactApexChart();
   return (
     <div className='col-xxl-3 col-xl-6'>
       <div className='card h-100 radius-8 border-0 overflow-hidden'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg'>Users Overview</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t('users_overview')}</h6>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
-                defaultValue='Today'
+                defaultValue={t('today')}
               >
-                <option value='Today'>Today</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Monthly'>Monthly</option>
-                <option value='Yearly'>Yearly</option>
+                <option value={t('today')}>{t('today')}</option>
+                <option value={t('weekly')}>{t('weekly')}</option>
+                <option value={t('monthly')}>{t('monthly')}</option>
+                <option value={t('yearly')}>{t('yearly')}</option>
               </select>
             </div>
           </div>
@@ -35,14 +38,14 @@ const UsersOverviewOne = () => {
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px radius-2 bg-primary-600' />
               <span className='text-secondary-light text-sm fw-normal'>
-                New:
+                {t('new')}:
                 <span className='text-primary-light fw-semibold'>500</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px radius-2 bg-yellow' />
               <span className='text-secondary-light text-sm fw-normal'>
-                Subscribed:
+                {t('subscribed')}:
                 <span className='text-primary-light fw-semibold'>300</span>
               </span>
             </li>

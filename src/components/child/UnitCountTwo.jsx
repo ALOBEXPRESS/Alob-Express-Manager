@@ -1,6 +1,6 @@
 "use client";
 import useReactApexChart from "@/hook/useReactApexChart";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 
 const UnitCountTwo = () => {
   let { createChart } = useReactApexChart();

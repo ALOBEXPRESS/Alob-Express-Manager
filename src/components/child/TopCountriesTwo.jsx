@@ -4,19 +4,17 @@ import { useEffect } from "react";
 const TopCountriesTwo = () => {
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
-    Promise.all([
-      import("jsvectormap"),
-      import("jsvectormap/dist/maps/world.js"),
-    ])
-      .then(([jsVectorMapModule]) => {
+    import("jsvectormap")
+      .then((jsVectorMapModule) => {
         const jsVectorMap = jsVectorMapModule.default;
-
         // Ensure jsVectorMap is attached to window if the library expects it
         window.jsVectorMap = jsVectorMap;
-
+        return import("jsvectormap/dist/maps/world.js").then(() => jsVectorMap);
+      })
+      .then((jsVectorMap) => {
         // Initialize the map
         const map = new jsVectorMap({
-          selector: "#map",
+          selector: "#map-top-countries-two",
           map: "world", // Use the map name you installed
           backgroundColor: "transparent",
           borderColor: "#fff",
@@ -93,8 +91,8 @@ const TopCountriesTwo = () => {
         <div className='card-body'>
           <h6 className='mb-2 fw-bold text-lg'>Most Location</h6>
         </div>
-        <div id='world-map' className='map-sm'>
-          <div id='map'></div>
+        <div id='world-map-top-countries-two' className='map-sm'>
+          <div id='map-top-countries-two'></div>
         </div>
         <div className='card-body p-24 max-h-266-px scroll-sm overflow-y-auto'>
           <div>

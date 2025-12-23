@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ModalVideo from "react-modal-video";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 const DefaultVideo = () => {

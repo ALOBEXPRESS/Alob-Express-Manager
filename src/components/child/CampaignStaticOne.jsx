@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import useReactApexChart from "@/hook/useReactApexChart";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,

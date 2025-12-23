@@ -1,6 +1,9 @@
 import React from 'react'
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
+
 const UnitCountOne = () => {
+    const t = useTranslations('dashboard');
     return (
         <div className="row row-cols-xxxl-5 row-cols-lg-3 row-cols-sm-2 row-cols-1 gy-4">
             <div className="col">
@@ -8,7 +11,7 @@ const UnitCountOne = () => {
                     <div className="card-body p-20">
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
-                                <p className="fw-medium text-primary-light mb-1">Total Users</p>
+                                <p className="fw-medium text-primary-light mb-1">{t('total_users')}</p>
                                 <h6 className="mb-0">20,000</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center">
@@ -22,7 +25,7 @@ const UnitCountOne = () => {
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
                                 <Icon icon="bxs:up-arrow" className="text-xs" /> +5000
                             </span>
-                            Last 30 days users
+                            {t('last_30_days_users')}
                         </p>
                     </div>
                 </div>
@@ -34,7 +37,7 @@ const UnitCountOne = () => {
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
                                 <p className="fw-medium text-primary-light mb-1">
-                                    Total Subscription
+                                    {t('total_subscription')}
                                 </p>
                                 <h6 className="mb-0">15,000</h6>
                             </div>
@@ -49,7 +52,7 @@ const UnitCountOne = () => {
                             <span className="d-inline-flex align-items-center gap-1 text-danger-main">
                                 <Icon icon="bxs:down-arrow" className="text-xs" /> -800
                             </span>
-                            Last 30 days subscription
+                            {t('last_30_days_subscription')}
                         </p>
                     </div>
                 </div>
@@ -61,7 +64,7 @@ const UnitCountOne = () => {
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
                                 <p className="fw-medium text-primary-light mb-1">
-                                    Total Free Users
+                                    {t('total_free_users')}
                                 </p>
                                 <h6 className="mb-0">5,000</h6>
                             </div>
@@ -76,7 +79,7 @@ const UnitCountOne = () => {
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
                                 <Icon icon="bxs:up-arrow" className="text-xs" /> +200
                             </span>
-                            Last 30 days users
+                            {t('last_30_days_users')}
                         </p>
                     </div>
                 </div>
@@ -87,7 +90,7 @@ const UnitCountOne = () => {
                     <div className="card-body p-20">
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
-                                <p className="fw-medium text-primary-light mb-1">Total Income</p>
+                                <p className="fw-medium text-primary-light mb-1">{t('total_income')}</p>
                                 <h6 className="mb-0">$42,000</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-success-main rounded-circle d-flex justify-content-center align-items-center">
@@ -101,7 +104,7 @@ const UnitCountOne = () => {
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
                                 <Icon icon="bxs:up-arrow" className="text-xs" /> +$20,000
                             </span>
-                            Last 30 days income
+                            {t('last_30_days_income')}
                         </p>
                     </div>
                 </div>
@@ -112,7 +115,7 @@ const UnitCountOne = () => {
                     <div className="card-body p-20">
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
-                                <p className="fw-medium text-primary-light mb-1">Total Expense</p>
+                                <p className="fw-medium text-primary-light mb-1">{t('total_expense')}</p>
                                 <h6 className="mb-0">$30,000</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-red rounded-circle d-flex justify-content-center align-items-center">
@@ -126,7 +129,7 @@ const UnitCountOne = () => {
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
                                 <Icon icon="bxs:up-arrow" className="text-xs" /> +$5,000
                             </span>
-                            Last 30 days expense
+                            {t('last_30_days_expense')}
                         </p>
                     </div>
                 </div>

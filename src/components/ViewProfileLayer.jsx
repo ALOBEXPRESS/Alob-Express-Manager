@@ -1,8 +1,10 @@
 "use client";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import { useState } from "react";
+import { useTranslations } from 'next-intl';
 
 const ViewProfileLayer = () => {
+  const t = useTranslations('profile');
   const [imagePreview, setImagePreview] = useState(
     "assets/images/user-grid/user-grid-img13.png"
   );
@@ -50,11 +52,11 @@ const ViewProfileLayer = () => {
               </span>
             </div>
             <div className='mt-24'>
-              <h6 className='text-xl mb-16'>Personal Info</h6>
+              <h6 className='text-xl mb-16'>{t('personal_info')}</h6>
               <ul>
                 <li className='d-flex align-items-center gap-1 mb-12'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
-                    Full Name
+                    {t('full_name')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : Will Jonto
@@ -63,7 +65,7 @@ const ViewProfileLayer = () => {
                 <li className='d-flex align-items-center gap-1 mb-12'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
                     {" "}
-                    Email
+                    {t('email')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : willjontoax@gmail.com
@@ -72,7 +74,7 @@ const ViewProfileLayer = () => {
                 <li className='d-flex align-items-center gap-1 mb-12'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
                     {" "}
-                    Phone Number
+                    {t('phone_number')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : (1) 2536 2561 2365
@@ -81,7 +83,7 @@ const ViewProfileLayer = () => {
                 <li className='d-flex align-items-center gap-1 mb-12'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
                     {" "}
-                    Department
+                    {t('department')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : Design
@@ -90,7 +92,7 @@ const ViewProfileLayer = () => {
                 <li className='d-flex align-items-center gap-1 mb-12'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
                     {" "}
-                    Designation
+                    {t('designation')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : UI UX Designer
@@ -99,7 +101,7 @@ const ViewProfileLayer = () => {
                 <li className='d-flex align-items-center gap-1 mb-12'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
                     {" "}
-                    Languages
+                    {t('languages')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : English
@@ -108,7 +110,7 @@ const ViewProfileLayer = () => {
                 <li className='d-flex align-items-center gap-1'>
                   <span className='w-30 text-md fw-semibold text-primary-light'>
                     {" "}
-                    Bio
+                    {t('bio')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
                     : Lorem Ipsum&nbsp;is simply dummy text of the printing and
@@ -139,7 +141,7 @@ const ViewProfileLayer = () => {
                   aria-controls='pills-edit-profile'
                   aria-selected='true'
                 >
-                  Edit Profile
+                  {t('edit_profile')}
                 </button>
               </li>
               <li className='nav-item' role='presentation'>
@@ -154,7 +156,7 @@ const ViewProfileLayer = () => {
                   aria-selected='false'
                   tabIndex={-1}
                 >
-                  Change Password
+                  {t('change_password')}
                 </button>
               </li>
               <li className='nav-item' role='presentation'>
@@ -169,7 +171,7 @@ const ViewProfileLayer = () => {
                   aria-selected='false'
                   tabIndex={-1}
                 >
-                  Notification Settings
+                  {t('notification_settings')}
                 </button>
               </li>
             </ul>
@@ -182,7 +184,7 @@ const ViewProfileLayer = () => {
                 tabIndex={0}
               >
                 <h6 className='text-md text-primary-light mb-16'>
-                  Profile Image
+                  {t('profile_image')}
                 </h6>
                 {/* Upload Image Start */}
                 <div className='mb-24 mt-16'>

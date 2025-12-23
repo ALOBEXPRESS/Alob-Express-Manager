@@ -5,19 +5,17 @@ import { useEffect } from "react";
 const CountryStatusOne = () => {
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
-    Promise.all([
-      import("jsvectormap"),
-      import("jsvectormap/dist/maps/world.js"),
-    ])
-      .then(([jsVectorMapModule]) => {
+    import("jsvectormap")
+      .then((jsVectorMapModule) => {
         const jsVectorMap = jsVectorMapModule.default;
-
         // Ensure jsVectorMap is attached to window if the library expects it
         window.jsVectorMap = jsVectorMap;
-
+        return import("jsvectormap/dist/maps/world.js").then(() => jsVectorMap);
+      })
+      .then((jsVectorMap) => {
         // Initialize the map
         const map = new jsVectorMap({
-          selector: "#map",
+          selector: "#map-country-status-one",
           map: "world",
           backgroundColor: "transparent",
           borderColor: "#fff",
@@ -109,8 +107,8 @@ const CountryStatusOne = () => {
           </div>
         </div>
         {/* world-map */}
-        <div id='world-map'>
-          <div id='map' />
+        <div id='world-map-country-status'>
+          <div id='map-country-status-one' />
         </div>
 
         <div className='card-body p-24 max-h-266-px scroll-sm overflow-y-auto'>

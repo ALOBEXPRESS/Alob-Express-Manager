@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 
 const TooltipTextWithIconPopup = () => {
   useEffect(() => {

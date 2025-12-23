@@ -8,6 +8,10 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 const GeneratedContent = () => {
   let { paymentStatusChartSeries, paymentStatusChartOptions } =
     useReactApexChart();
+  if (!paymentStatusChartOptions || !paymentStatusChartSeries) {
+    return null;
+  }
+
   return (
     <div className='col-xxl-6'>
       <div className='card h-100'>

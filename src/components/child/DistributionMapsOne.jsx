@@ -3,18 +3,16 @@ import { useEffect } from "react";
 const DistributionMapsOne = () => {
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
-    Promise.all([
-      import("jsvectormap"),
-      import("jsvectormap/dist/maps/world.js"),
-    ])
-      .then(([jsVectorMapModule]) => {
+    import("jsvectormap")
+      .then((jsVectorMapModule) => {
         const jsVectorMap = jsVectorMapModule.default;
-
         // Ensure jsVectorMap is attached to window if the library expects it
         window.jsVectorMap = jsVectorMap;
-
+        return import("jsvectormap/dist/maps/world.js").then(() => jsVectorMap);
+      })
+      .then((jsVectorMap) => {
         const map = new jsVectorMap({
-          selector: "#map",
+          selector: "#map-distribution-maps-one",
           map: "world",
           backgroundColor: "transparent",
           borderColor: "#fff",
@@ -105,8 +103,8 @@ const DistributionMapsOne = () => {
             </div>
           </div>
         </div>
-        <div id='world-map'>
-          <div id='map' />
+        <div id='world-map-distribution'>
+          <div id='map-distribution-maps-one' />
         </div>
         <div className='card-body p-24 max-h-266-px scroll-sm overflow-y-auto'>
           <div className=''>
