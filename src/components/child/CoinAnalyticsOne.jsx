@@ -2,18 +2,22 @@
 import useReactApexChart from "../../hook/useReactApexChart";
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
+import { useTranslations } from 'next-intl';
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const CoinAnalyticsOne = () => {
   let { candleStickChartSeries, candleStickChartOptions } = useReactApexChart();
+  const t = useTranslations('dashboard');
+
   return (
     <div className='col-12'>
       <div className='card h-100 radius-8 border-0'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg'>Coin Analytics</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t('coin_analytics')}</h6>
             <div className='d-flex flex-wrap align-items-center gap-4'>
               <div className='form-check d-flex align-items-center'>
                 <input
@@ -81,18 +85,18 @@ const CoinAnalyticsOne = () => {
               defaultValue='Select Frequency'
             >
               <option value='Select Frequency' disabled>
-                Select Frequency
+                {t('select_frequency')}
               </option>
-              <option value='Yearly'>Yearly</option>
-              <option value='Monthly'>Monthly</option>
-              <option value='Weekly'>Weekly</option>
-              <option value='Today'>Today</option>
+              <option value='Yearly'>{t('yearly')}</option>
+              <option value='Monthly'>{t('monthly')}</option>
+              <option value='Weekly'>{t('weekly')}</option>
+              <option value='Today'>{t('today')}</option>
             </select>
           </div>
           <div className='d-flex align-items-center gap-2 mt-12'>
             <h6 className='fw-semibold mb-0'>$25,000</h6>
             <p className='text-sm mb-0 d-flex align-items-center gap-1'>
-              Bitcoin (BTC)
+              {t('bitcoin')} (BTC)
               <span className='bg-success-focus border border-success px-8 py-2 rounded-pill fw-semibold text-success-main text-sm d-inline-flex align-items-center gap-1'>
                 10%
                 <Icon icon='iconamoon:arrow-up-2-fill' className='icon' />

@@ -1,7 +1,11 @@
 "use client";
 import { useEffect } from "react";
 
+import { useTranslations } from "next-intl";
+
 const TopCountriesTwo = () => {
+  const t = useTranslations("dashboard");
+
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
     import("jsvectormap")
@@ -37,11 +41,11 @@ const TopCountriesTwo = () => {
             },
           },
           markers: [
-            { coords: [35.8617, 104.1954], name: "China : 250" },
-            { coords: [25.2744, 133.7751], name: "Australia : 250" },
-            { coords: [36.77, -119.41], name: "USA : 82%" },
-            { coords: [55.37, -3.41], name: "UK : 250" },
-            { coords: [25.2, 55.27], name: "UAE : 250" },
+            { coords: [35.8617, 104.1954], name: `${t("china")} : 250` },
+            { coords: [25.2744, 133.7751], name: `${t("australia")} : 250` },
+            { coords: [36.77, -119.41], name: `${t("usa")} : 82%` },
+            { coords: [55.37, -3.41], name: `${t("uk")} : 250` },
+            { coords: [25.2, 55.27], name: `${t("uae")} : 250` },
           ],
           series: {
             regions: [
@@ -84,12 +88,12 @@ const TopCountriesTwo = () => {
       .catch((error) => {
         console.error("Failed to initialize jsVectorMap:", error);
       });
-  }, []);
+  }, [t]);
   return (
     <div className='col-xxl-3'>
       <div className='card radius-8 border-0'>
         <div className='card-body'>
-          <h6 className='mb-2 fw-bold text-lg'>Most Location</h6>
+          <h6 className='mb-2 fw-bold text-lg'>{t("most_location")}</h6>
         </div>
         <div id='world-map-top-countries-two' className='map-sm'>
           <div id='map-top-countries-two'></div>
@@ -104,9 +108,9 @@ const TopCountriesTwo = () => {
                   className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
                 />
                 <div className='flex-grow-1'>
-                  <h6 className='text-sm mb-0'>USA</h6>
+                  <h6 className='text-sm mb-0'>{t("usa")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    {t("users_count", { count: "1,240" })}
                   </span>
                 </div>
               </div>
@@ -139,9 +143,9 @@ const TopCountriesTwo = () => {
                   className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
                 />
                 <div className='flex-grow-1'>
-                  <h6 className='text-sm mb-0'>Japan</h6>
+                  <h6 className='text-sm mb-0'>{t("japan")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    {t("users_count", { count: "1,240" })}
                   </span>
                 </div>
               </div>
@@ -174,9 +178,9 @@ const TopCountriesTwo = () => {
                   className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
                 />
                 <div className='flex-grow-1'>
-                  <h6 className='text-sm mb-0'>France</h6>
+                  <h6 className='text-sm mb-0'>{t("france")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    {t("users_count", { count: "1,240" })}
                   </span>
                 </div>
               </div>
@@ -209,9 +213,9 @@ const TopCountriesTwo = () => {
                   className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
                 />
                 <div className='flex-grow-1'>
-                  <h6 className='text-sm mb-0'>Germany</h6>
+                  <h6 className='text-sm mb-0'>{t("germany")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    {t("users_count", { count: "1,240" })}
                   </span>
                 </div>
               </div>

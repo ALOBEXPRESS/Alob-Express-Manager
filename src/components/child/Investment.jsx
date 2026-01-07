@@ -1,21 +1,57 @@
+"use client";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+
 const Investment = () => {
+  const t = useTranslations("dashboard");
+  const [selectedPeriod, setSelectedPeriod] = useState(t("weekly"));
+
+  const data = {
+    [t("today")]: {
+      total: "$120",
+      percentages: { income: "70%", realState: "20%", business: "10%" },
+      values: { income: "$84", realState: "$24", business: "$12" }
+    },
+    [t("weekly")]: {
+      total: "$500",
+      percentages: { income: "60%", realState: "30%", business: "10%" },
+      values: { income: "$50,000", realState: "$150", business: "$100" }
+    },
+    [t("monthly")]: {
+      total: "$2,500",
+      percentages: { income: "50%", realState: "35%", business: "15%" },
+      values: { income: "$1,250", realState: "$875", business: "$375" }
+    },
+    [t("yearly")]: {
+      total: "$30,000",
+      percentages: { income: "40%", realState: "40%", business: "20%" },
+      values: { income: "$12,000", realState: "$12,000", business: "$6,000" }
+    }
+  };
+
+  const currentData = data[selectedPeriod] || data[t("weekly")];
+
   return (
     <div className='card radius-16 mt-24'>
       <div className='card-header'>
         <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-          <h6 className='mb-2 fw-bold text-lg mb-0'>Investment</h6>
-          <select className='form-select form-select-sm w-auto bg-base border text-secondary-light'>
-            <option>Today</option>
-            <option>Weekly</option>
-            <option>Monthly</option>
-            <option>Yearly</option>
+          <h6 className='mb-2 fw-bold text-lg mb-0'>{t("investment")}</h6>
+          <select 
+            className='form-select form-select-sm w-auto bg-base border text-secondary-light'
+            value={selectedPeriod}
+            onChange={(e) => setSelectedPeriod(e.target.value)}
+          >
+            <option value={t("today")}>{t("today")}</option>
+            <option value={t("weekly")}>{t("weekly")}</option>
+            <option value={t("monthly")}>{t("monthly")}</option>
+            <option value={t("yearly")}>{t("yearly")}</option>
           </select>
         </div>
       </div>
       <div className='card-body py-20'>
         <p className='text-center text-secondary-light d-flex align-items-center gap-8 justify-content-center'>
-          Total Investment:{" "}
-          <span className='fw-semibold text-primary-light'>$500</span>{" "}
+          {t("total_investment")}:{" "}
+          <span className='fw-semibold text-primary-light'>{currentData.total}</span>{" "}
         </p>
         <div className='mt-40 mb-24 text-center pe-110 position-relative max-w-288-px mx-auto'>
           <div className='w-170-px h-170-px rounded-circle z-1 position-relative d-inline-flex justify-content-center align-items-center border border-white border-width-2-px'>
@@ -24,7 +60,7 @@ const Investment = () => {
               alt=''
               className='position-absolute top-0 start-0 z-n1 w-100 h-100 object-fit-cover'
             />
-            <h5 className='text-white'> 60% </h5>
+            <h5 className='text-white'> {currentData.percentages.income} </h5>
           </div>
           <div className='w-144-px h-144-px rounded-circle z-1 position-relative d-inline-flex justify-content-center align-items-center border border-white border-width-3-px position-absolute top-0 end-0 mt--36'>
             <img
@@ -32,7 +68,7 @@ const Investment = () => {
               alt=''
               className='position-absolute top-0 start-0 z-n1 w-100 h-100 object-fit-cover'
             />
-            <h5 className='text-white'> 30% </h5>
+            <h5 className='text-white'> {currentData.percentages.realState} </h5>
           </div>
           <div className='w-110-px h-110-px rounded-circle z-1 position-relative d-inline-flex justify-content-center align-items-center border border-white border-width-3-px position-absolute bottom-0 start-50 translate-middle-x ms-48'>
             <img
@@ -40,7 +76,7 @@ const Investment = () => {
               alt=''
               className='position-absolute top-0 start-0 z-n1 w-100 h-100 object-fit-cover'
             />
-            <h5 className='text-white'> 10% </h5>
+            <h5 className='text-white'> {currentData.percentages.business} </h5>
           </div>
         </div>
         <div className='d-flex align-items-center flex-wrap gap-24 justify-content-between'>
@@ -48,33 +84,33 @@ const Investment = () => {
             <div className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-pill bg-primary-600' />
               <span className='text-secondary-light text-sm fw-normal'>
-                Net Income
+                {t("net_income")}
               </span>
             </div>
             <h6 className='text-primary-light fw-semibold mb-0 mt-4 text-lg'>
-              $50,000
+              {currentData.values.income}
             </h6>
           </div>
           <div className='d-flex flex-column align-items-start'>
             <div className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-pill bg-purple' />
               <span className='text-secondary-light text-sm fw-normal'>
-                Real State
+                {t("real_state")}
               </span>
             </div>
             <h6 className='text-primary-light fw-semibold mb-0 mt-4 text-lg'>
-              $150
+              {currentData.values.realState}
             </h6>
           </div>
           <div className='d-flex flex-column align-items-start'>
             <div className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-pill bg-success-600' />
               <span className='text-secondary-light text-sm fw-normal'>
-                Business
+                {t("business")}
               </span>
             </div>
             <h6 className='text-primary-light fw-semibold mb-0 mt-4 text-lg'>
-              $100
+              {currentData.values.business}
             </h6>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const BannerInnerOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-12'>
       <div className='nft-promo-card card radius-12 overflow-hidden position-relative z-1'>
@@ -19,25 +21,23 @@ const BannerInnerOne = () => {
           </div>
           <div className='flex-grow-1'>
             <h4 className='mb-16 text-white'>
-              Discover The Largest NFTs Marketplace
+              {t("discover_largest_nft_marketplace")}
             </h4>
             <p className='text-white text-md'>
-              The largest NFT (Non-Fungible Token) marketplace is OpenSea.
-              Established in 2017, OpenSea has grown to become the leading
-              platform for buying, selling, and trading digital assets,
+              {t("opensea_description")}
             </p>
             <div className='d-flex align-items-center flex-wrap mt-24 gap-16'>
               <Link
                 href='#'
                 className='btn rounded-pill border br-white text-white radius-8 px-32 py-11 hover-bg-white text-hover-neutral-900'
               >
-                Explore
+                {t("explore")}
               </Link>
               <Link
                 href='#'
                 className='btn rounded-pill btn-primary-600 radius-8 px-28 py-11'
               >
-                Create Now
+                {t("create_now")}
               </Link>
             </div>
           </div>

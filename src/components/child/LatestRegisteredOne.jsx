@@ -1,8 +1,66 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 const LatestRegisteredOne = () => {
+  const t = useTranslations('dashboard');
+  const tCommon = useTranslations('common');
+  const [showAll, setShowAll] = useState(false);
+
+  const initialData = [
+    {
+      image: '/assets/images/users/user1.png',
+      name: 'Dianne Russell',
+      email: 'redaniel@gmail.com',
+      date: '27 Mar 2024',
+      plan: 'free',
+      status: 'active'
+    },
+    {
+      image: '/assets/images/users/user2.png',
+      name: 'Wade Warren',
+      email: 'xterris@gmail.com',
+      date: '27 Mar 2024',
+      plan: 'basic',
+      status: 'active'
+    },
+    {
+      image: '/assets/images/users/user3.png',
+      name: 'Albert Flores',
+      email: 'seannand@mail.ru',
+      date: '27 Mar 2024',
+      plan: 'standard',
+      status: 'active'
+    },
+    {
+      image: '/assets/images/users/user4.png',
+      name: 'Bessie Cooper',
+      email: 'igerrin@gmail.com',
+      date: '27 Mar 2024',
+      plan: 'business',
+      status: 'active'
+    },
+    {
+      image: '/assets/images/users/user5.png',
+      name: 'Arlene McCoy',
+      email: 'fellx@mail.ru',
+      date: '27 Mar 2024',
+      plan: 'enterprise',
+      status: 'active'
+    }
+  ];
+
+  // If showAll is true, duplicate data to simulate more users
+  const displayData = showAll 
+    ? [...initialData, ...initialData, ...initialData] 
+    : initialData;
+
+  const handleViewAll = (e) => {
+    e.preventDefault();
+    setShowAll(!showAll);
+  };
+
   return (
     <div className='col-xxl-9 col-xl-12'>
       <div className='card h-100'>
@@ -24,9 +82,9 @@ const LatestRegisteredOne = () => {
                   aria-controls='pills-to-do-list'
                   aria-selected='true'
                 >
-                  Latest Registered
+                  {t('latest_registered')}
                   <span className='text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert'>
-                    35
+                    {displayData.length}
                   </span>
                 </button>
               </li>
@@ -42,20 +100,21 @@ const LatestRegisteredOne = () => {
                   aria-selected='false'
                   tabIndex={-1}
                 >
-                  Latest Subscribe
+                  {t('latest_subscribe')}
                   <span className='text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert'>
                     35
                   </span>
                 </button>
               </li>
             </ul>
-            <Link
-              href='#'
+            <button
+              type='button'
+              onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {showAll ? tCommon('show_less') : tCommon('view_all')}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
           <div className='tab-content' id='pills-tabContent'>
             <div
@@ -69,302 +128,58 @@ const LatestRegisteredOne = () => {
                 <table className='table bordered-table sm-table mb-0'>
                   <thead>
                     <tr>
-                      <th scope='col'>Users </th>
-                      <th scope='col'>Registered On</th>
-                      <th scope='col'>Plan</th>
+                      <th scope='col'>{tCommon('users')} </th>
+                      <th scope='col'>{t('registered_on')}</th>
+                      <th scope='col'>{t('plan')}</th>
                       <th scope='col' className='text-center'>
-                        Status
+                        {tCommon('status')}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user1.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Dianne Russell
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              redaniel@gmail.com
-                            </span>
+                    {displayData.map((user, index) => (
+                      <tr key={index}>
+                        <td>
+                          <div className='d-flex align-items-center'>
+                            <img
+                              src={user.image}
+                              alt=''
+                              className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
+                            />
+                            <div className='flex-grow-1'>
+                              <h6 className='text-md mb-0 fw-medium'>
+                                {user.name}
+                              </h6>
+                              <span className='text-sm text-secondary-light fw-medium'>
+                                {user.email}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Free</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user2.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Wade Warren
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              xterris@gmail.com
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Basic</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user3.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Albert Flores
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              seannand@mail.ru
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Standard</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user4.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Bessie Cooper{" "}
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              igerrin@gmail.com
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Business</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user5.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Arlene McCoy
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              fellora@mail.ru
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Enterprise </td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
+                        </td>
+                        <td>{user.date}</td>
+                        <td>{t(user.plan)}</td>
+                        <td className='text-center'>
+                          <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
+                            {t(user.status)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div
+            {/* Placeholder for Recent Leads tab content if needed */}
+             <div
               className='tab-pane fade'
               id='pills-recent-leads'
               role='tabpanel'
               aria-labelledby='pills-recent-leads-tab'
               tabIndex={0}
             >
-              <div className='table-responsive scroll-sm'>
-                <table className='table bordered-table sm-table mb-0'>
-                  <thead>
-                    <tr>
-                      <th scope='col'>Users </th>
-                      <th scope='col'>Registered On</th>
-                      <th scope='col'>Plan</th>
-                      <th scope='col' className='text-center'>
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user1.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Dianne Russell
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              redaniel@gmail.com
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Free</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user2.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Wade Warren
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              xterris@gmail.com
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Basic</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user3.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Albert Flores
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              seannand@mail.ru
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Standard</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user4.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Bessie Cooper{" "}
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              igerrin@gmail.com
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Business</td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <img
-                            src='/assets/images/users/user5.png'
-                            alt=''
-                            className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
-                          />
-                          <div className='flex-grow-1'>
-                            <h6 className='text-md mb-0 fw-medium'>
-                              Arlene McCoy
-                            </h6>
-                            <span className='text-sm text-secondary-light fw-medium'>
-                              fellora@mail.ru
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>27 Mar 2024</td>
-                      <td>Enterprise </td>
-                      <td className='text-center'>
-                        <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                          Active
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+               <div className="p-3 text-center">
+                  Content for Latest Subscribe
+               </div>
             </div>
           </div>
         </div>

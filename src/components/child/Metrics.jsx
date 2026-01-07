@@ -2,9 +2,26 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 import useReactApexChart from "../../hook/useReactApexChart";
+import dynamic from 'next/dynamic';
+
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const Metrics = () => {
-  let { createChartTen, createChatEleven } = useReactApexChart();
+  let { createChartTenConfig, createChatElevenConfig } = useReactApexChart();
+
+  const renderChart = (color) => {
+    const { options, series } = createChartTenConfig(color);
+    return (
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="area"
+        height={50}
+        width={80}
+      />
+    );
+  };
+
   return (
     <div className='card h-100 p-0 radius-12'>
       <div className='card-header border-bottom bg-base py-16 px-24'>
@@ -178,7 +195,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChartTen("#487fff")}
+                      {renderChart("#487fff")}
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
@@ -214,7 +231,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChartTen("#45b369")}
+                      {renderChart("#45b369")}
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
@@ -247,7 +264,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChartTen("#f4941e")}
+                      {renderChart("#f4941e")}
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
@@ -280,7 +297,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChartTen("#8252e9")}
+                      {renderChart("#8252e9")}
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
@@ -416,7 +433,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChatEleven("#F98C08")}
+                      {renderChart("#F98C08")}
                     </div>
                   </div>
                 </div>
@@ -446,7 +463,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChatEleven("#5F80FF")}
+                      {renderChart("#5F80FF")}
                     </div>
                   </div>
                 </div>
@@ -476,7 +493,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChatEleven("#C817F8")}
+                      {renderChart("#C817F8")}
                     </div>
                   </div>
                 </div>
@@ -506,7 +523,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChatEleven("#2171EA")}
+                      {renderChart("#2171EA")}
                     </div>
                   </div>
                 </div>
@@ -538,7 +555,7 @@ const Metrics = () => {
                       className='remove-tooltip-title rounded-tooltip-value'
                     >
                       {/* pass the color value */}
-                      {createChatEleven("#C2A633")}
+                      {renderChart("#C2A633")}
                     </div>
                   </div>
                 </div>

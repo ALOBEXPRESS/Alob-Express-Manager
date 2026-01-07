@@ -5,7 +5,10 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+import { useTranslations } from "next-intl";
+
 const useReactApexChart = () => {
+  const t = useTranslations("dashboard");
   // --- Area Chart (Existing) ---
   let chartSeries = [
     {
@@ -81,8 +84,8 @@ const useReactApexChart = () => {
     },
   };
 
-  // --- Helper to create simple Area Sparklines ---
-  const createAreaSparkline = (color, height = 50, width = 100) => {
+  // --- Helper to create simple Area Sparklines Options & Series ---
+  const getAreaSparklineConfig = (color, height = 50, width = 100) => {
     const series = [{
       name: "Data",
       data: [10, 20, 15, 30, 25, 40, 35, 50]
@@ -107,6 +110,12 @@ const useReactApexChart = () => {
       tooltip: { fixed: { enabled: false }, x: { show: false }, marker: { show: false } },
       colors: [color]
     };
+    return { series, options };
+  };
+
+  // --- Helper to create simple Area Sparklines Component ---
+  const createAreaSparkline = (color, height = 50, width = 100) => {
+    const { series, options } = getAreaSparklineConfig(color, height, width);
     
     return (
       <ReactApexChart
@@ -121,10 +130,19 @@ const useReactApexChart = () => {
 
   // --- Helper Functions ---
   const createChart = (color) => createAreaSparkline(color, 50, 100);
+  const createChartConfig = (color) => getAreaSparklineConfig(color, 50, 100);
+  
   const createChartTwo = (color, height) => createAreaSparkline(color, height, "100%");
+  const createChartTwoConfig = (color, height) => getAreaSparklineConfig(color, height, "100%");
+  
   const createChartThree = (color) => createAreaSparkline(color, 60, 120);
+  const createChartThreeConfig = (color) => getAreaSparklineConfig(color, 60, 120);
+  
   const createChartFive = (color) => createAreaSparkline(color, 60, 100);
+  const createChartFiveConfig = (color) => getAreaSparklineConfig(color, 60, 100);
+  
   const createChartNine = (color = "#487fff") => createAreaSparkline(color, 40, 80);
+  const createChartNineConfig = (color = "#487fff") => getAreaSparklineConfig(color, 40, 80);
 
   // --- Gauge / Radial ---
   const semiCircleGaugeSeriesOne = [75];
@@ -543,12 +561,14 @@ const useReactApexChart = () => {
 
   // --- Helper for StatisticsOne ---
   const createChartEight = (color) => createAreaSparkline(color, 80, 160);
+  const createChartEightConfig = (color) => getAreaSparklineConfig(color, 80, 160);
   
   // --- Helper for CoinAnalyticsTwo ---
   const createChartFour = (color, height, width) => createAreaSparkline(color, height, width);
+  const createChartFourConfig = (color, height, width) => getAreaSparklineConfig(color, height, width);
 
   // --- Helper for UnitCountFive ---
-  const createChartSix = (color1, color2) => {
+  const createChartSixConfig = (color1, color2) => {
     const series = [
       { name: "Paid", data: [10, 20, 15, 30, 25, 40, 35, 50] },
       { name: "Free", data: [5, 15, 10, 25, 20, 35, 30, 45] }
@@ -565,15 +585,23 @@ const useReactApexChart = () => {
       tooltip: { x: { show: false } },
       legend: { show: false }
     };
+    return { series, options };
+  };
+
+  const createChartSix = (color1, color2) => {
+    const { series, options } = createChartSixConfig(color1, color2);
     return <ReactApexChart options={options} series={series} type="area" height={264} />;
   };
 
   // --- Helper for ETHPriceOne ---
   const createChartSeven = (color) => createAreaSparkline(color, 80, 160);
+  const createChartSevenConfig = (color) => getAreaSparklineConfig(color, 80, 160);
 
   // --- Helper for Metrics ---
   const createChartTen = (color) => createAreaSparkline(color, 50, 80);
+  const createChartTenConfig = (color) => getAreaSparklineConfig(color, 50, 80);
   const createChatEleven = (color) => createAreaSparkline(color, 50, 80); // Note spelling match with component
+  const createChatElevenConfig = (color) => getAreaSparklineConfig(color, 50, 80);
 
   // --- Payment Status Chart One (CourseActivityOne) ---
   const paymentStatusChartSeriesOne = [{
@@ -777,20 +805,59 @@ const useReactApexChart = () => {
     dataLabels: { enabled: false }
   };
 
+  // --- Added for missing charts ---
+  const enrollmentChartSeries = chartSeries;
+  const enrollmentChartOptions = chartOptions;
+
+  const radialMultipleBarSeries = [80, 40, 10];
+  const radialMultipleBarOptions = {
+    chart: { type: "radialBar", height: 300 },
+    plotOptions: {
+      radialBar: {
+        hollow: { size: '50%' },
+        dataLabels: {
+          name: { show: false },
+          value: { show: false }
+        }
+      }
+    },
+    colors: ["#487FFF", "#FF9F43", "#28C76F"],
+    labels: ["Cardiology", "Psychiatry", "Pediatrics"]
+  };
+
+  const paymentStatusChartSeriesFour = barChartSeries;
+  const paymentStatusChartOptionsFour = barChartOptions;
+
+  const statisticsDonutChartSeriesTwo = basicDonutChartSeries;
+  const statisticsDonutChartOptionsTwo = basicDonutChartOptions;
+
   return {
     chartOptions,
     chartSeries,
+    timeSeriesChartOptions: chartOptions,
+    timeSeriesChartSeries: chartSeries,
     createChart,
+    createChartConfig,
     createChartTwo,
+    createChartTwoConfig,
     createChartThree,
+    createChartThreeConfig,
     createChartFour,
+    createChartFourConfig,
     createChartFive,
+    createChartFiveConfig,
     createChartSix,
+    createChartSixConfig,
     createChartSeven,
+    createChartSevenConfig,
     createChartNine,
+    createChartNineConfig,
     createChartEight,
+    createChartEightConfig,
     createChartTen,
+    createChartTenConfig,
     createChatEleven,
+    createChatElevenConfig,
     semiCircleGaugeSeriesOne,
     semiCircleGaugeOptionsOne,
     dailyIconBarChartSeriesOne,
@@ -868,7 +935,15 @@ const useReactApexChart = () => {
     purchaseSaleChartSeries,
     purchaseSaleChartOptions,
     statisticsDonutChartSeries,
-    statisticsDonutChartOptions
+    statisticsDonutChartOptions,
+    enrollmentChartSeries,
+    enrollmentChartOptions,
+    radialMultipleBarSeries,
+    radialMultipleBarOptions,
+    paymentStatusChartSeriesFour,
+    paymentStatusChartOptionsFour,
+    statisticsDonutChartSeriesTwo,
+    statisticsDonutChartOptionsTwo
   };
 };
 

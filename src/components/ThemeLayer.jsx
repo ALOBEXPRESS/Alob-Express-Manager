@@ -1,9 +1,26 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ThemeLayer = () => {
   const [previewImage1, setPreviewImage1] = useState("");
   const [previewImage2, setPreviewImage2] = useState("");
+  const [activeThemeColor, setActiveThemeColor] = useState("blue");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedColor = localStorage.getItem("theme-color") || "blue";
+      setActiveThemeColor(storedColor);
+      document.documentElement.setAttribute("data-theme-color", storedColor);
+    }
+  }, []);
+
+  const handleColorChange = (color) => {
+    setActiveThemeColor(color);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme-color", color);
+      document.documentElement.setAttribute("data-theme-color", color);
+    }
+  };
 
   const readURL = (input, setPreviewImage) => {
     if (input.target.files && input.target.files[0]) {
@@ -14,10 +31,15 @@ const ThemeLayer = () => {
       reader.readAsDataURL(input.target.files[0]);
     }
   };
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Logic to save changes if needed, but changes are already saved on change
+  };
+
   return (
     <div className='card h-100 p-0 radius-12'>
       <div className='card-body p-24'>
-        <form action='#'>
+        <form action='#' onSubmit={handleFormSubmit}>
           <div className='row gy-4'>
             <div className='col-md-6'>
               <label
@@ -81,10 +103,11 @@ const ThemeLayer = () => {
               <div className='col-xxl-2 col-md-4 col-sm-6'>
                 <input
                   className='form-check-input payment-gateway-input'
-                  name='payment-gateway'
+                  name='theme-color'
                   type='radio'
                   id='blue'
-                  hidden={true}
+                  checked={activeThemeColor === 'blue'}
+                  onChange={() => handleColorChange('blue')}
                 />
                 <label
                   htmlFor='blue'
@@ -109,10 +132,11 @@ const ThemeLayer = () => {
               <div className='col-xxl-2 col-md-4 col-sm-6'>
                 <input
                   className='form-check-input payment-gateway-input'
-                  name='payment-gateway'
+                  name='theme-color'
                   type='radio'
                   id='magenta'
-                  hidden={true}
+                  checked={activeThemeColor === 'magenta'}
+                  onChange={() => handleColorChange('magenta')}
                 />
                 <label
                   htmlFor='magenta'
@@ -137,10 +161,11 @@ const ThemeLayer = () => {
               <div className='col-xxl-2 col-md-4 col-sm-6'>
                 <input
                   className='form-check-input payment-gateway-input'
-                  name='payment-gateway'
+                  name='theme-color'
                   type='radio'
                   id='orange'
-                  hidden={true}
+                  checked={activeThemeColor === 'orange'}
+                  onChange={() => handleColorChange('orange')}
                 />
                 <label
                   htmlFor='orange'
@@ -165,10 +190,11 @@ const ThemeLayer = () => {
               <div className='col-xxl-2 col-md-4 col-sm-6'>
                 <input
                   className='form-check-input payment-gateway-input'
-                  name='payment-gateway'
+                  name='theme-color'
                   type='radio'
                   id='green'
-                  hidden={true}
+                  checked={activeThemeColor === 'green'}
+                  onChange={() => handleColorChange('green')}
                 />
                 <label
                   htmlFor='green'
@@ -193,10 +219,11 @@ const ThemeLayer = () => {
               <div className='col-xxl-2 col-md-4 col-sm-6'>
                 <input
                   className='form-check-input payment-gateway-input'
-                  name='payment-gateway'
+                  name='theme-color'
                   type='radio'
                   id='red'
-                  hidden={true}
+                  checked={activeThemeColor === 'red'}
+                  onChange={() => handleColorChange('red')}
                 />
                 <label
                   htmlFor='red'
@@ -221,10 +248,11 @@ const ThemeLayer = () => {
               <div className='col-xxl-2 col-md-4 col-sm-6'>
                 <input
                   className='form-check-input payment-gateway-input'
-                  name='payment-gateway'
+                  name='theme-color'
                   type='radio'
                   id='blueDark'
-                  hidden={true}
+                  checked={activeThemeColor === 'blueDark'}
+                  onChange={() => handleColorChange('blueDark')}
                 />
                 <label
                   htmlFor='blueDark'

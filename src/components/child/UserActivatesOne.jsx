@@ -1,6 +1,8 @@
 "use client";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
+import { useTranslations } from 'next-intl';
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -8,20 +10,22 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 const UserActivatesOne = () => {
   let { statisticsDonutChartSeriesThree, statisticsDonutChartOptionsThree } =
     useReactApexChart();
+  const t = useTranslations('dashboard');
+  
   return (
     <div className='col-xxl-12 col-lg-6'>
       <div className='card h-100 radius-8 border-0'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg'>User Activates</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t('user_activates')}</h6>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                 defaultValue='This Week'
               >
-                <option value='This Week'>This Week</option>
-                <option value='This Month'>This Month</option>
-                <option value='This Year'>This Year</option>
+                <option value='This Week'>{t('this_week')}</option>
+                <option value='This Month'>{t('this_month')}</option>
+                <option value='This Year'>{t('this_year')}</option>
               </select>
             </div>
           </div>
@@ -45,14 +49,14 @@ const UserActivatesOne = () => {
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px radius-2 bg-primary-600' />
               <span className='text-secondary-light text-sm fw-normal'>
-                Visits By Day:
+                {t('visits_by_day')}:
                 <span className='text-primary-light fw-bold'>20,000</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px radius-2 bg-yellow' />
               <span className='text-secondary-light text-sm fw-normal'>
-                Referral Join:
+                {t('referral_join')}:
                 <span className='text-primary-light fw-bold'>25,000</span>
               </span>
             </li>

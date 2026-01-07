@@ -1,18 +1,22 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 const RecentTransactionOne = () => {
+  const t = useTranslations('dashboard');
+  const tCommon = useTranslations('common');
+  
   return (
     <div className='col-xxl-12'>
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Recent Transaction</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t('recent_transaction')}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {tCommon('view_all')}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
             </Link>
           </div>
@@ -20,12 +24,12 @@ const RecentTransactionOne = () => {
             <table className='table bordered-table mb-0 xsm-table'>
               <thead>
                 <tr>
-                  <th scope='col'>Ast</th>
-                  <th scope='col'>Date &amp; Time</th>
-                  <th scope='col'>Amount</th>
-                  <th scope='col'>Address</th>
+                  <th scope='col'>{t('ast')}</th>
+                  <th scope='col'>{t('date_time')}</th>
+                  <th scope='col'>{tCommon('amount')}</th>
+                  <th scope='col'>{t('address')}</th>
                   <th scope='col' className='text-center'>
-                    Status
+                    {tCommon('status')}
                   </th>
                 </tr>
               </thead>
@@ -36,7 +40,7 @@ const RecentTransactionOne = () => {
                       <span className='text-success-main bg-success-focus w-32-px h-32-px d-flex align-items-center justify-content-center rounded-circle text-xl'>
                         <Icon icon='tabler:arrow-up-right' className='icon' />
                       </span>
-                      <span className='fw-medium'>Bitcoin</span>
+                      <span className='fw-medium'>{t('bitcoin')}</span>
                     </div>
                   </td>
                   <td>
@@ -58,7 +62,7 @@ const RecentTransactionOne = () => {
                   <td>Abc.........np562</td>
                   <td className='text-center'>
                     <span className='bg-success-focus text-success-main px-16 py-4 radius-4 fw-medium text-sm'>
-                      Completed
+                      {t('completed')}
                     </span>
                   </td>
                 </tr>
@@ -68,7 +72,7 @@ const RecentTransactionOne = () => {
                       <span className='text-danger-main bg-danger-focus w-32-px h-32-px d-flex align-items-center justify-content-center rounded-circle text-xl'>
                         <Icon icon='tabler:arrow-down-left' className='icon' />
                       </span>
-                      <span className='fw-medium'>Bitcoin</span>
+                      <span className='fw-medium'>{t('bitcoin')}</span>
                     </div>
                   </td>
                   <td>
@@ -90,7 +94,7 @@ const RecentTransactionOne = () => {
                   <td>Abc.........np562</td>
                   <td className='text-center'>
                     <span className='bg-danger-focus text-danger-main px-16 py-4 radius-4 fw-medium text-sm'>
-                      Terminated
+                      {t('terminated')}
                     </span>
                   </td>
                 </tr>
@@ -100,7 +104,7 @@ const RecentTransactionOne = () => {
                       <span className='text-success-main bg-success-focus w-32-px h-32-px d-flex align-items-center justify-content-center rounded-circle text-xl'>
                         <Icon icon='tabler:arrow-up-right' className='icon' />
                       </span>
-                      <span className='fw-medium'>Bitcoin</span>
+                      <span className='fw-medium'>{t('bitcoin')}</span>
                     </div>
                   </td>
                   <td>
@@ -122,7 +126,7 @@ const RecentTransactionOne = () => {
                   <td>Abc.........np562</td>
                   <td className='text-center'>
                     <span className='bg-success-focus text-success-main px-16 py-4 radius-4 fw-medium text-sm'>
-                      Completed
+                      {t('completed')}
                     </span>
                   </td>
                 </tr>
@@ -132,7 +136,7 @@ const RecentTransactionOne = () => {
                       <span className='text-danger-main bg-danger-focus w-32-px h-32-px d-flex align-items-center justify-content-center rounded-circle text-xl'>
                         <Icon icon='tabler:arrow-down-left' className='icon' />
                       </span>
-                      <span className='fw-medium'>Bitcoin</span>
+                      <span className='fw-medium'>{t('bitcoin')}</span>
                     </div>
                   </td>
                   <td>
@@ -154,7 +158,7 @@ const RecentTransactionOne = () => {
                   <td>Abc.........np562</td>
                   <td className='text-center'>
                     <span className='bg-danger-focus text-danger-main px-16 py-4 radius-4 fw-medium text-sm'>
-                      Terminated
+                      {t('terminated')}
                     </span>
                   </td>
                 </tr>
@@ -164,7 +168,7 @@ const RecentTransactionOne = () => {
                       <span className='text-success-main bg-success-focus w-32-px h-32-px d-flex align-items-center justify-content-center rounded-circle text-xl'>
                         <Icon icon='tabler:arrow-up-right' className='icon' />
                       </span>
-                      <span className='fw-medium'>Bitcoin</span>
+                      <span className='fw-medium'>{t('bitcoin')}</span>
                     </div>
                   </td>
                   <td>
@@ -186,7 +190,7 @@ const RecentTransactionOne = () => {
                   <td>Abc.........np562</td>
                   <td className='text-center'>
                     <span className='bg-success-focus text-success-main px-16 py-4 radius-4 fw-medium text-sm'>
-                      Completed
+                      {t('completed')}
                     </span>
                   </td>
                 </tr>

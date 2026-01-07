@@ -2,12 +2,66 @@
 import dynamic from "next/dynamic";
 import { Icon } from "@iconify/react";
 import useReactApexChart from "@/hook/useReactApexChart";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const CampaignStaticOne = () => {
+  const t = useTranslations("dashboard");
   let { donutChartSeriesTwo, donutChartOptionsTwo } = useReactApexChart();
+  
+  const [progressData, setProgressData] = useState({
+    email: 80,
+    website: 60,
+    facebook: 49,
+    other: 70
+  });
+  const [customerOverviewTimeframe, setCustomerOverviewTimeframe] = useState("Yearly");
+  const [customerSeries, setCustomerSeries] = useState(donutChartSeriesTwo);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    switch (value) {
+      case 'Yearly':
+        setProgressData({ email: 80, website: 60, facebook: 49, other: 70 });
+        break;
+      case 'Monthly':
+        setProgressData({ email: 60, website: 50, facebook: 30, other: 50 });
+        break;
+      case 'Weekly':
+        setProgressData({ email: 40, website: 30, facebook: 20, other: 30 });
+        break;
+      case 'Today':
+        setProgressData({ email: 10, website: 5, facebook: 2, other: 8 });
+        break;
+      default:
+        setProgressData({ email: 80, website: 60, facebook: 49, other: 70 });
+    }
+  };
+
+  const handleCustomerOverviewChange = (e) => {
+    const value = e.target.value;
+    setCustomerOverviewTimeframe(value);
+    switch (value) {
+      case 'Yearly':
+        setCustomerSeries(donutChartSeriesTwo);
+        break;
+      case 'Monthly':
+        setCustomerSeries([35, 20, 45]);
+        break;
+      case 'Weekly':
+        setCustomerSeries([25, 15, 60]);
+        break;
+      case 'Today':
+        setCustomerSeries([15, 10, 75]);
+        break;
+      default:
+        setCustomerSeries(donutChartSeriesTwo);
+    }
+  };
+
   return (
     <div className='col-xxl-4'>
       <div className='row gy-4'>
@@ -15,19 +69,17 @@ const CampaignStaticOne = () => {
           <div className='card h-100 radius-8 border-0'>
             <div className='card-body p-24'>
               <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-                <h6 className='mb-2 fw-bold text-lg'>Campaigns</h6>
+                <h6 className='mb-2 fw-bold text-lg'>{t("campaigns")}</h6>
                 <div className=''>
                   <select
                     className='form-select form-select-sm w-auto bg-base border text-secondary-light'
-                    defaultValue='Select Frequency'
+                    defaultValue='Yearly'
+                    onChange={handleChange}
                   >
-                    <option value='Select Frequency' disabled>
-                      Select Frequency
-                    </option>
-                    <option value='Yearly'>Yearly</option>
-                    <option value='Monthly'>Monthly</option>
-                    <option value='Weekly'>Weekly</option>
-                    <option value='Today'>Today</option>
+                    <option value='Yearly'>{t("yearly")}</option>
+                    <option value='Monthly'>{t("monthly")}</option>
+                    <option value='Weekly'>{t("weekly")}</option>
+                    <option value='Today'>{t("today")}</option>
                   </select>
                 </div>
               </div>
@@ -38,7 +90,7 @@ const CampaignStaticOne = () => {
                       <Icon icon='majesticons:mail' className='icon' />
                     </span>
                     <span className='text-primary-light fw-medium text-sm ps-12'>
-                      Email
+                      {t('email')}
                     </span>
                   </div>
                   <div className='d-flex align-items-center gap-2 w-100'>
@@ -47,18 +99,18 @@ const CampaignStaticOne = () => {
                         className='progress progress-sm rounded-pill'
                         role='progressbar'
                         aria-label='Success example'
-                        aria-valuenow={25}
+                        aria-valuenow={progressData.email}
                         aria-valuemin={0}
                         aria-valuemax={100}
                       >
                         <div
                           className='progress-bar bg-orange rounded-pill'
-                          style={{ width: "80%" }}
+                          style={{ width: `${progressData.email}%` }}
                         />
                       </div>
                     </div>
                     <span className='text-secondary-light font-xs fw-semibold'>
-                      80%
+                      {progressData.email}%
                     </span>
                   </div>
                 </div>
@@ -68,7 +120,7 @@ const CampaignStaticOne = () => {
                       <Icon icon='eva:globe-2-fill' className='icon' />
                     </span>
                     <span className='text-primary-light fw-medium text-sm ps-12'>
-                      Website
+                      {t('website')}
                     </span>
                   </div>
                   <div className='d-flex align-items-center gap-2 w-100'>
@@ -77,18 +129,18 @@ const CampaignStaticOne = () => {
                         className='progress progress-sm rounded-pill'
                         role='progressbar'
                         aria-label='Success example'
-                        aria-valuenow={25}
+                        aria-valuenow={progressData.website}
                         aria-valuemin={0}
                         aria-valuemax={100}
                       >
                         <div
                           className='progress-bar bg-success-main rounded-pill'
-                          style={{ width: "60%" }}
+                          style={{ width: `${progressData.website}%` }}
                         />
                       </div>
                     </div>
                     <span className='text-secondary-light font-xs fw-semibold'>
-                      60%
+                      {progressData.website}%
                     </span>
                   </div>
                 </div>
@@ -101,7 +153,7 @@ const CampaignStaticOne = () => {
                       />
                     </span>
                     <span className='text-primary-light fw-medium text-sm ps-12'>
-                      Facebook
+                      {t('facebook')}
                     </span>
                   </div>
                   <div className='d-flex align-items-center gap-2 w-100'>
@@ -110,18 +162,18 @@ const CampaignStaticOne = () => {
                         className='progress progress-sm rounded-pill'
                         role='progressbar'
                         aria-label='Success example'
-                        aria-valuenow={25}
+                        aria-valuenow={progressData.facebook}
                         aria-valuemin={0}
                         aria-valuemax={100}
                       >
                         <div
                           className='progress-bar bg-info-main rounded-pill'
-                          style={{ width: "49%" }}
+                          style={{ width: `${progressData.facebook}%` }}
                         />
                       </div>
                     </div>
                     <span className='text-secondary-light font-xs fw-semibold'>
-                      49%
+                      {progressData.facebook}%
                     </span>
                   </div>
                 </div>
@@ -134,7 +186,7 @@ const CampaignStaticOne = () => {
                       />
                     </span>
                     <span className='text-primary-light fw-medium text-sm ps-12'>
-                      Email
+                      {t('email')}
                     </span>
                   </div>
                   <div className='d-flex align-items-center gap-2 w-100'>
@@ -143,18 +195,18 @@ const CampaignStaticOne = () => {
                         className='progress progress-sm rounded-pill'
                         role='progressbar'
                         aria-label='Success example'
-                        aria-valuenow={25}
+                        aria-valuenow={progressData.other}
                         aria-valuemin={0}
                         aria-valuemax={100}
                       >
                         <div
                           className='progress-bar bg-indigo rounded-pill'
-                          style={{ width: "70%" }}
+                          style={{ width: `${progressData.other}%` }}
                         />
                       </div>
                     </div>
                     <span className='text-secondary-light font-xs fw-semibold'>
-                      70%
+                      {progressData.other}%
                     </span>
                   </div>
                 </div>
@@ -166,19 +218,17 @@ const CampaignStaticOne = () => {
           <div className='card h-100 radius-8 border-0 overflow-hidden'>
             <div className='card-body p-24'>
               <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-                <h6 className='mb-2 fw-bold text-lg'>Customer Overview</h6>
+                <h6 className='mb-2 fw-bold text-lg'>{t("customer_overview")}</h6>
                 <div className=''>
                   <select
                     className='form-select form-select-sm w-auto bg-base border text-secondary-light'
-                    defaultValue='Select Frequency'
+                    value={customerOverviewTimeframe}
+                    onChange={handleCustomerOverviewChange}
                   >
-                    <option value='Select Frequency' disabled>
-                      Select Frequency
-                    </option>
-                    <option value='Yearly'>Yearly</option>
-                    <option value='Monthly'>Monthly</option>
-                    <option value='Weekly'>Weekly</option>
-                    <option value='Today'>Today</option>
+                    <option value='Yearly'>{t("yearly")}</option>
+                    <option value='Monthly'>{t("monthly")}</option>
+                    <option value='Weekly'>{t("weekly")}</option>
+                    <option value='Today'>{t("today")}</option>
                   </select>
                 </div>
               </div>
@@ -187,26 +237,26 @@ const CampaignStaticOne = () => {
                   <li className='d-flex align-items-center gap-2 mb-28'>
                     <span className='w-12-px h-12-px rounded-circle bg-success-main' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      Total: 500
+                      {t("total")}: 500
                     </span>
                   </li>
                   <li className='d-flex align-items-center gap-2 mb-28'>
                     <span className='w-12-px h-12-px rounded-circle bg-warning-main' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      New: 500
+                      {t("new")}: 500
                     </span>
                   </li>
                   <li className='d-flex align-items-center gap-2'>
                     <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      Active: 1500
+                      {t("active")}: 1500
                     </span>
                   </li>
                 </ul>
                 <div>
                   <ReactApexChart
                     options={donutChartOptionsTwo}
-                    series={donutChartSeriesTwo}
+                    series={customerSeries}
                     type='donut'
                     height={300}
                     id='donutChart'

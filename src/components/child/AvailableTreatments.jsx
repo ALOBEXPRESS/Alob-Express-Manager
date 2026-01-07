@@ -1,18 +1,20 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const AvailableTreatments = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-12 col-xl-6'>
       <div className='card'>
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Available Treatments</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("available_treatments")}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -31,9 +33,9 @@ const AvailableTreatments = () => {
                 />
               </div>
               <div className='flex-grow-1'>
-                <h6 className='text-md mb-0 fw-normal'>Psychiatry</h6>
+                <h6 className='text-md mb-0 fw-normal'>{t("psychiatry")}</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  57 Doctors
+                  57 {t("doctors")}
                 </span>
               </div>
             </div>
@@ -49,9 +51,9 @@ const AvailableTreatments = () => {
                 />
               </div>
               <div className='flex-grow-1'>
-                <h6 className='text-md mb-0 fw-normal'>Orthopedic</h6>
+                <h6 className='text-md mb-0 fw-normal'>{t("orthopedics")}</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  85 Doctors
+                  85 {t("doctors")}
                 </span>
               </div>
             </div>
@@ -67,9 +69,9 @@ const AvailableTreatments = () => {
                 />
               </div>
               <div className='flex-grow-1'>
-                <h6 className='text-md mb-0 fw-normal'>Cardiology</h6>
+                <h6 className='text-md mb-0 fw-normal'>{t("cardiology")}</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  60 Doctors
+                  60 {t("doctors")}
                 </span>
               </div>
             </div>
@@ -85,9 +87,9 @@ const AvailableTreatments = () => {
                 />
               </div>
               <div className='flex-grow-1'>
-                <h6 className='text-md mb-0 fw-normal'>Pediatrics</h6>
+                <h6 className='text-md mb-0 fw-normal'>{t("pediatrics")}</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  120 Doctors
+                  120 {t("doctors")}
                 </span>
               </div>
             </div>
@@ -103,9 +105,9 @@ const AvailableTreatments = () => {
                 />
               </div>
               <div className='flex-grow-1'>
-                <h6 className='text-md mb-0 fw-normal'>Neurology </h6>
+                <h6 className='text-md mb-0 fw-normal'>{t("neurology")}</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  25 Doctors
+                  25 {t("doctors")}
                 </span>
               </div>
             </div>
@@ -121,9 +123,9 @@ const AvailableTreatments = () => {
                 />
               </div>
               <div className='flex-grow-1'>
-                <h6 className='text-md mb-0 fw-normal'>Gastroenterology</h6>
+                <h6 className='text-md mb-0 fw-normal'>{t("gastroenterology")}</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  95 Doctors
+                  95 {t("doctors")}
                 </span>
               </div>
             </div>

@@ -1,9 +1,27 @@
 "use client";
 import useReactApexChart from "@/hook/useReactApexChart";
 import { Icon } from "@iconify/react";
+import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
+
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const UnitCountTwo = () => {
-  let { createChart } = useReactApexChart();
+  let { createChartConfig } = useReactApexChart();
+  const t = useTranslations('dashboard');
+
+  const renderChart = (color) => {
+    const { options, series } = createChartConfig(color);
+    return (
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="bar"
+        height={50}
+        width={100}
+      />
+    );
+  };
 
   return (
     <div className='col-xxl-8'>
@@ -18,7 +36,7 @@ const UnitCountTwo = () => {
                   </span>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
-                      New Users
+                      {t('new_users')}
                     </span>
                     <h6 className='fw-semibold'>15,000</h6>
                   </div>
@@ -28,15 +46,15 @@ const UnitCountTwo = () => {
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
                   {/* Pass the color value here */}
-                  {createChart("#487fff")}
+                  {renderChart("#487fff")}
                 </div>
               </div>
               <p className='text-sm mb-0'>
-                Increase by{" "}
+                {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                   +200
                 </span>{" "}
-                this week
+                {t('this_week')}
               </p>
             </div>
           </div>
@@ -51,7 +69,7 @@ const UnitCountTwo = () => {
                   </span>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
-                      Active Users
+                      {t('active_users')}
                     </span>
                     <h6 className='fw-semibold'>8,000</h6>
                   </div>
@@ -61,15 +79,15 @@ const UnitCountTwo = () => {
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
                   {/* Pass the color value here */}
-                  {createChart("#45b369")}
+                  {renderChart("#45b369")}
                 </div>
               </div>
               <p className='text-sm mb-0'>
-                Increase by{" "}
+                {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                   +200
                 </span>{" "}
-                this week
+                {t('this_week')}
               </p>
             </div>
           </div>
@@ -84,7 +102,7 @@ const UnitCountTwo = () => {
                   </span>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
-                      Total Sales
+                      {t('total_sales')}
                     </span>
                     <h6 className='fw-semibold'>$5,00,000</h6>
                   </div>
@@ -94,15 +112,15 @@ const UnitCountTwo = () => {
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
                   {/* Pass the color value here */}
-                  {createChart("#f4941e")}
+                  {renderChart("#f4941e")}
                 </div>
               </div>
               <p className='text-sm mb-0'>
-                Increase by{" "}
+                {t('increase_by')}{" "}
                 <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
                   -$10k
                 </span>{" "}
-                this week
+                {t('this_week')}
               </p>
             </div>
           </div>
@@ -117,7 +135,7 @@ const UnitCountTwo = () => {
                   </span>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
-                      Conversion
+                      {t('conversion')}
                     </span>
                     <h6 className='fw-semibold'>25%</h6>
                   </div>
@@ -127,15 +145,15 @@ const UnitCountTwo = () => {
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
                   {/* Pass the color value here */}
-                  {createChart("#8252e9")}
+                  {renderChart("#8252e9")}
                 </div>
               </div>
               <p className='text-sm mb-0'>
-                Increase by{" "}
+                {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                   +5%
                 </span>{" "}
-                this week
+                {t('this_week')}
               </p>
             </div>
           </div>
@@ -150,7 +168,7 @@ const UnitCountTwo = () => {
                   </span>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
-                      Leads
+                      {t('leads')}
                     </span>
                     <h6 className='fw-semibold'>250</h6>
                   </div>
@@ -160,15 +178,15 @@ const UnitCountTwo = () => {
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
                   {/* Pass the color value here */}
-                  {createChart("#de3ace")}
+                  {renderChart("#de3ace")}
                 </div>
               </div>
               <p className='text-sm mb-0'>
-                Increase by{" "}
+                {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                   +20
                 </span>{" "}
-                this week
+                {t('this_week')}
               </p>
             </div>
           </div>
@@ -183,7 +201,7 @@ const UnitCountTwo = () => {
                   </span>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
-                      Total Profit
+                      {t('total_profit')}
                     </span>
                     <h6 className='fw-semibold'>$3,00,700</h6>
                   </div>
@@ -193,15 +211,15 @@ const UnitCountTwo = () => {
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
                   {/* Pass the color value here */}
-                  {createChart("#00b8f2")}
+                  {renderChart("#00b8f2")}
                 </div>
               </div>
               <p className='text-sm mb-0'>
-                Increase by{" "}
-                <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +$15k
+                {t('increase_by')}{" "}
+                <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
+                  -$10k
                 </span>{" "}
-                this week
+                {t('this_week')}
               </p>
             </div>
           </div>

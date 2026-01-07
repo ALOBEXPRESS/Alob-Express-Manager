@@ -1,16 +1,19 @@
 import Link from "next/link";
+import React from "react";
+import { useTranslations } from "next-intl";
 
 const RecentActivityOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-8'>
       <div className='card h-100'>
         <div className='card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between'>
-          <h6 className='text-lg fw-semibold mb-0'>Recent Activity</h6>
+          <h6 className='text-lg fw-semibold mb-0'>{t("recent_activity")}</h6>
           <Link
             href='#'
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
-            View All
+            {t("view_all")}
             <iconify-icon
               icon='solar:alt-arrow-right-linear'
               className='icon'
@@ -23,19 +26,19 @@ const RecentActivityOne = () => {
               <thead>
                 <tr>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Customer
+                    {t("customer")}
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
                     ID
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Retained
+                    {t("retained")}
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Amount
+                    {t("amount")}
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Status
+                    {t("status")}
                   </th>
                 </tr>
               </thead>
@@ -57,12 +60,12 @@ const RecentActivityOne = () => {
                     </div>
                   </td>
                   <td>#63254</td>
-                  <td>5 min ago</td>
+                  <td>{t("min_ago", { count: 5 })}</td>
                   <td>$12,408.12</td>
                   <td>
                     {" "}
                     <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Member
+                      {t("member")}
                     </span>
                   </td>
                 </tr>
@@ -83,12 +86,12 @@ const RecentActivityOne = () => {
                     </div>
                   </td>
                   <td>#63254</td>
-                  <td>12 min ago</td>
+                  <td>{t("min_ago", { count: 12 })}</td>
                   <td>$12,408.12</td>
                   <td>
                     {" "}
                     <span className='bg-lilac-100 text-lilac-600 px-10 py-4 radius-8 fw-medium text-sm'>
-                      New Customer
+                      {t("new_customer")}
                     </span>{" "}
                   </td>
                 </tr>
@@ -109,12 +112,12 @@ const RecentActivityOne = () => {
                     </div>
                   </td>
                   <td>#63254</td>
-                  <td>15 min ago</td>
+                  <td>{t("min_ago", { count: 15 })}</td>
                   <td>$12,408.12</td>
                   <td>
                     {" "}
                     <span className='bg-warning-focus text-warning-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Signed Up{" "}
+                      {t("signed_up")}{" "}
                     </span>{" "}
                   </td>
                 </tr>
@@ -135,12 +138,12 @@ const RecentActivityOne = () => {
                     </div>
                   </td>
                   <td>#63254</td>
-                  <td>17 min ago</td>
+                  <td>{t("min_ago", { count: 17 })}</td>
                   <td>$12,408.12</td>
                   <td>
                     {" "}
                     <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Member
+                      {t("member")}
                     </span>
                   </td>
                 </tr>
@@ -161,12 +164,12 @@ const RecentActivityOne = () => {
                     </div>
                   </td>
                   <td>#63254</td>
-                  <td>25 min ago</td>
+                  <td>{t("min_ago", { count: 25 })}</td>
                   <td>$12,408.12</td>
                   <td>
                     {" "}
                     <span className='bg-warning-focus text-warning-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Signed Up{" "}
+                      {t("signed_up")}{" "}
                     </span>{" "}
                   </td>
                 </tr>

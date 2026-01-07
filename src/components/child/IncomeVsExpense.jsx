@@ -1,23 +1,25 @@
 "use client";
-import useReactApexChart from "../../hook/useReactApexChart";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import useReactApexChart from "../../hook/useReactApexChart";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const IncomeVsExpense = () => {
+  const t = useTranslations("dashboard");
   let { incomeExpenseOptions, incomeExpenseSeries } = useReactApexChart();
   return (
     <div className='col-xxl-8'>
       <div className='card h-100'>
         <div className='card-body p-24 mb-8'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Income Vs Expense </h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("income_vs_expense")}</h6>
             <select className='form-select form-select-sm w-auto bg-base border text-secondary-light'>
-              <option>Yearly</option>
-              <option>Monthly</option>
-              <option>Weekly</option>
-              <option>Today</option>
+              <option>{t("yearly")}</option>
+              <option>{t("monthly")}</option>
+              <option>{t("weekly")}</option>
+              <option>{t("today")}</option>
             </select>
           </div>
           <ul className='d-flex flex-wrap align-items-center justify-content-center my-3 gap-24'>
@@ -25,7 +27,7 @@ const IncomeVsExpense = () => {
               <div className='d-flex align-items-center gap-2'>
                 <span className='w-8-px h-8-px rounded-pill bg-primary-600' />
                 <span className='text-secondary-light text-sm fw-semibold'>
-                  Income{" "}
+                  {t("income")}{" "}
                 </span>
               </div>
               <div className='d-flex align-items-center gap-8'>
@@ -40,7 +42,7 @@ const IncomeVsExpense = () => {
               <div className='d-flex align-items-center gap-2'>
                 <span className='w-8-px h-8-px rounded-pill bg-warning-600' />
                 <span className='text-secondary-light text-sm fw-semibold'>
-                  Expenses{" "}
+                  {t("expenses")}{" "}
                 </span>
               </div>
               <div className='d-flex align-items-center gap-8'>

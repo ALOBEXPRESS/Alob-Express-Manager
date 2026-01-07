@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -6,13 +7,14 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 const UserActivatesTwo = () => {
+  const t = useTranslations("dashboard");
   let { statisticsDonutChartSeriesThree, statisticsDonutChartOptionsThree } =
     useReactApexChart();
   return (
     <div className='col-xxl-3'>
       <div className='card h-100 radius-8 border-0'>
         <div className='card-body p-24'>
-          <h6 className='mb-2 fw-bold text-lg'>My Portfolio</h6>
+          <h6 className='mb-2 fw-bold text-lg'>{t("my_portfolio")}</h6>
           <div className='position-relative'>
             <span className='w-80-px h-80-px bg-base shadow text-primary-light fw-bold text-xxl d-flex justify-content-center align-items-center rounded-circle position-absolute end-0 top-0 z-1'>
               20k
@@ -33,7 +35,7 @@ const UserActivatesTwo = () => {
             <li className='d-flex align-items-center gap-2'>
               <span className='w-16-px h-16-px radius-2 bg-primary-600' />
               <span className='text-secondary-light text-lg fw-normal'>
-                Total Gain:
+                {t("total_gain")}:
                 <span className='text-primary-light fw-bold text-lg'>
                   $50,000
                 </span>
@@ -42,7 +44,7 @@ const UserActivatesTwo = () => {
             <li className='d-flex align-items-center gap-2'>
               <span className='w-16-px h-16-px radius-2 bg-yellow' />
               <span className='text-secondary-light text-lg fw-normal'>
-                Total Investment:
+                {t("total_investment")}:
                 <span className='text-primary-light fw-bold text-lg'>
                   $20,000
                 </span>

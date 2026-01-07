@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
+import { useTranslations } from 'next-intl';
 
 const TopCountries = () => {
+  const t = useTranslations('dashboard');
+  const tCommon = useTranslations('common');
+
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
     import("jsvectormap")
@@ -88,15 +92,15 @@ const TopCountries = () => {
       <div className='card h-100'>
         <div className='card-body'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Top Countries</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t('top_countries')}</h6>
             <select
               className='form-select form-select-sm w-auto bg-base border text-secondary-light'
               defaultValue='Today'
             >
-              <option value='Today'>Today</option>
-              <option value='Weekly'>Weekly</option>
-              <option value='Monthly'>Monthly</option>
-              <option value='Yearly'>Yearly</option>
+              <option value='Today'>{t('today')}</option>
+              <option value='Weekly'>{t('weekly')}</option>
+              <option value='Monthly'>{t('monthly')}</option>
+              <option value='Yearly'>{t('yearly')}</option>
             </select>
           </div>
           <div className='row gy-4'>
@@ -115,9 +119,9 @@ const TopCountries = () => {
                         className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12'
                       />
                       <div className='flex-grow-1'>
-                        <h6 className='text-sm mb-0'>USA</h6>
+                        <h6 className='text-sm mb-0'>{t('usa')}</h6>
                         <span className='text-xs text-secondary-light fw-medium'>
-                          1,240 Users
+                          1,240 {tCommon('users')}
                         </span>
                       </div>
                     </div>
@@ -150,9 +154,9 @@ const TopCountries = () => {
                         className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12'
                       />
                       <div className='flex-grow-1'>
-                        <h6 className='text-sm mb-0'>Japan</h6>
+                        <h6 className='text-sm mb-0'>{t('japan')}</h6>
                         <span className='text-xs text-secondary-light fw-medium'>
-                          1,240 Users
+                          1,240 {tCommon('users')}
                         </span>
                       </div>
                     </div>
@@ -185,9 +189,9 @@ const TopCountries = () => {
                         className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12'
                       />
                       <div className='flex-grow-1'>
-                        <h6 className='text-sm mb-0'>France</h6>
+                        <h6 className='text-sm mb-0'>{t('france')}</h6>
                         <span className='text-xs text-secondary-light fw-medium'>
-                          1,240 Users
+                          1,240 {tCommon('users')}
                         </span>
                       </div>
                     </div>
@@ -220,9 +224,9 @@ const TopCountries = () => {
                         className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12'
                       />
                       <div className='flex-grow-1'>
-                        <h6 className='text-sm mb-0'>Germany</h6>
+                        <h6 className='text-sm mb-0'>{t('germany')}</h6>
                         <span className='text-xs text-secondary-light fw-medium'>
-                          1,240 Users
+                          1,240 {tCommon('users')}
                         </span>
                       </div>
                     </div>
@@ -255,9 +259,9 @@ const TopCountries = () => {
                         className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12'
                       />
                       <div className='flex-grow-1'>
-                        <h6 className='text-sm mb-0'>South Korea</h6>
+                        <h6 className='text-sm mb-0'>{t('south_korea')}</h6>
                         <span className='text-xs text-secondary-light fw-medium'>
-                          1,240 Users
+                          1,240 {tCommon('users')}
                         </span>
                       </div>
                     </div>

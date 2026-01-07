@@ -1,18 +1,43 @@
+"use client";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 const CoursesOne = () => {
+  const t = useTranslations("dashboard");
+  const tCommon = useTranslations("common");
+  const [showAll, setShowAll] = useState(false);
+
+  const initialData = [
+    { date: '24 Jun 2024', instructor: 'Ronald Richards', name: '3d_illustration_art_design', lessons: 34, users: 257, price: '$29.00' },
+    { date: '24 Jun 2024', instructor: 'Jerome Bell', name: 'Advanced JavaScript Development', lessons: 20, users: 375, price: '$29.00' },
+    { date: '24 Jun 2024', instructor: 'Cody Fisher', name: 'Portrait Drawing Fundamentals', lessons: 16, users: 220, price: '$29.00' },
+    { date: '24 Jun 2024', instructor: 'Floyd Miles', name: 'Advanced App Development', lessons: 25, users: 57, price: '$29.00' },
+    { date: '24 Jun 2024', instructor: 'Ralph Edwards', name: 'HTML Fundamental Course', lessons: 17, users: 27, price: '$29.00' }
+  ];
+
+  const displayData = showAll 
+    ? [...initialData, ...initialData] 
+    : initialData;
+
+  const handleViewAll = (e) => {
+    e.preventDefault();
+    setShowAll(!showAll);
+  };
+
   return (
     <div className='col-xxl-8'>
       <div className='card h-100'>
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Courses</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("courses")}</h6>
             <Link
               href='#'
+              onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {showAll ? tCommon("show_less") : tCommon("view_all")}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
             </Link>
           </div>
@@ -22,128 +47,40 @@ const CoursesOne = () => {
             <table className='table bordered-table mb-0'>
               <thead>
                 <tr>
-                  <th scope='col'>Registered On</th>
-                  <th scope='col'>Instructors </th>
-                  <th scope='col'>Users</th>
-                  <th scope='col'>Enrolled</th>
-                  <th scope='col'>Price </th>
+                  <th scope='col'>{t("registered_on")}</th>
+                  <th scope='col'>{t("instructors")} </th>
+                  <th scope='col'>{t("users")}</th>
+                  <th scope='col'>{t("enrolled")}</th>
+                  <th scope='col'>{t("price")} </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <span className='text-secondary-light'>24 Jun 2024</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>
-                      Ronald Richards
-                    </span>
-                  </td>
-                  <td>
-                    <div className='text-secondary-light'>
-                      <h6 className='text-md mb-0 fw-normal'>
-                        3d Illustration &amp; Art Design
-                      </h6>
-                      <span className='text-sm fw-normal'>34 Lessons</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>257</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>$29.00</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className='text-secondary-light'>24 Jun 2024</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>Jerome Bell</span>
-                  </td>
-                  <td>
-                    <div className='text-secondary-light'>
-                      <h6 className='text-md mb-0 fw-normal'>
-                        Advanced JavaScript Development
-                      </h6>
-                      <span className='text-sm fw-normal'>20 Lessons</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>375</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>$29.00</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className='text-secondary-light'>24 Jun 2024</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>Cody Fisher</span>
-                  </td>
-                  <td>
-                    <div className='text-secondary-light'>
-                      <h6 className='text-md mb-0 fw-normal'>
-                        Portrait Drawing Fundamentals{" "}
-                      </h6>
-                      <span className='text-sm fw-normal'>16 Lessons</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>220</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>$29.00</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className='text-secondary-light'>24 Jun 2024</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>Floyd Miles</span>
-                  </td>
-                  <td>
-                    <div className='text-secondary-light'>
-                      <h6 className='text-md mb-0 fw-normal'>
-                        Advanced App Development
-                      </h6>
-                      <span className='text-sm fw-normal'>25 Lessons</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>57</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>$29.00</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className='text-secondary-light'>24 Jun 2024</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>Ralph Edwards</span>
-                  </td>
-                  <td>
-                    <div className='text-secondary-light'>
-                      <h6 className='text-md mb-0 fw-normal'>
-                        HTML Fundamental Course
-                      </h6>
-                      <span className='text-sm fw-normal'>
-                        17 Lessons&nbsp;
+                {displayData.map((course, index) => (
+                  <tr key={index}>
+                    <td>
+                      <span className='text-secondary-light'>{course.date}</span>
+                    </td>
+                    <td>
+                      <span className='text-secondary-light'>
+                        {course.instructor}
                       </span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>27</span>
-                  </td>
-                  <td>
-                    <span className='text-secondary-light'>$29.00</span>
-                  </td>
-                </tr>
+                    </td>
+                    <td>
+                      <div className='text-secondary-light'>
+                        <h6 className='text-md mb-0 fw-normal'>
+                          {course.name.includes('_') ? t(course.name) : course.name}
+                        </h6>
+                        <span className='text-sm fw-normal'>{course.lessons} {t("lessons")}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className='text-secondary-light'>{course.users}</span>
+                    </td>
+                    <td>
+                      <span className='text-secondary-light'>{course.price}</span>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

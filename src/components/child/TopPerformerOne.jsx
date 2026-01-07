@@ -1,19 +1,23 @@
 "use client";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 const TopPerformerOne = () => {
+  const t = useTranslations('dashboard');
+  const tCommon = useTranslations('common');
+
   return (
     <div className='col-xxl-3 col-xl-12'>
       <div className='card h-100'>
         <div className='card-body'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Top Performer</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t('top_performer')}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {tCommon('view_all')}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
             </Link>
           </div>

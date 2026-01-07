@@ -1,8 +1,10 @@
 "use client";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Slider from "react-slick";
 
 const QuickTransfer = () => {
+  const t = useTranslations("dashboard");
   const settings = {
     slidesToShow: 5,
     slidesToScroll: 1,
@@ -19,7 +21,7 @@ const QuickTransfer = () => {
     <div className='card radius-16'>
       <div className='card-header'>
         <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-          <h6 className='mb-2 fw-bold text-lg mb-0'>Quick Transfer</h6>
+          <h6 className='mb-2 fw-bold text-lg mb-0'>{t("quick_transfer")}</h6>
         </div>
       </div>
       <div className='card-body p-0'>
@@ -31,17 +33,17 @@ const QuickTransfer = () => {
               className='position-absolute top-0 start-0 w-100 h-100 z-n1'
             />
             <h3 className='text-white'>$500.00</h3>
-            <span className='text-white'>Your Balance</span>
+            <span className='text-white'>{t("your_balance")}</span>
           </div>
         </div>
         <div className='px-24 bg-neutral-100 border-bottom-0 py-20 dark-bg-neutral-200'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Contacts</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("contacts")}</h6>
             <Link
-              href='#'
+              href='/users-list'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -63,7 +65,7 @@ const QuickTransfer = () => {
                 <div className='officer-slider__content mt-24 min-w-max-content'>
                   <h6 className='mb-0 text-xl'>Mr. Bin</h6>
                   <span className='text-sm text-secondary-light'>
-                    Insurance officer
+                    {t("insurance_officer")}
                   </span>
                 </div>
               </div>
@@ -78,7 +80,7 @@ const QuickTransfer = () => {
                 <div className='officer-slider__content mt-24 min-w-max-content'>
                   <h6 className='mb-0 text-xl'>Mr. Robiul</h6>
                   <span className='text-sm text-secondary-light'>
-                    Insurance officer
+                    {t("insurance_officer")}
                   </span>
                 </div>
               </div>
@@ -93,7 +95,7 @@ const QuickTransfer = () => {
                 <div className='officer-slider__content mt-24 min-w-max-content'>
                   <h6 className='mb-0 text-xl'>Mr. Deo</h6>
                   <span className='text-sm text-secondary-light'>
-                    Insurance officer
+                    {t("insurance_officer")}
                   </span>
                 </div>
               </div>
@@ -150,14 +152,14 @@ const QuickTransfer = () => {
                 htmlFor='message'
                 className='d-block fw-semibold text-primary-light mb-8'
               >
-                Write Short Description
+                {t("write_short_description")}
               </label>
               <textarea
                 className='form-control'
                 id='message'
                 rows={4}
                 cols={50}
-                placeholder='Enter a description...'
+                placeholder={t("enter_description")}
                 defaultValue={""}
               />
             </div>
@@ -166,7 +168,7 @@ const QuickTransfer = () => {
                 htmlFor='Amount'
                 className='d-block fw-semibold text-primary-light mb-8'
               >
-                Amount
+                {t("amount")}
               </label>
               <div className='d-flex gap-16'>
                 <input
@@ -179,7 +181,7 @@ const QuickTransfer = () => {
                   className='btn btn-primary-600 flex-shrink-0 d-flex align-items-center gap-2 px-32'
                   type='submit'
                 >
-                  Send <i className='ri-send-plane-fill' />{" "}
+                  {t("send")} <i className='ri-send-plane-fill' />{" "}
                 </button>
               </div>
             </div>

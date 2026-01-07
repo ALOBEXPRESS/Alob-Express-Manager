@@ -1,17 +1,19 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const UsersChart = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-4 col-md-6'>
       <div className='card'>
         <div className='card-header border-bottom'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Users</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("users")}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -36,7 +38,7 @@ const UsersChart = () => {
                 </div>
               </div>
               <span className='text-warning-main fw-medium text-md'>
-                Pending
+                {t("pending")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -54,7 +56,7 @@ const UsersChart = () => {
                 </div>
               </div>
               <span className='text-success-main fw-medium text-md'>
-                Active
+                {t("active")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -72,7 +74,7 @@ const UsersChart = () => {
                 </div>
               </div>
               <span className='text-success-main fw-medium text-md'>
-                Active
+                {t("active")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -90,7 +92,7 @@ const UsersChart = () => {
                 </div>
               </div>
               <span className='text-success-main fw-medium text-md'>
-                Active
+                {t("active")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>

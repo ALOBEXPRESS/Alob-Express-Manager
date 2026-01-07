@@ -1,18 +1,21 @@
+import { useTranslations } from "next-intl";
+
 const RecentBidOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-12'>
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Recent Bid</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("recent_bid")}</h6>
             <select
               className='form-select form-select-sm w-auto bg-base border text-secondary-light rounded-pill'
               defaultValue='All Items'
             >
-              <option value='All Items'>All Items </option>
-              <option value='New Item'>New Item</option>
-              <option value='Trending Item'>Trending Item</option>
-              <option value='Old Item'>Old Item</option>
+              <option value='All Items'>{t("all_items")}</option>
+              <option value='New Item'>{t("new_item")}</option>
+              <option value='Trending Item'>{t("trending_item")}</option>
+              <option value='Old Item'>{t("old_item")}</option>
             </select>
           </div>
           <div className='table-responsive scroll-sm'>
@@ -20,13 +23,13 @@ const RecentBidOne = () => {
               <table className='table bordered-table sm-table mb-0'>
                 <thead>
                   <tr>
-                    <th scope='col'>Items </th>
-                    <th scope='col'>Price</th>
-                    <th scope='col'>Your Offer </th>
-                    <th scope='col'>Recent Offer</th>
-                    <th scope='col'>Time Left</th>
+                    <th scope='col'>{t("items")} </th>
+                    <th scope='col'>{t("price")}</th>
+                    <th scope='col'>{t("your_offer")} </th>
+                    <th scope='col'>{t("recent_offer")}</th>
+                    <th scope='col'>{t("time_left")}</th>
                     <th scope='col' className='text-center'>
-                      Action
+                      {t("action")}
                     </th>
                   </tr>
                 </thead>
@@ -44,7 +47,7 @@ const RecentBidOne = () => {
                             Spanky &amp; Friends
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>
@@ -96,7 +99,7 @@ const RecentBidOne = () => {
                             Nike Air Shoe
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>
@@ -148,7 +151,7 @@ const RecentBidOne = () => {
                             Woman Dresses
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>
@@ -200,7 +203,7 @@ const RecentBidOne = () => {
                             Smart Watch
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>
@@ -252,7 +255,7 @@ const RecentBidOne = () => {
                             Hoodie Rose
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>
@@ -304,7 +307,7 @@ const RecentBidOne = () => {
                             Hoodie Rose
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>
@@ -356,7 +359,7 @@ const RecentBidOne = () => {
                             Hoodie Rose
                           </h6>
                           <span className='text-sm text-secondary-light fw-normal'>
-                            Owned by ABC
+                            {t("owned_by")} ABC
                           </span>
                         </div>
                       </div>

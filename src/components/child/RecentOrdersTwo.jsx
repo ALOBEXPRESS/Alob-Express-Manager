@@ -1,14 +1,23 @@
 "use client";
 import { Icon } from "@iconify/react";
 import useReactApexChart from "../../hook/useReactApexChart";
+import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
+
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const RecentOrdersTwo = () => {
-  let { createChartTwo } = useReactApexChart();
+  let { createChartTwoConfig } = useReactApexChart();
+  const t = useTranslations('dashboard');
+  const { options, series } = createChartTwoConfig("#487fff", 360);
+
   return (
     <div className='col-xxl-4'>
       <div className='card h-100 radius-8 border'>
         <div className='card-body p-24'>
-          <h6 className='mb-12 fw-bold text-lg mb-0'>Recent Orders</h6>
+          <h6 className='mb-12 fw-bold text-lg mb-0'>{t('recent_orders')}</h6>
           <div className='d-flex align-items-center gap-2'>
             <h6 className='fw-semibold mb-0'>$27,200</h6>
             <p className='text-sm mb-0'>
@@ -16,12 +25,12 @@ const RecentOrdersTwo = () => {
                 10%
                 <Icon icon='iconamoon:arrow-up-2-fill' className='icon' />
               </span>
-              Increases
+              {t('increases')}
             </p>
           </div>
           <div id='recent-orders' className='mt-28'>
             {/* Pass the color value & height here */}
-            {createChartTwo("#487fff", 360)}
+            <ReactApexChart options={options} series={series} type="area" height={360} width={"100%"} />
           </div>
         </div>
       </div>

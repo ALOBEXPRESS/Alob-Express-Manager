@@ -1,10 +1,12 @@
-import Link from "next/link";
+﻿import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const TrendingNFTsOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-12'>
       <div className='mb-16 mt-8 d-flex flex-wrap justify-content-between gap-16'>
-        <h6 className='mb-0'>Trending NFTs</h6>
+        <h6 className='mb-0'>{t("trending_nfts")}</h6>
         <ul
           className='nav button-tab nav-pills mb-16 gap-12'
           id='pills-tab-three'
@@ -22,7 +24,7 @@ const TrendingNFTsOne = () => {
               aria-selected='false'
               tabIndex={-1}
             >
-              All
+              {t("all")}
             </button>
           </li>
           <li className='nav-item' role='presentation'>
@@ -37,7 +39,7 @@ const TrendingNFTsOne = () => {
               aria-selected='false'
               tabIndex={-1}
             >
-              Art
+              {t("art")}
             </button>
           </li>
           <li className='nav-item' role='presentation'>
@@ -52,7 +54,7 @@ const TrendingNFTsOne = () => {
               aria-selected='false'
               tabIndex={-1}
             >
-              Music
+              {t("music")}
             </button>
           </li>
           <li className='nav-item' role='presentation'>
@@ -66,7 +68,7 @@ const TrendingNFTsOne = () => {
               aria-controls='pills-button-utility'
               aria-selected='true'
             >
-              Utility
+              {t("utility")}
             </button>
           </li>
           <li className='nav-item' role='presentation'>
@@ -80,7 +82,7 @@ const TrendingNFTsOne = () => {
               aria-controls='pills-button-fashion'
               aria-selected='true'
             >
-              Fashion
+              {t("fashion")}
             </button>
           </li>
         </ul>
@@ -119,7 +121,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -133,13 +135,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -170,7 +172,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -184,13 +186,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -221,7 +223,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -235,13 +237,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -272,7 +274,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -286,13 +288,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -333,7 +335,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -347,13 +349,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -384,7 +386,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -398,13 +400,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -435,7 +437,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -449,13 +451,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -486,7 +488,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -500,13 +502,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -547,7 +549,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -561,13 +563,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -598,7 +600,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -612,13 +614,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -649,7 +651,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -663,13 +665,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -700,7 +702,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -714,13 +716,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -761,7 +763,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -775,13 +777,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -812,7 +814,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -826,13 +828,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -863,7 +865,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -877,13 +879,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -914,7 +916,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -928,13 +930,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -975,7 +977,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -989,13 +991,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -1026,7 +1028,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -1040,13 +1042,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -1077,7 +1079,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -1091,13 +1093,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -1128,7 +1130,7 @@ const TrendingNFTsOne = () => {
                   </div>
                   <div className='mt-10 d-flex align-items-center justify-content-between gap-8 flex-wrap'>
                     <span className='text-sm text-secondary-light fw-medium'>
-                      Price:
+                      {t("price")}:
                       <span className='text-sm text-primary-light fw-semibold'>
                         1.44 ETH
                       </span>
@@ -1142,13 +1144,13 @@ const TrendingNFTsOne = () => {
                       href='#'
                       className='btn rounded-pill border text-neutral-500 border-neutral-500 radius-8 px-12 py-6 bg-hover-neutral-500 text-hover-white flex-grow-1'
                     >
-                      History
+                      {t("history")}
                     </Link>
                     <Link
                       href='#'
                       className='btn rounded-pill btn-primary-600 radius-8 px-12 py-6 flex-grow-1'
                     >
-                      Buy Now
+                      {t("buy_now")}
                     </Link>
                   </div>
                 </div>
@@ -1162,3 +1164,5 @@ const TrendingNFTsOne = () => {
 };
 
 export default TrendingNFTsOne;
+
+

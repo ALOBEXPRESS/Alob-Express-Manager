@@ -1,7 +1,133 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useState } from "react";
 
 const CurrenciesLayer = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [currencies, setCurrencies] = useState([
+    {
+      id: 1,
+      name: "Dollars(Default)",
+      symbol: "$",
+      code: "USD",
+      isCrypto: "No",
+      status: true,
+    },
+    {
+      id: 2,
+      name: "Taka",
+      symbol: "৳",
+      code: "BDT",
+      isCrypto: "No",
+      status: false,
+    },
+    {
+      id: 3,
+      name: "Rupee",
+      symbol: "₹",
+      code: "INR",
+      isCrypto: "No",
+      status: false,
+    },
+    {
+      id: 4,
+      name: "Real",
+      symbol: "R$",
+      code: "BRL",
+      isCrypto: "No",
+      status: true,
+    },
+    {
+      id: 5,
+      name: "Euro",
+      symbol: "€",
+      code: "EUR",
+      isCrypto: "No",
+      status: true,
+    },
+    {
+      id: 6,
+      name: "Pound",
+      symbol: "£",
+      code: "GBP",
+      isCrypto: "No",
+      status: true,
+    },
+    {
+      id: 7,
+      name: "Bitcoin",
+      symbol: "BTC",
+      code: "BTC",
+      isCrypto: "Yes",
+      status: true,
+    },
+    {
+      id: 8,
+      name: "Ethereum",
+      symbol: "ETH",
+      code: "ETH",
+      isCrypto: "Yes",
+      status: true,
+    },
+    {
+      id: 9,
+      name: "Yen",
+      symbol: "¥",
+      code: "JPY",
+      isCrypto: "No",
+      status: false,
+    },
+    {
+      id: 10,
+      name: "Won",
+      symbol: "₩",
+      code: "KRW",
+      isCrypto: "No",
+      status: false,
+    },
+    {
+      id: 11,
+      name: "Swiss Franc",
+      symbol: "Fr",
+      code: "CHF",
+      isCrypto: "No",
+      status: true,
+    },
+    {
+      id: 12,
+      name: "Canadian Dollar",
+      symbol: "C$",
+      code: "CAD",
+      isCrypto: "No",
+      status: true,
+    },
+  ]);
+
+  // Filter items based on search
+  const filteredCurrencies = currencies.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredCurrencies.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredCurrencies.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <>
       <div className='card h-100 p-0 radius-12'>
@@ -12,18 +138,16 @@ const CurrenciesLayer = () => {
             </span>
             <select
               className='form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px'
-              defaultValue='1'
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
             >
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
               <option value='5'>5</option>
-              <option value='6'>6</option>
-              <option value='7'>7</option>
-              <option value='8'>8</option>
-              <option value='9'>9</option>
               <option value='10'>10</option>
+              <option value='15'>15</option>
+              <option value='20'>20</option>
             </select>
             <form className='navbar-search'>
               <input
@@ -31,6 +155,11 @@ const CurrenciesLayer = () => {
                 className='bg-base h-40-px w-auto'
                 name='search'
                 placeholder='Search'
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
               <Icon icon='ion:search-outline' className='icon' />
             </form>
@@ -75,402 +204,106 @@ const CurrenciesLayer = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>01</td>
-                  <td className='text-center'>Dollars(Default)</td>
-                  <td className='text-center'>$ </td>
-                  <td className='text-center'>USD</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                        defaultChecked=''
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
+                {currentItems.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{indexOfFirstItem + index + 1}</td>
+                    <td className='text-center'>{item.name}</td>
+                    <td className='text-center'>{item.symbol}</td>
+                    <td className='text-center'>{item.code}</td>
+                    <td className='text-center'>{item.isCrypto}</td>
+                    <td>
+                      <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
+                        <input
+                          className='form-check-input'
+                          type='checkbox'
+                          role='switch'
+                          checked={item.status}
+                          onChange={() => {
+                            const newCurrencies = currencies.map((c) =>
+                              c.id === item.id ? { ...c, status: !c.status } : c
+                            );
+                            setCurrencies(newCurrencies);
+                          }}
                         />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>02</td>
-                  <td className='text-center'>Taka</td>
-                  <td className='text-center'>৳ </td>
-                  <td className='text-center'>BDT</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>03</td>
-                  <td className='text-center'>Rupee</td>
-                  <td className='text-center'>₹</td>
-                  <td className='text-center'>INR</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>04</td>
-                  <td className='text-center'>Dollars</td>
-                  <td className='text-center'>$ </td>
-                  <td className='text-center'>USD</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>05</td>
-                  <td className='text-center'>Taka</td>
-                  <td className='text-center'>৳ </td>
-                  <td className='text-center'>BDT</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>06</td>
-                  <td className='text-center'>Rupee</td>
-                  <td className='text-center'>₹</td>
-                  <td className='text-center'>INR</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>07</td>
-                  <td className='text-center'>Dollars</td>
-                  <td className='text-center'>$ </td>
-                  <td className='text-center'>USD</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>08</td>
-                  <td className='text-center'>Taka</td>
-                  <td className='text-center'>৳ </td>
-                  <td className='text-center'>BDT</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>09</td>
-                  <td className='text-center'>Rupee</td>
-                  <td className='text-center'>₹</td>
-                  <td className='text-center'>INR</td>
-                  <td className='text-center'>No</td>
-                  <td>
-                    <div className='form-switch switch-primary d-flex align-items-center justify-content-center'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                      />
-                    </div>
-                  </td>
-                  <td className='text-center'>
-                    <div className='d-flex align-items-center gap-10 justify-content-center'>
-                      <button
-                        type='button'
-                        className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModalEdit'
-                      >
-                        <Icon icon='lucide:edit' className='menu-icon' />
-                      </button>
-                      <button
-                        type='button'
-                        className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
-                      >
-                        <Icon
-                          icon='fluent:delete-24-regular'
-                          className='menu-icon'
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                      </div>
+                    </td>
+                    <td className='text-center'>
+                      <div className='d-flex align-items-center gap-10 justify-content-center'>
+                        <button
+                          type='button'
+                          className='bg-success-100 text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
+                          data-bs-toggle='modal'
+                          data-bs-target='#exampleModalEdit'
+                        >
+                          <Icon icon='lucide:edit' className='menu-icon' />
+                        </button>
+                        <button
+                          type='button'
+                          className='remove-item-button bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle'
+                          onClick={() => {
+                            const newCurrencies = currencies.filter(
+                              (c) => c.id !== item.id
+                            );
+                            setCurrencies(newCurrencies);
+                          }}
+                        >
+                          <Icon
+                            icon='fluent:delete-24-regular'
+                            className='menu-icon'
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
           <div className='d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24'>
-            <span>Showing 1 to 10 of 12 entries</span>
+            <span>
+              Showing {indexOfFirstItem + 1} to{" "}
+              {Math.min(indexOfLastItem, filteredCurrencies.length)} of{" "}
+              {filteredCurrencies.length} entries
+            </span>
             <ul className='pagination d-flex flex-wrap align-items-center gap-2 justify-content-center'>
-              <li className='page-item'>
-                <Link
-                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px  text-md'
-                  href='#'
+              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <button
+                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px text-md'
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
                 >
                   <Icon icon='ep:d-arrow-left' className='' />
-                </Link>
+                </button>
               </li>
-              <li className='page-item'>
-                <Link
-                  className='page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white'
-                  href='#'
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <li key={page} className='page-item'>
+                    <button
+                      className={`page-link fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md ${
+                        currentPage === page
+                          ? "bg-primary-600 text-white"
+                          : "bg-neutral-200 text-secondary-light"
+                      }`}
+                      onClick={() => handlePageChange(page)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {page}
+                    </button>
+                  </li>
+                )
+              )}
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+              >
+                <button
+                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px text-md'
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
                 >
-                  1
-                </Link>
-              </li>
-              <li className='page-item'>
-                <Link
-                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px'
-                  href='#'
-                >
-                  2
-                </Link>
-              </li>
-              <li className='page-item'>
-                <Link
-                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md'
-                  href='#'
-                >
-                  3
-                </Link>
-              </li>
-              <li className='page-item'>
-                <Link
-                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md'
-                  href='#'
-                >
-                  4
-                </Link>
-              </li>
-              <li className='page-item'>
-                <Link
-                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md'
-                  href='#'
-                >
-                  5
-                </Link>
-              </li>
-              <li className='page-item'>
-                <Link
-                  className='page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px  text-md'
-                  href='#'
-                >
-                  {" "}
-                  <Icon icon='ep:d-arrow-right' className='' />{" "}
-                </Link>
+                  <Icon icon='ep:d-arrow-right' className='' />
+                </button>
               </li>
             </ul>
           </div>

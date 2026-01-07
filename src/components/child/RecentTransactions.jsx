@@ -1,17 +1,19 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const RecentTransactions = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-8'>
       <div className='card h-100'>
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Recent Transactions</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("recent_transactions")}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -24,12 +26,12 @@ const RecentTransactions = () => {
             <table className='table bordered-table mb-0'>
               <thead>
                 <tr>
-                  <th scope='col'>SL</th>
-                  <th scope='col'>Date </th>
-                  <th scope='col'>Payment Type</th>
-                  <th scope='col'>Paid Amount</th>
-                  <th scope='col'>Due Amount</th>
-                  <th scope='col'>Payable Amount</th>
+                  <th scope='col'>{t("sl")}</th>
+                  <th scope='col'>{t("date")} </th>
+                  <th scope='col'>{t("payment_type")}</th>
+                  <th scope='col'>{t("paid_amount")}</th>
+                  <th scope='col'>{t("due_amount")}</th>
+                  <th scope='col'>{t("payable_amount")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,7 +43,7 @@ const RecentTransactions = () => {
                     <span className='text-secondary-light'>21 Jun 2024</span>
                   </td>
                   <td>
-                    <span className='text-secondary-light'>Cash</span>
+                    <span className='text-secondary-light'>{t("cash")}</span>
                   </td>
                   <td>
                     <span className='text-secondary-light'>$0.00</span>
@@ -61,7 +63,7 @@ const RecentTransactions = () => {
                     <span className='text-secondary-light'>21 Jun 2024</span>
                   </td>
                   <td>
-                    <span className='text-secondary-light'>Bank</span>
+                    <span className='text-secondary-light'>{t("bank")}</span>
                   </td>
                   <td>
                     <span className='text-secondary-light'>$570 </span>
@@ -81,7 +83,7 @@ const RecentTransactions = () => {
                     <span className='text-secondary-light'>21 Jun 2024</span>
                   </td>
                   <td>
-                    <span className='text-secondary-light'>PayPal</span>
+                    <span className='text-secondary-light'>{t("paypal")}</span>
                   </td>
                   <td>
                     <span className='text-secondary-light'>$300.00</span>

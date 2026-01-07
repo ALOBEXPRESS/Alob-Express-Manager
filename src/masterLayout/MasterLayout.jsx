@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { usePathname, useRouter } from "next/navigation";
 import ThemeToggleButton from "../helper/ThemeToggleButton";
-import Link from "next/link";
+import ThemeInit from "../components/helper/ThemeInit";
+import NextLink from "next/link";
 import { useTranslations } from 'next-intl';
 
 const MasterLayout = ({ children }) => {
@@ -14,6 +15,21 @@ const MasterLayout = ({ children }) => {
   const router = useRouter();
   const t = useTranslations('sidebar');
   const tCommon = useTranslations('common');
+  const currentLocale = pathname?.split("/")?.[1];
+
+  const withLocale = (href) => {
+    if (typeof href !== "string") return href;
+    if (href === "#") return href;
+    if (!currentLocale || (currentLocale !== "en" && currentLocale !== "pt-br")) return href;
+    if (href === "/") return `/${currentLocale}`;
+    if (href.startsWith(`/${currentLocale}/`) || href === `/${currentLocale}`) return href;
+    if (!href.startsWith("/")) return href;
+    return `/${currentLocale}${href}`;
+  };
+
+  const Link = ({ href, ...props }) => {
+    return <NextLink href={withLocale(href)} {...props} />;
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -141,7 +157,7 @@ const MasterLayout = ({ children }) => {
             />
           </Link>
         </div>
-        <div className='sidebar-menu-area'>
+        <div className='sidebar-menu-area' suppressHydrationWarning={true}>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li className='dropdown'>
               <Link href='#'>
@@ -155,7 +171,7 @@ const MasterLayout = ({ children }) => {
                 <li>
                   <Link
                     href='/'
-                    className={pathname === "/" || pathname === "/pt-BR" || pathname === "/en" ? "active-page" : ""}
+                    className={pathname === "/" || pathname === "/pt-br" || pathname === "/en" ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />
                     {t('ai')}
@@ -163,8 +179,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-2'
-                    className={pathname.includes("/index-2") ? "active-page" : ""}
+                    href='/crm'
+                    className={pathname.includes("/crm") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
                     {t('crm')}
@@ -172,8 +188,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-3'
-                    className={pathname.includes("/index-3") ? "active-page" : ""}
+                    href='/e-commerce'
+                    className={pathname.includes("/e-commerce") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('ecommerce')}
@@ -181,8 +197,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-4'
-                    className={pathname.includes("/index-4") ? "active-page" : ""}
+                    href='/criptomoeda'
+                    className={pathname.includes("/criptomoeda") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-danger-main w-auto' />
                     {t('cryptocurrency')}
@@ -190,8 +206,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-5'
-                    className={pathname.includes("/index-5") ? "active-page" : ""}
+                    href='/investimento'
+                    className={pathname.includes("/investimento") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-success-main w-auto' />{" "}
                     {t('investment')}
@@ -199,8 +215,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-6'
-                    className={pathname.includes("/index-6") ? "active-page" : ""}
+                    href='/lms'
+                    className={pathname.includes("/lms") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-purple w-auto' />{" "}
                     {t('lms')}
@@ -208,8 +224,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-7'
-                    className={pathname.includes("/index-7") ? "active-page" : ""}
+                    href='/nft-e-jogos'
+                    className={pathname.includes("/nft-e-jogos") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('nft_gaming')}
@@ -217,8 +233,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-8'
-                    className={pathname.includes("/index-8") ? "active-page" : ""}
+                    href='/medico'
+                    className={pathname.includes("/medico") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('medical')}
@@ -226,8 +242,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-9'
-                    className={pathname.includes("/index-9") ? "active-page" : ""}
+                    href='/analytics'
+                    className={pathname.includes("/analytics") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('analytics')}
@@ -235,8 +251,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-10'
-                    className={pathname.includes("/index-10") ? "active-page" : ""}
+                    href='/pdv-e-estoque'
+                    className={pathname.includes("/pdv-e-estoque") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('pos_inventory')}
@@ -244,8 +260,8 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href='/index-11'
-                    className={pathname.includes("/index-11") ? "active-page" : ""}
+                    href='/financas-e-bancario'
+                    className={pathname.includes("/financas-e-bancario") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('finance_banking')}
@@ -636,7 +652,7 @@ const MasterLayout = ({ children }) => {
                     className={pathname.includes("/image-upload") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
-                    Upload
+                    {t('image_upload')}
                   </Link>
                 </li>
               </ul>
@@ -1135,10 +1151,10 @@ const MasterLayout = ({ children }) => {
       <main
         className={sidebarActive ? "dashboard-main active" : "dashboard-main"}
       >
-        <div className='navbar-header'>
-          <div className='row align-items-center justify-content-between'>
-            <div className='col-auto'>
-              <div className='d-flex flex-wrap align-items-center gap-4'>
+        <div className='navbar-header' suppressHydrationWarning={true}>
+          <div className='row align-items-center justify-content-between' suppressHydrationWarning={true}>
+            <div className='col-auto' suppressHydrationWarning={true}>
+              <div className='d-flex flex-wrap align-items-center gap-4' suppressHydrationWarning={true}>
                 <button
                   type='button'
                   className='sidebar-toggle'
@@ -1169,17 +1185,17 @@ const MasterLayout = ({ children }) => {
                 </form>
               </div>
             </div>
-            <div className='col-auto'>
-              <div className='d-flex flex-wrap align-items-center gap-3'>
+            <div className='col-auto' suppressHydrationWarning={true}>
+              <div className='d-flex flex-wrap align-items-center gap-3' suppressHydrationWarning={true}>
                 <ThemeToggleButton />
-                <div className='dropdown d-none d-sm-inline-block'>
+                <div className='dropdown d-none d-sm-inline-block' suppressHydrationWarning={true}>
                   <button
                     className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
                     type='button'
                     data-bs-toggle='dropdown'
                   >
                     <img
-                      src={pathname.startsWith('/pt-BR') || (!pathname.startsWith('/en')) ? '/assets/images/flags/flag1.png' : '/assets/images/flags/flag8.png'}
+                      src={pathname.startsWith('/pt-br') || (!pathname.startsWith('/en')) ? '/assets/images/flags/flag1.png' : '/assets/images/flags/flag8.png'}
                       alt='Language'
                       className='w-24 h-24 object-fit-cover rounded-circle'
                     />
@@ -1188,12 +1204,12 @@ const MasterLayout = ({ children }) => {
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
                         <h6 className='text-lg text-primary-light fw-semibold mb-0'>
-                          Choose Your Language
+                          {t('choose_language')}
                         </h6>
                       </div>
                     </div>
                     <div className='max-h-400-px overflow-y-auto scroll-sm pe-8'>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16' onClick={() => changeLanguage('pt-BR')}>
+                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16' onClick={() => changeLanguage('pt-br')}>
                         <label
                           className='form-check-label line-height-1 fw-medium text-secondary-light'
                           htmlFor='portuguese'
@@ -1214,11 +1230,11 @@ const MasterLayout = ({ children }) => {
                           type='radio'
                           name='language'
                           id='portuguese'
-                          checked={pathname.startsWith('/pt-BR') || (!pathname.startsWith('/en'))}
+                          checked={pathname.startsWith('/pt-br') || (!pathname.startsWith('/en'))}
                           readOnly
                         />
                       </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16' onClick={() => changeLanguage('en')}>
+                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16' onClick={() => changeLanguage('en')} suppressHydrationWarning={true}>
                         <label
                           className='form-check-label line-height-1 fw-medium text-secondary-light'
                           htmlFor='english'
@@ -1248,7 +1264,7 @@ const MasterLayout = ({ children }) => {
                 </div>
                 
                 {/* Message Dropdown and Notification Dropdown kept as is for brevity, can be refactored similarly */}
-                <div className='dropdown'>
+                <div className='dropdown' suppressHydrationWarning={true}>
                   <button
                     className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
                     type='button'

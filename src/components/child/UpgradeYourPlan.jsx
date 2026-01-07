@@ -1,7 +1,9 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const UpgradeYourPlan = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-6'>
       <div className='card'>
@@ -9,16 +11,16 @@ const UpgradeYourPlan = () => {
           <div className='row g-3'>
             <div className='col-md-4'>
               <div className='trail-bg h-100 text-center d-flex flex-column justify-content-between align-items-center p-16 radius-8'>
-                <h6 className='text-white text-xl'>Upgrade Your Plan</h6>
+                <h6 className='text-white text-xl'>{t("upgrade_your_plan")}</h6>
                 <div className=''>
                   <p className='text-white'>
-                    Your free trial expired in 7 days
+                    {t("free_trial_expired")}
                   </p>
                   <Link
                     href='#'
                     className='btn py-8 rounded-pill w-100 bg-gradient-blue-warning text-sm'
                   >
-                    Upgrade Now
+                    {t("upgrade_now")}
                   </Link>
                 </div>
               </div>
@@ -31,7 +33,7 @@ const UpgradeYourPlan = () => {
                       <i className='ri-price-tag-3-fill' />
                     </span>
                     <span className='text-neutral-700 d-block'>
-                      Total Sales
+                      {t("total_sales")}
                     </span>
                     <h6 className='mb-0 mt-4'>$170,500.09</h6>
                   </div>
@@ -42,7 +44,7 @@ const UpgradeYourPlan = () => {
                       <i className='ri-shopping-cart-2-fill' />
                     </span>
                     <span className='text-neutral-700 d-block'>
-                      Total Orders
+                      {t("total_orders")}
                     </span>
                     <h6 className='mb-0 mt-4'>1,500</h6>
                   </div>
@@ -52,7 +54,7 @@ const UpgradeYourPlan = () => {
                     <span className='w-44-px h-44-px radius-8 d-inline-flex justify-content-center align-items-center text-xl mb-12 bg-info-200 border border-info-400 text-info-600'>
                       <i className='ri-group-3-fill' />
                     </span>
-                    <span className='text-neutral-700 d-block'>Visitor</span>
+                    <span className='text-neutral-700 d-block'>{t("visitor")}</span>
                     <h6 className='mb-0 mt-4'>12,300</h6>
                   </div>
                 </div>
@@ -61,7 +63,7 @@ const UpgradeYourPlan = () => {
                     <span className='w-44-px h-44-px radius-8 d-inline-flex justify-content-center align-items-center text-xl mb-12 bg-danger-200 border border-danger-400 text-danger-600'>
                       <i className='ri-refund-2-line' />
                     </span>
-                    <span className='text-neutral-700 d-block'>Refunded</span>
+                    <span className='text-neutral-700 d-block'>{t("refunded")}</span>
                     <h6 className='mb-0 mt-4'>2756</h6>
                   </div>
                 </div>

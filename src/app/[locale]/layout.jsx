@@ -21,9 +21,9 @@ export default async function LocaleLayout({ children, params }) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <PluginInit />
+    <html lang={locale} suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
+        <PluginInit />
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>

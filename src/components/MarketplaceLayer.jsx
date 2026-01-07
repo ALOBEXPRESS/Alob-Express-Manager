@@ -2,22 +2,34 @@
 import { Icon } from "@iconify/react";
 import useReactApexChart from "../hook/useReactApexChart";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const MarketplaceLayer = () => {
-  let { createChartNine } = useReactApexChart();
+  let { createChartNineConfig } = useReactApexChart();
+  const t = useTranslations("dashboard");
+
+  const renderChartNine = (color) => {
+    const { options, series } = createChartNineConfig(color);
+    return <ReactApexChart options={options} series={series} type="area" height={40} width={80} />;
+  };
+
   return (
     <div className='card h-100 p-0 radius-12'>
       <div className='card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between'>
         <div className='d-flex align-items-center flex-wrap gap-3'>
           <span className='text-md fw-medium text-secondary-light mb-0'>
-            Show
+            {t("show")}
           </span>
           <select
             className='form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px'
             defaultValue='Select Number'
           >
             <option value='Select Number' disabled>
-              Select Number
+              {t("select_number")}
             </option>
             <option value='1'>1</option>
             <option value='2'>2</option>
@@ -35,7 +47,7 @@ const MarketplaceLayer = () => {
               type='text'
               className='bg-base h-40-px w-auto'
               name='search'
-              placeholder='Search'
+              placeholder={t("search")}
             />
             <Icon icon='ion:search-outline' className='icon' />
           </form>
@@ -43,14 +55,14 @@ const MarketplaceLayer = () => {
             type='button'
             className='btn border py-8 text-secondary-light fw-medium bg-hover-neutral-50 radius-8'
           >
-            Watchlist
+            {t("watchlist")}
           </button>
         </div>
         <Link
           href='/portfolio'
           className='btn btn-primary text-sm btn-sm px-24 py-10 radius-8'
         >
-          Portfolios
+          {t("portfolios")}
         </Link>
       </div>
       <div className='card-body p-24'>
@@ -68,17 +80,17 @@ const MarketplaceLayer = () => {
                         id='selectAll'
                       />
                     </div>
-                    S.L
+                    {t("s_l")}
                   </div>
                 </th>
-                <th scope='col'>Aset</th>
-                <th scope='col'>Circulating Supply</th>
-                <th scope='col'>Price</th>
-                <th scope='col'>Market Cap</th>
-                <th scope='col'>Change %</th>
-                <th scope='col'>Last (24H)</th>
+                <th scope='col'>{t("aset")}</th>
+                <th scope='col'>{t("circulating_supply")}</th>
+                <th scope='col'>{t("price")}</th>
+                <th scope='col'>{t("market_cap")}</th>
+                <th scope='col'>{t("change_percent")}</th>
+                <th scope='col'>{t("last_24h")}</th>
                 <th scope='col' className='text-center'>
-                  Watchlist
+                  {t("watchlist")}
                 </th>
               </tr>
             </thead>
@@ -131,7 +143,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart1'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -191,7 +203,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart2'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -251,7 +263,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart3'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -311,7 +323,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart4'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -371,7 +383,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart5'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#EF4A00")}
+                    {renderChartNine("#EF4A00")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -431,7 +443,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart6'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -491,7 +503,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart7'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#EF4A00")}
+                    {renderChartNine("#EF4A00")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -551,7 +563,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart8'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -611,7 +623,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart9'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#EF4A00")}
+                    {renderChartNine("#EF4A00")}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -671,7 +683,7 @@ const MarketplaceLayer = () => {
                     id='timeSeriesChart10'
                     className='remove-tooltip-title rounded-tooltip-value'
                   >
-                    {createChartNine("#45B369")}
+                    {renderChartNine("#45B369")}
                   </div>
                 </td>
                 <td className='text-center'>

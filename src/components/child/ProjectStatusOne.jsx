@@ -1,19 +1,22 @@
+import { useTranslations } from "next-intl";
+
 const ProjectStatusOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-4'>
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
-            <h6 className='mb-2 fw-bold text-lg'>Project Status</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t("project_status")}</h6>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                 defaultValue='Yearly'
               >
-                <option value='Yearly'>Yearly</option>
-                <option value='Monthly'>Monthly</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Today'>Today</option>
+                <option value='Yearly'>{t("yearly")}</option>
+                <option value='Monthly'>{t("monthly")}</option>
+                <option value='Weekly'>{t("weekly")}</option>
+                <option value='Today'>{t("today")}</option>
               </select>
             </div>
           </div>
@@ -21,19 +24,19 @@ const ProjectStatusOne = () => {
             <table className='table sm-table bordered-table mb-0'>
               <thead>
                 <tr>
-                  <th scope='col'>Name</th>
-                  <th scope='col'>Duration</th>
+                  <th scope='col'>{t("name")}</th>
+                  <th scope='col'>{t("duration")}</th>
                   <th scope='col'>
                     <div className='max-w-112 mx-auto'>
-                      <span>Stock</span>
+                      <span>{t("stock")}</span>
                     </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Gold</td>
-                  <td>2 Months</td>
+                  <td>{t("gold")}</td>
+                  <td>2 {t("months")}</td>
                   <td>
                     <div className='max-w-112 mx-auto'>
                       <div className='w-100'>
@@ -58,8 +61,8 @@ const ProjectStatusOne = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Dollars</td>
-                  <td>3 Months</td>
+                  <td>{t("dollars")}</td>
+                  <td>3 {t("months")}</td>
                   <td>
                     <div className='max-w-112 mx-auto'>
                       <div className='w-100'>
@@ -84,8 +87,8 @@ const ProjectStatusOne = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Stock Market</td>
-                  <td>1 Months</td>
+                  <td>{t("stock_market")}</td>
+                  <td>1 {t("months")}</td>
                   <td>
                     <div className='max-w-112 mx-auto'>
                       <div className='w-100'>
@@ -110,8 +113,8 @@ const ProjectStatusOne = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Dimond</td>
-                  <td>5 Months</td>
+                  <td>{t("diamond")}</td>
+                  <td>5 {t("months")}</td>
                   <td>
                     <div className='max-w-112 mx-auto'>
                       <div className='w-100'>
@@ -136,8 +139,8 @@ const ProjectStatusOne = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>S&amp;P 500</td>
-                  <td>4 Months</td>
+                  <td>{t("sp500")}</td>
+                  <td>4 {t("months")}</td>
                   <td>
                     <div className='max-w-112 mx-auto'>
                       <div className='w-100'>

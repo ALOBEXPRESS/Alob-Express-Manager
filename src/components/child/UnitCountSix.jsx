@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const UnitCountSix = () => {
+  const t = useTranslations("dashboard");
   return (
     <>
       <div className='col-xxl-3 col-xl-4 col-sm-6'>
@@ -14,14 +16,14 @@ const UnitCountSix = () => {
                 <div>
                   <h6 className='fw-semibold mb-2'>650</h6>
                   <span className='fw-medium text-secondary-light text-sm'>
-                    Doctors
+                    {t("doctors")}
                   </span>
                 </div>
               </div>
             </div>
             <p className='text-sm mb-0'>
               {" "}
-              <span className='text-cyan-600'>4</span> Doctors joined this week
+              <span className='text-cyan-600'>4</span> {t("doctors")} {t("joined_this_week")}
             </p>
           </div>
         </div>
@@ -37,14 +39,14 @@ const UnitCountSix = () => {
                 <div>
                   <h6 className='fw-semibold mb-2'>570</h6>
                   <span className='fw-medium text-secondary-light text-sm'>
-                    Staffs
+                    {t("staffs")}
                   </span>
                 </div>
               </div>
             </div>
             <p className='text-sm mb-0'>
               {" "}
-              <span className='text-lilac-600'>8</span> Staffs on vacation
+              <span className='text-lilac-600'>8</span> {t("staffs_on_vacation")}
             </p>
           </div>
         </div>
@@ -60,14 +62,14 @@ const UnitCountSix = () => {
                 <div>
                   <h6 className='fw-semibold mb-2'>15,750</h6>
                   <span className='fw-medium text-secondary-light text-sm'>
-                    Patients
+                    {t("patients")}
                   </span>
                 </div>
               </div>
             </div>
             <p className='text-sm mb-0'>
               {" "}
-              <span className='text-primary-600'>170</span>New patients admitted
+              <span className='text-primary-600'>170</span> {t("new_patients_admitted")}
             </p>
           </div>
         </div>
@@ -83,15 +85,14 @@ const UnitCountSix = () => {
                 <div>
                   <h6 className='fw-semibold mb-2'>$42,400</h6>
                   <span className='fw-medium text-secondary-light text-sm'>
-                    Pharmacies{" "}
+                    {t("pharmacies")}
                   </span>
                 </div>
               </div>
             </div>
             <p className='text-sm mb-0'>
               {" "}
-              <span className='text-success-600'>60,000 </span> Medicine on
-              reserve
+              <span className='text-success-600'>60,000 </span> {t("medicine_on_reserve")}
             </p>
           </div>
         </div>

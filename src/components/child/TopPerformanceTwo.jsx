@@ -1,22 +1,25 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const TopPerformanceTwo = () => {
+  const t = useTranslations("dashboard");
+  const tCommon = useTranslations("common");
   return (
     <div className='col-xxl-4'>
       <div className='card'>
         <div className='card-header border-bottom'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Doctors List</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("doctors_list")}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {tCommon("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
-              />
+            />
             </Link>
           </div>
         </div>
@@ -32,12 +35,12 @@ const TopPerformanceTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0'>Dr. Davis</h6>
                   <span className='text-sm text-secondary-light fw-medium'>
-                    Cardiology
+                    {t("cardiology")}
                   </span>
                 </div>
               </div>
               <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                Available
+                {t("available")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -50,12 +53,12 @@ const TopPerformanceTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0'>Dr. Riead</h6>
                   <span className='text-sm text-secondary-light fw-medium'>
-                    Orthopedics
+                    {t("orthopedics")}
                   </span>
                 </div>
               </div>
               <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                Available
+                {t("available")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -68,12 +71,12 @@ const TopPerformanceTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0'>Albert Flores</h6>
                   <span className='text-sm text-secondary-light fw-medium'>
-                    Ophthalmology
+                    {t("ophthalmology")}
                   </span>
                 </div>
               </div>
               <span className='bg-danger-focus text-danger-main px-10 py-4 radius-8 fw-medium text-sm'>
-                Not Available
+                {t("not_available")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -86,12 +89,12 @@ const TopPerformanceTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0'>Dr. Smith</h6>
                   <span className='text-sm text-secondary-light fw-medium'>
-                    Cardiology
+                    {t("cardiology")}
                   </span>
                 </div>
               </div>
               <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                Available
+                {t("available")}
               </span>
             </div>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -104,15 +107,15 @@ const TopPerformanceTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0'>Dr. Johnson</h6>
                   <span className='text-sm text-secondary-light fw-medium'>
-                    Cardiology
+                    {t("cardiology")}
                   </span>
                 </div>
               </div>
               <span className='bg-danger-focus text-danger-main px-10 py-4 radius-8 fw-medium text-sm'>
-                Not Available
+                {t("not_available")}
               </span>
             </div>
-            <div className='d-flex align-items-center justify-content-between gap-3'>
+             <div className='d-flex align-items-center justify-content-between gap-3'>
               <div className='d-flex align-items-center'>
                 <img
                   src='/assets/images/home-eight/doctor-img5.png'
@@ -122,12 +125,12 @@ const TopPerformanceTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0'>Dr. Martinez</h6>
                   <span className='text-sm text-secondary-light fw-medium'>
-                    Cardiology
+                    {t("cardiology")}
                   </span>
                 </div>
               </div>
               <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                Available
+                {t("available")}
               </span>
             </div>
           </div>

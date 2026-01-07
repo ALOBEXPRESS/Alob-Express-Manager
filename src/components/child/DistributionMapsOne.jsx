@@ -1,6 +1,10 @@
 "use client";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 const DistributionMapsOne = () => {
+  const t = useTranslations("dashboard");
+  const tCommon = useTranslations("common");
+
   useEffect(() => {
     // Dynamically import jsVectorMap and the world map
     import("jsvectormap")
@@ -35,11 +39,11 @@ const DistributionMapsOne = () => {
             },
           },
           markers: [
-            { coords: [35.8617, 104.1954], name: "China : 250" },
-            { coords: [25.2744, 133.7751], name: "Australia : 250" },
-            { coords: [36.77, -119.41], name: "USA : 82%" },
-            { coords: [55.37, -3.41], name: "UK : 250" },
-            { coords: [25.2, 55.27], name: "UAE : 250" },
+            { coords: [35.8617, 104.1954], name: `${t("china")} : 250` },
+            { coords: [25.2744, 133.7751], name: `${t("australia")} : 250` },
+            { coords: [36.77, -119.41], name: `${t("usa")} : 82%` },
+            { coords: [55.37, -3.41], name: `${t("uk")} : 250` },
+            { coords: [25.2, 55.27], name: `${t("uae")} : 250` },
           ],
           series: {
             regions: [
@@ -80,25 +84,25 @@ const DistributionMapsOne = () => {
       .catch((error) => {
         console.error("Failed to initialize jsVectorMap:", error);
       });
-  }, []);
+  }, [t]);
   return (
     <div className='col-xxl-4 col-lg-6'>
       <div className='card radius-8 border-0'>
         <div className='card-body'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg'>Distribution Maps</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t("distribution_maps")}</h6>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                 defaultValue=''
               >
                 <option value='' disabled>
-                  Select Frequency
+                  {t("select_frequency")}
                 </option>
-                <option value='Yearly'>Yearly</option>
-                <option value='Monthly'>Monthly</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Today'>Today</option>
+                <option value='Yearly'>{t("yearly")}</option>
+                <option value='Monthly'>{t("monthly")}</option>
+                <option value='Weekly'>{t("weekly")}</option>
+                <option value='Today'>{t("today")}</option>
               </select>
             </div>
           </div>
@@ -118,7 +122,7 @@ const DistributionMapsOne = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-sm mb-0'>USA</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    1,240 {tCommon("users")}
                   </span>
                 </div>
               </div>
@@ -153,7 +157,7 @@ const DistributionMapsOne = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-sm mb-0'>Japan</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    1,240 {tCommon("users")}
                   </span>
                 </div>
               </div>
@@ -188,7 +192,7 @@ const DistributionMapsOne = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-sm mb-0'>France</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    1,240 {tCommon("users")}
                   </span>
                 </div>
               </div>
@@ -223,7 +227,7 @@ const DistributionMapsOne = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-sm mb-0'>Germany</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    1,240 Users
+                    1,240 {tCommon("users")}
                   </span>
                 </div>
               </div>

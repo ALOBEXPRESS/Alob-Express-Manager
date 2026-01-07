@@ -2,35 +2,60 @@
 import dynamic from "next/dynamic";
 import { Icon } from "@iconify/react";
 import useReactApexChart from "@/hook/useReactApexChart";
+import { useTranslations } from 'next-intl';
+import { useState } from "react";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const EarningStaticOne = () => {
   let { barChartSeriesTwo, barChartOptionsTwo } = useReactApexChart();
+  const t = useTranslations('dashboard');
+  
+  const [series, setSeries] = useState(barChartSeriesTwo);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    switch (value) {
+      case 'Yearly':
+        setSeries([{ name: "Earnings", data: [20, 30, 25, 40, 35, 50, 45] }]);
+        break;
+      case 'Monthly':
+        setSeries([{ name: "Earnings", data: [15, 25, 20, 30, 25, 40, 35] }]);
+        break;
+      case 'Weekly':
+        setSeries([{ name: "Earnings", data: [5, 10, 8, 15, 12, 20, 18] }]);
+        break;
+      case 'Today':
+        setSeries([{ name: "Earnings", data: [2, 4, 3, 6, 5, 8, 7] }]);
+        break;
+      default:
+        setSeries(barChartSeriesTwo);
+    }
+  };
+
   return (
     <div className='col-xxl-8'>
       <div className='card h-100 radius-8 border-0'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <div>
-              <h6 className='mb-2 fw-bold text-lg'>Earning Statistic</h6>
+              <h6 className='mb-2 fw-bold text-lg'>{t('earning_statistic')}</h6>
               <span className='text-sm fw-medium text-secondary-light'>
-                Yearly earning overview
+                {t('yearly_earning_overview')}
               </span>
             </div>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
-                defaultValue=''
+                defaultValue='Yearly'
+                onChange={handleChange}
               >
-                <option value='' disabled>
-                  Select Frequency
-                </option>
-                <option value='Yearly'>Yearly</option>
-                <option value='Monthly'>Monthly</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Today'>Today</option>
+                <option value='Yearly'>{t('yearly')}</option>
+                <option value='Monthly'>{t('monthly')}</option>
+                <option value='Weekly'>{t('weekly')}</option>
+                <option value='Today'>{t('today')}</option>
               </select>
             </div>
           </div>
@@ -41,7 +66,7 @@ const EarningStaticOne = () => {
               </span>
               <div>
                 <span className='text-secondary-light text-sm fw-medium'>
-                  Sales
+                  {t('sales')}
                 </span>
                 <h6 className='text-md fw-semibold mb-0'>$200k</h6>
               </div>
@@ -52,7 +77,7 @@ const EarningStaticOne = () => {
               </span>
               <div>
                 <span className='text-secondary-light text-sm fw-medium'>
-                  Income
+                  {t('income')}
                 </span>
                 <h6 className='text-md fw-semibold mb-0'>$200k</h6>
               </div>
@@ -63,7 +88,7 @@ const EarningStaticOne = () => {
               </span>
               <div>
                 <span className='text-secondary-light text-sm fw-medium'>
-                  Profit
+                  {t('profit')}
                 </span>
                 <h6 className='text-md fw-semibold mb-0'>$200k</h6>
               </div>
@@ -72,7 +97,7 @@ const EarningStaticOne = () => {
           <div id='barChart'>
             <ReactApexChart
               options={barChartOptionsTwo}
-              series={barChartSeriesTwo}
+              series={series}
               type='bar'
               height={310}
             />

@@ -1,17 +1,19 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const FeaturedCreatorsTwo = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-12 col-md-6'>
       <div className='card h-100'>
         <div className='card-header border-bottom d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-          <h6 className='fw-bold text-lg mb-0'>Featured Creators</h6>
+          <h6 className='fw-bold text-lg mb-0'>{t("featured_creators")}</h6>
           <Link
             href='#'
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
-            View All
+            {t("view_all")}
             <Icon icon='solar:alt-arrow-right-linear' className='icon' />
           </Link>
         </div>
@@ -34,7 +36,7 @@ const FeaturedCreatorsTwo = () => {
               type='button'
               className='btn bg-primary-600 border-primary-600 text-white px-24 rounded-pill follow-btn transition-2'
             >
-              Follow
+              {t("follow")}
             </button>
           </div>
           <div className='d-flex align-items-center justify-content-between gap-8 flex-wrap mb-32'>
@@ -55,7 +57,7 @@ const FeaturedCreatorsTwo = () => {
               type='button'
               className='btn bg-primary-600 border-primary-600 text-white px-24 rounded-pill follow-btn transition-2'
             >
-              Follow
+              {t("follow")}
             </button>
           </div>
           <div className='d-flex align-items-center justify-content-between gap-8 flex-wrap mb-32'>
@@ -76,7 +78,7 @@ const FeaturedCreatorsTwo = () => {
               type='button'
               className='btn bg-primary-600 border-primary-600 text-white px-24 rounded-pill follow-btn transition-2'
             >
-              Follow
+              {t("follow")}
             </button>
           </div>
           <div className='d-flex align-items-center justify-content-between gap-8 flex-wrap mb-32'>
@@ -97,7 +99,7 @@ const FeaturedCreatorsTwo = () => {
               type='button'
               className='btn bg-primary-600 border-primary-600 text-white px-24 rounded-pill follow-btn transition-2'
             >
-              Follow
+              {t("follow")}
             </button>
           </div>
           <div className='d-flex align-items-center justify-content-between gap-8 flex-wrap mb-0'>
@@ -118,7 +120,7 @@ const FeaturedCreatorsTwo = () => {
               type='button'
               className='btn bg-primary-600 border-primary-600 text-white px-24 rounded-pill follow-btn transition-2'
             >
-              Follow
+              {t("follow")}
             </button>
           </div>
         </div>

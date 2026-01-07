@@ -1,17 +1,19 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const EarningCategories = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-md-6'>
       <div className='card radius-16 h-100'>
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Earning Categories</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("earning_categories")}</h6>
             <Link
-              href='#'
+              href='/marketplace'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -31,7 +33,7 @@ const EarningCategories = () => {
                   />
                 </span>
                 <div className='flex-grow-1'>
-                  <h6 className='text-sm mb-0'>Digital Assets</h6>
+                  <h6 className='text-sm mb-0'>{t("digital_assets")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
                     $50 / from $1000
                   </span>
@@ -68,7 +70,7 @@ const EarningCategories = () => {
                   />
                 </span>
                 <div className='flex-grow-1'>
-                  <h6 className='text-sm mb-0'>Side Project</h6>
+                  <h6 className='text-sm mb-0'>{t("side_project")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
                     $50 / from $1000
                   </span>

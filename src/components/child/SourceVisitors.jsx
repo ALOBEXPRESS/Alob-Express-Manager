@@ -1,15 +1,18 @@
+import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const SourceVisitors = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-6'>
       <div className='card h-100'>
         <div className='card-header border-bottom-0 pb-0 d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-          <h6 className='mb-2 fw-bold text-lg mb-0'>Source Visitors</h6>
+          <h6 className='mb-2 fw-bold text-lg mb-0'>{t("source_visitors")}</h6>
           <select className='form-select form-select-sm w-auto bg-base border text-secondary-light'>
-            <option>Last Month</option>
-            <option>Last Week</option>
-            <option>Last Year</option>
+            <option>{t("last_month")}</option>
+            <option>{t("last_week")}</option>
+            <option>{t("last_year")}</option>
           </select>
         </div>
         <div className='card-body'>
@@ -17,11 +20,11 @@ const SourceVisitors = () => {
             <div className='md-position-absolute start-0 top-0 mt-20'>
               <h6 className='mb-1'>524,756</h6>
               <span className='text-secondary-light'>
-                Total Platform Visitors
+                {t("total_platform_visitors")}
               </span>
             </div>
             <div className='row g-3 h-100'>
-              <div className='col-md-3 col-sm-6 d-flex flex-column justify-content-end'>
+              <div className='col-3 d-flex flex-column justify-content-end'>
                 <div
                   className='d-flex flex-column align-items-center p-24 pt-16 rounded-top-4 bg-tb-warning'
                   style={{ minHeight: "50%" }}
@@ -32,11 +35,11 @@ const SourceVisitors = () => {
                       alt=''
                     />
                   </span>
-                  <span className='text-secondary-light'>TikTok</span>
+                  <span className='text-secondary-light'>{t("tiktok")}</span>
                   <h6 className='mb-0'>50%</h6>
                 </div>
               </div>
-              <div className='col-md-3 col-sm-6 d-flex flex-column justify-content-end'>
+              <div className='col-3 d-flex flex-column justify-content-end'>
                 <div
                   className='d-flex flex-column align-items-center p-24 pt-16 rounded-top-4 bg-tb-lilac'
                   style={{ minHeight: "66%" }}
@@ -47,11 +50,11 @@ const SourceVisitors = () => {
                       alt=''
                     />
                   </span>
-                  <span className='text-secondary-light'>Instagram</span>
+                  <span className='text-secondary-light'>{t("instagram")}</span>
                   <h6 className='mb-0'>66%</h6>
                 </div>
               </div>
-              <div className='col-md-3 col-sm-6 d-flex flex-column justify-content-end'>
+              <div className='col-3 d-flex flex-column justify-content-end'>
                 <div
                   className='d-flex flex-column align-items-center p-24 pt-16 rounded-top-4 bg-tb-primary'
                   style={{ minHeight: "82%" }}
@@ -62,11 +65,11 @@ const SourceVisitors = () => {
                       alt=''
                     />
                   </span>
-                  <span className='text-secondary-light'>Facebook</span>
+                  <span className='text-secondary-light'>{t("facebook")}</span>
                   <h6 className='mb-0'>82%</h6>
                 </div>
               </div>
-              <div className='col-md-3 col-sm-6 d-flex flex-column justify-content-end'>
+              <div className='col-3 d-flex flex-column justify-content-end'>
                 <div
                   className='d-flex flex-column align-items-center p-24 pt-16 rounded-top-4 bg-tb-success'
                   style={{ minHeight: "96%" }}
@@ -77,7 +80,7 @@ const SourceVisitors = () => {
                       alt=''
                     />
                   </span>
-                  <span className='text-secondary-light'>Website</span>
+                  <span className='text-secondary-light'>{t("website")}</span>
                   <h6 className='mb-0'>96%</h6>
                 </div>
               </div>

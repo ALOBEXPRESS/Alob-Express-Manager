@@ -1,21 +1,23 @@
 import { Icon } from "@iconify/react";
+import { useTranslations } from 'next-intl';
 
 const MyOrdersOne = () => {
+  const t = useTranslations('dashboard');
   return (
     <div className='col-xxl-6'>
       <div className='card h-100 radius-8 border-0'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
-            <h6 className='mb-2 fw-bold text-lg'>My Orders</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t('my_orders')}</h6>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                 defaultValue='Today'
               >
-                <option value='Today'>Today</option>
-                <option value='Monthly'>Monthly</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Today'>Today</option>
+                <option value='Today'>{t('today')}</option>
+                <option value='Monthly'>{t('monthly')}</option>
+                <option value='Weekly'>{t('weekly')}</option>
+                <option value='Today'>{t('today')}</option>
               </select>
             </div>
           </div>
@@ -23,11 +25,11 @@ const MyOrdersOne = () => {
             <table className='table bordered-table mb-0'>
               <thead>
                 <tr>
-                  <th scope='col'>Rate</th>
-                  <th scope='col'>Amount ETH </th>
-                  <th scope='col'>Price PLN</th>
+                  <th scope='col'>{t('rate')}</th>
+                  <th scope='col'>{t('amount_eth')} </th>
+                  <th scope='col'>{t('price_pln')}</th>
                   <th scope='col' className='text-center'>
-                    Action
+                    {t('action')}
                   </th>
                 </tr>
               </thead>

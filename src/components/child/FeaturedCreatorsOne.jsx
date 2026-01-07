@@ -1,17 +1,19 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const FeaturedCreatorsOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-12 col-md-6'>
       <div className='card h-100'>
         <div className='card-header border-bottom d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-          <h6 className='fw-bold text-lg mb-0'>Featured Creators</h6>
+          <h6 className='fw-bold text-lg mb-0'>{t("featured_creators")}</h6>
           <Link
             href='#'
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
-            View All
+            {t("view_all")}
             <Icon icon='solar:alt-arrow-right-linear' className='icon' />
           </Link>
         </div>
@@ -26,7 +28,7 @@ const FeaturedCreatorsOne = () => {
               <div className='flex-grow-1'>
                 <h6 className='text-md mb-0 fw-semibold'>Theresa Webb</h6>
                 <span className='text-sm text-secondary-light fw-normal'>
-                  Owned by ABC
+                  {t("owned_by")} ABC
                 </span>
               </div>
             </div>
@@ -34,7 +36,7 @@ const FeaturedCreatorsOne = () => {
               type='button'
               className='btn btn-outline-primary-600 px-24 rounded-pill'
             >
-              Follow
+              {t("follow")}
             </button>
           </div>
           <div className='mt-24'>

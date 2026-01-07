@@ -1,11 +1,14 @@
 "use client";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const TotalTransactionsOne = () => {
+  const t = useTranslations("dashboard");
   let { transactionLineChartSeries, transactionLineChartOptions } =
     useReactApexChart();
   return (
@@ -13,16 +16,16 @@ const TotalTransactionsOne = () => {
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
-            <h6 className='mb-2 fw-bold text-lg'>Total Transactions </h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t("total_transactions")}</h6>
             <div className=''>
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                 defaultValue='Yearly'
               >
-                <option value='Yearly'>Yearly</option>
-                <option value='Monthly'>Monthly</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Today'>Today</option>
+                <option value='Yearly'>{t("yearly")}</option>
+                <option value='Monthly'>{t("monthly")}</option>
+                <option value='Weekly'>{t("weekly")}</option>
+                <option value='Today'>{t("today")}</option>
               </select>
             </div>
           </div>
@@ -30,7 +33,7 @@ const TotalTransactionsOne = () => {
             <li className='d-flex align-items-center gap-2'>
               <span className='w-16-px h-16-px radius-2 bg-primary-600' />
               <span className='text-secondary-light text-lg fw-normal'>
-                Total Gain:{" "}
+                {t("total_gain")}:{" "}
                 <span className='text-primary-light fw-bold text-lg'>
                   $50,000
                 </span>

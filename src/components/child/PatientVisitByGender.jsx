@@ -1,11 +1,14 @@
 "use client";
 import useReactApexChart from "@/hook/useReactApexChart";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const PatientVisitByGender = () => {
+  const t = useTranslations("dashboard");
   let { paymentStatusChartOptionsFour, paymentStatusChartSeriesFour } =
     useReactApexChart();
   return (
@@ -14,12 +17,12 @@ const PatientVisitByGender = () => {
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>
-              Patient Visit By Gender
+              {t("patient_visit_by_gender")}
             </h6>
             <select className='form-select form-select-sm w-auto bg-base border-0 text-secondary-light'>
-              <option>This Month</option>
-              <option>This Week</option>
-              <option>This Year</option>
+              <option>{t("this_month")}</option>
+              <option>{t("this_week")}</option>
+              <option>{t("this_year")}</option>
             </select>
           </div>
         </div>
@@ -28,14 +31,14 @@ const PatientVisitByGender = () => {
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-8-px rounded-pill bg-warning-600' />
               <span className='text-secondary-light text-sm fw-semibold'>
-                Male:
+                {t("male")}:
                 <span className='text-primary-light fw-bold'>200</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-8-px rounded-pill bg-success-600' />
               <span className='text-secondary-light text-sm fw-semibold'>
-                Female:
+                {t("female")}:
                 <span className='text-primary-light fw-bold'> 450</span>
               </span>
             </li>

@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react";
+import { useTranslations } from 'next-intl';
 
 const UnitCountFour = () => {
+  const t = useTranslations('dashboard');
   return (
     <>
       {/* Dashboard Widget Start */}
@@ -16,15 +18,15 @@ const UnitCountFour = () => {
                 </div>
                 <div>
                   <span className='mb-2 fw-medium text-secondary-light text-md'>
-                    New Users
+                    {t('new_users')}
                   </span>
                   <h6 className='fw-semibold my-1'>5000</h6>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                       +200
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>
@@ -49,15 +51,15 @@ const UnitCountFour = () => {
                 </div>
                 <div>
                   <span className='mb-2 fw-medium text-secondary-light text-md'>
-                    Total Deposit
+                    {t('total_deposit')}
                   </span>
                   <h6 className='fw-semibold my-1'>15,000</h6>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
                       -200
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>
@@ -82,15 +84,15 @@ const UnitCountFour = () => {
                 </div>
                 <div>
                   <span className='mb-2 fw-medium text-secondary-light text-md'>
-                    Total Expense
+                    {t('total_expense')}
                   </span>
                   <h6 className='fw-semibold my-1'>15,000</h6>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                       +200
                     </span>
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>
@@ -112,15 +114,15 @@ const UnitCountFour = () => {
                 </div>
                 <div>
                   <span className='mb-2 fw-medium text-secondary-light text-md'>
-                    Total Earning
+                    {t('total_earning')}
                   </span>
                   <h6 className='fw-semibold my-1'>15,000</h6>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                       +200
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>

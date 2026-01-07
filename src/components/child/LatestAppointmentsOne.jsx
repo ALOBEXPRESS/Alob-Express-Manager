@@ -1,17 +1,20 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const LatestAppointmentsOne = () => {
+  const t = useTranslations("dashboard");
+  const tCommon = useTranslations("common");
   return (
     <div className='col-xxl-8'>
       <div className='card h-100'>
         <div className='card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between'>
-          <h6 className='text-lg fw-semibold mb-0'>Latest Appointments</h6>
+          <h6 className='text-lg fw-semibold mb-0'>{t("latest_appointments")}</h6>
           <Link
             href='#'
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
-            View All
+            {tCommon("view_all")}
             <iconify-icon
               icon='solar:alt-arrow-right-linear'
               className='icon'
@@ -24,83 +27,83 @@ const LatestAppointmentsOne = () => {
               <thead>
                 <tr>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Name
+                    {tCommon("name")}
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
                     ID
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Date
+                    {tCommon("date")}
                   </th>
                   <th scope='col' className='bg-transparent rounded-0'>
-                    Status
+                    {tCommon("status")}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>General Checkup</td>
+                  <td>{t("general_checkup")}</td>
                   <td>#63254</td>
                   <td>27 Mar 2024</td>
                   <td>
                     {" "}
                     <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Completed
+                      {t("completed")}
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td>Blood test results </td>
+                  <td>{t("blood_test_results")} </td>
                   <td>3.053 ETH</td>
                   <td>2h 5m 40s</td>
                   <td>
                     {" "}
                     <span className='bg-danger-focus text-danger-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Canceled
+                      {t("canceled")}
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td>Heart Checkup</td>
+                  <td>{t("heart_checkup")}</td>
                   <td>3.053 ETH</td>
                   <td>2h 5m 40s</td>
                   <td>
                     {" "}
                     <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Completed
+                      {t("completed")}
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td>Vaccination</td>
+                  <td>{t("vaccination")}</td>
                   <td>3.053 ETH</td>
                   <td>2h 5m 40s</td>
                   <td>
                     {" "}
                     <span className='bg-danger-focus text-danger-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Canceled
+                      {t("canceled")}
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td>Dental Cleanup</td>
+                  <td>{t("dental_cleanup")}</td>
                   <td>3.053 ETH</td>
                   <td>2h 5m 40s</td>
                   <td>
                     {" "}
                     <span className='bg-success-focus text-success-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Completed
+                      {t("completed")}
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td>Follow up Appointment </td>
+                  <td>{t("follow_up_appointment")} </td>
                   <td>3.053 ETH</td>
                   <td>2h 5m 40s</td>
                   <td>
                     {" "}
                     <span className='bg-danger-focus text-danger-main px-10 py-4 radius-8 fw-medium text-sm'>
-                      Canceled
+                      {t("canceled")}
                     </span>
                   </td>
                 </tr>

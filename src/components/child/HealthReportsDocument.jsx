@@ -1,20 +1,22 @@
 import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const HealthReportsDocument = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-12 col-xl-6'>
       <div className='card'>
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>
-              Health Reports Document
+              {t("health_reports_document")}
             </h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -34,7 +36,7 @@ const HealthReportsDocument = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-normal'>Checkup Result.pdf</h6>
+                  <h6 className='text-md mb-0 fw-normal'>{t("checkup_result")}.pdf</h6>
                   <span className='text-xs text-secondary-light fw-normal'>
                     2.5mb
                   </span>
@@ -65,7 +67,7 @@ const HealthReportsDocument = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-normal'>Checkup Result.doc</h6>
+                  <h6 className='text-md mb-0 fw-normal'>{t("checkup_result")}.doc</h6>
                   <span className='text-xs text-secondary-light fw-normal'>
                     2mb
                   </span>
@@ -96,9 +98,9 @@ const HealthReportsDocument = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-normal'>Prescription.pdf</h6>
+                  <h6 className='text-md mb-0 fw-normal'>{t("prescription")}.pdf</h6>
                   <span className='text-xs text-secondary-light fw-normal'>
-                    3mb
+                    4.5mb
                   </span>
                 </div>
               </div>
@@ -121,13 +123,46 @@ const HealthReportsDocument = () => {
               <div className='d-flex align-items-center gap-12'>
                 <div className='flex-shrink-0'>
                   <img
+                    src='/assets/images/home-eight/icon-pdf.png'
+                    alt=''
+                    className=''
+                  />
+                </div>
+                <div className='flex-grow-1'>
+                  <h6 className='text-md mb-0 fw-normal'>
+                    {t("medical_certificate")}.pdf
+                  </h6>
+                  <span className='text-xs text-secondary-light fw-normal'>
+                    4.5mb
+                  </span>
+                </div>
+              </div>
+              <div className='flex-align gap-12'>
+                <button
+                  type='button'
+                  className='w-32-px h-32-px d-inline-flex justify-content-center align-items-center bg-danger-100 text-danger-600 bg-hover-danger-600 text-hover-white text-md rounded-circle'
+                >
+                  <i className='ri-delete-bin-5-line' />
+                </button>
+                <button
+                  type='button'
+                  className='w-32-px h-32-px d-inline-flex justify-content-center align-items-center bg-success-100 text-success-600 bg-hover-success-600 text-hover-white text-md rounded-circle'
+                >
+                  <i className='ri-download-2-fill' />
+                </button>
+              </div>
+            </div>
+             <div className='d-flex align-items-center justify-content-between gap-3'>
+              <div className='d-flex align-items-center gap-12'>
+                <div className='flex-shrink-0'>
+                  <img
                     src='/assets/images/home-eight/icon-text.png'
                     alt=''
                     className=''
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-normal'>Xray Result.doc</h6>
+                  <h6 className='text-md mb-0 fw-normal'>{t("xray_result")}.doc</h6>
                   <span className='text-xs text-secondary-light fw-normal'>
                     3mb
                   </span>
@@ -159,7 +194,7 @@ const HealthReportsDocument = () => {
                 </div>
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0 fw-normal'>
-                    Glucose Level Report.pdf
+                    {t("glucose_level_report")}.pdf
                   </h6>
                   <span className='text-xs text-secondary-light fw-normal'>
                     3mb
@@ -191,7 +226,7 @@ const HealthReportsDocument = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-normal'>Checkup Result.doc</h6>
+                  <h6 className='text-md mb-0 fw-normal'>{t("checkup_result")}.doc</h6>
                   <span className='text-xs text-secondary-light fw-normal'>
                     2mb
                   </span>

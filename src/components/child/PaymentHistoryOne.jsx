@@ -1,16 +1,18 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const PaymentHistoryOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='card radius-16 mt-24'>
       <div className='card-header'>
         <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-          <h6 className='mb-2 fw-bold text-lg mb-0'>Payment History</h6>
+          <h6 className='mb-2 fw-bold text-lg mb-0'>{t("payment_history")}</h6>
           <Link
-            href='#'
+            href='/invoice-list'
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
-            View All
+            {t("view_all")}
             <iconify-icon
               icon='solar:alt-arrow-right-linear'
               className='icon'
@@ -23,24 +25,24 @@ const PaymentHistoryOne = () => {
           <table className='table bordered-table sm-table mb-0'>
             <thead>
               <tr>
-                <th scope='col'>Users </th>
+                <th scope='col'>{t("users")} </th>
                 <th scope='col' className='text-center'>
-                  Email
+                  {t("email")}
                 </th>
                 <th scope='col' className='text-center'>
-                  Transaction ID
+                  {t("transaction_id")}
                 </th>
                 <th scope='col' className='text-center'>
-                  Amount
+                  {t("amount")}
                 </th>
                 <th scope='col' className='text-center'>
-                  Payment Method
+                  {t("payment_method")}
                 </th>
                 <th scope='col' className='text-center'>
-                  Date
+                  {t("date")}
                 </th>
                 <th scope='col' className='text-center'>
-                  Status
+                  {t("status")}
                 </th>
               </tr>
             </thead>
@@ -61,11 +63,11 @@ const PaymentHistoryOne = () => {
                 <td className='text-center'>osgoodwy@gmail.com</td>
                 <td className='text-center'>9562415412263</td>
                 <td className='text-center'>$29.00</td>
-                <td className='text-center'>Bank</td>
+                <td className='text-center'>{t("bank")}</td>
                 <td className='text-center'>24 Jun 2024</td>
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                    Active
+                    {t("active")}
                   </span>
                 </td>
               </tr>
@@ -85,11 +87,11 @@ const PaymentHistoryOne = () => {
                 <td className='text-center'>redaniel@gmail.com</td>
                 <td className='text-center'>9562415412263</td>
                 <td className='text-center'>$29.00</td>
-                <td className='text-center'>Bank</td>
+                <td className='text-center'>{t("bank")}</td>
                 <td className='text-center'>24 Jun 2024</td>
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                    Active
+                    {t("active")}
                   </span>
                 </td>
               </tr>
@@ -113,7 +115,7 @@ const PaymentHistoryOne = () => {
                 <td className='text-center'>24 Jun 2024</td>
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                    Active
+                    {t("active")}
                   </span>
                 </td>
               </tr>
@@ -137,7 +139,7 @@ const PaymentHistoryOne = () => {
                 <td className='text-center'>24 Jun 2024</td>
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm'>
-                    Active
+                    {t("active")}
                   </span>
                 </td>
               </tr>

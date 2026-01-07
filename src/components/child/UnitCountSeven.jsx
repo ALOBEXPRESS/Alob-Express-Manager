@@ -1,4 +1,7 @@
+import { useTranslations } from "next-intl";
+
 const UnitCountSeven = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-12'>
       <div className='card radius-12'>
@@ -9,7 +12,7 @@ const UnitCountSeven = () => {
                 <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-md'>
-                      Gross Sales
+                      {t("gross_sales")}
                     </span>
                     <h6 className='fw-semibold mb-1'>$40,000</h6>
                   </div>
@@ -21,7 +24,7 @@ const UnitCountSeven = () => {
                   <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                     <i className='ri-arrow-right-up-line' /> 80%
                   </span>{" "}
-                  From last month{" "}
+                  {t("from_last_month")}{" "}
                 </p>
               </div>
             </div>
@@ -30,7 +33,7 @@ const UnitCountSeven = () => {
                 <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-md'>
-                      Total Purchase
+                      {t("total_purchase")}
                     </span>
                     <h6 className='fw-semibold mb-1'>$35,000</h6>
                   </div>
@@ -42,7 +45,7 @@ const UnitCountSeven = () => {
                   <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                     <i className='ri-arrow-right-up-line' /> 95%
                   </span>{" "}
-                  From last month{" "}
+                  {t("from_last_month")}{" "}
                 </p>
               </div>
             </div>
@@ -51,7 +54,7 @@ const UnitCountSeven = () => {
                 <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-md'>
-                      Total Income
+                      {t("total_income")}
                     </span>
                     <h6 className='fw-semibold mb-1'>$30,000</h6>
                   </div>
@@ -63,7 +66,7 @@ const UnitCountSeven = () => {
                   <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
                     <i className='ri-arrow-right-down-line' /> 30%
                   </span>{" "}
-                  From last month{" "}
+                  {t("from_last_month")}{" "}
                 </p>
               </div>
             </div>
@@ -72,7 +75,7 @@ const UnitCountSeven = () => {
                 <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
                   <div>
                     <span className='mb-2 fw-medium text-secondary-light text-md'>
-                      Total Expense
+                      {t("total_expense")}
                     </span>
                     <h6 className='fw-semibold mb-1'>$7,000</h6>
                   </div>
@@ -84,7 +87,7 @@ const UnitCountSeven = () => {
                   <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                     <i className='ri-arrow-right-up-line' /> 60%
                   </span>{" "}
-                  From last month{" "}
+                  {t("from_last_month")}{" "}
                 </p>
               </div>
             </div>

@@ -1,9 +1,11 @@
 import { Icon } from "@iconify/react";
+import { useTranslations } from "next-intl";
 
 const TrendingBidsOne = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-12'>
-      <h6 className='mb-16'>Trending Bids</h6>
+      <h6 className='mb-16'>{t("trending_bids")}</h6>
       <div className='row gy-4'>
         {/* Dashboard Widget Start */}
         <div className='col-lg-4 col-sm-6'>
@@ -17,14 +19,14 @@ const TrendingBidsOne = () => {
                   <div className='flex-grow-1'>
                     <h6 className='fw-semibold mb-0'>24,000</h6>
                     <span className='fw-medium text-secondary-light text-md'>
-                      Artworks
+                      {t("artworks")}
                     </span>
                     <p className='text-sm mb-0 d-flex align-items-center flex-wrap gap-12 mt-12'>
                       <span className='bg-success-focus px-6 py-2 rounded-2 fw-medium text-success-main text-sm d-flex align-items-center gap-8'>
                         +168.001%
                         <i className='ri-arrow-up-line' />
                       </span>{" "}
-                      This week
+                      {t("this_week")}
                     </p>
                   </div>
                 </div>
@@ -45,14 +47,14 @@ const TrendingBidsOne = () => {
                   <div className='flex-grow-1'>
                     <h6 className='fw-semibold mb-0'>82,000</h6>
                     <span className='fw-medium text-secondary-light text-md'>
-                      Auction
+                      {t("auction")}
                     </span>
                     <p className='text-sm mb-0 d-flex align-items-center flex-wrap gap-12 mt-12'>
                       <span className='bg-danger-focus px-6 py-2 rounded-2 fw-medium text-danger-main text-sm d-flex align-items-center gap-8'>
                         +168.001%
                         <i className='ri-arrow-down-line' />
                       </span>{" "}
-                      This week
+                      {t("this_week")}
                     </p>
                   </div>
                 </div>
@@ -73,14 +75,14 @@ const TrendingBidsOne = () => {
                   <div className='flex-grow-1'>
                     <h6 className='fw-semibold mb-0'>800</h6>
                     <span className='fw-medium text-secondary-light text-md'>
-                      Creators
+                      {t("creators")}
                     </span>
                     <p className='text-sm mb-0 d-flex align-items-center flex-wrap gap-12 mt-12'>
                       <span className='bg-success-focus px-6 py-2 rounded-2 fw-medium text-success-main text-sm d-flex align-items-center gap-8'>
                         +168.001%
                         <i className='ri-arrow-up-line' />
                       </span>{" "}
-                      This week
+                      {t("this_week")}
                     </p>
                   </div>
                 </div>

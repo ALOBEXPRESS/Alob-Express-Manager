@@ -1,11 +1,14 @@
 "use client";
 import useReactApexChart from "@/hook/useReactApexChart";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const PatientVisitedDepartment = () => {
+  const t = useTranslations("dashboard");
   let { radialMultipleBarOptions, radialMultipleBarSeries } =
     useReactApexChart();
   return (
@@ -14,7 +17,7 @@ const PatientVisitedDepartment = () => {
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>
-              Patient Visited by Department
+              {t("patient_visited_by_department")}
             </h6>
           </div>
         </div>
@@ -31,19 +34,19 @@ const PatientVisitedDepartment = () => {
           <ul className='d-flex flex-column gap-12'>
             <li>
               <span className='text-lg'>
-                Cardiology:{" "}
+                {t("cardiology")}:{" "}
                 <span className='text-primary-600 fw-semibold'>80%</span>{" "}
               </span>
             </li>
             <li>
               <span className='text-lg'>
-                Psychiatry:{" "}
+                {t("psychiatry")}:{" "}
                 <span className='text-warning-600 fw-semibold'>40%</span>{" "}
               </span>
             </li>
             <li>
               <span className='text-lg'>
-                Pediatrics:{" "}
+                {t("pediatrics")}:{" "}
                 <span className='text-success-600 fw-semibold'>10%</span>{" "}
               </span>
             </li>

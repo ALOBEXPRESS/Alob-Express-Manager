@@ -1,17 +1,19 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const TopSuppliers = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-4 col-md-6'>
       <div className='card h-100'>
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Top Suppliers</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("top_suppliers")}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -24,9 +26,9 @@ const TopSuppliers = () => {
             <table className='table bordered-table mb-0'>
               <thead>
                 <tr>
-                  <th scope='col'>SL</th>
-                  <th scope='col'>Name </th>
-                  <th scope='col'>Amount</th>
+                  <th scope='col'>{t("sl")}</th>
+                  <th scope='col'>{t("name")} </th>
+                  <th scope='col'>{t("amount")}</th>
                 </tr>
               </thead>
               <tbody>

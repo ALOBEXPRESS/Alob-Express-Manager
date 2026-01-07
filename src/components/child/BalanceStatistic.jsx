@@ -1,11 +1,13 @@
 "use client";
-import useReactApexChart from "../../hook/useReactApexChart";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import useReactApexChart from "../../hook/useReactApexChart";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const BalanceStatistic = () => {
+  const t = useTranslations("dashboard");
   let { balanceStatisticsOptions, balanceStatisticsSeries } =
     useReactApexChart();
   return (
@@ -13,26 +15,26 @@ const BalanceStatistic = () => {
       <div className='card h-100'>
         <div className='card-body'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg mb-0'>Balance Statistic</h6>
+            <h6 className='mb-2 fw-bold text-lg mb-0'>{t("balance_statistic")}</h6>
             <select className='form-select form-select-sm w-auto bg-base border text-secondary-light'>
-              <option>Today</option>
-              <option>Weekly</option>
-              <option>Monthly</option>
-              <option>Yearly</option>
+              <option>{t("today")}</option>
+              <option>{t("weekly")}</option>
+              <option>{t("monthly")}</option>
+              <option>{t("yearly")}</option>
             </select>
           </div>
           <ul className='d-flex flex-wrap align-items-center justify-content-center mt-3 gap-3'>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
               <span className='text-secondary-light text-sm fw-semibold'>
-                Word:
+                {t("word")}:
                 <span className='text-primary-light fw-bold'>500</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-circle bg-yellow' />
               <span className='text-secondary-light text-sm fw-semibold'>
-                Image:
+                {t("image")}:
                 <span className='text-primary-light fw-bold'>300</span>
               </span>
             </li>

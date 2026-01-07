@@ -1,13 +1,16 @@
+import Link from "next/link";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const MonthlyCampaignState = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-4'>
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-start flex-column gap-2'>
-            <h6 className='mb-2 fw-bold text-lg'>Monthly Campaign State</h6>
-            <span className='text-secondary-light'>7.2k Social visitors</span>
+            <h6 className='mb-2 fw-bold text-lg'>{t("monthly_campaign_state")}</h6>
+            <span className='text-secondary-light'>7.2k {t("social_visitors")}</span>
           </div>
           <div className='d-flex flex-column gap-32 mt-32'>
             <div className='d-flex align-items-center justify-content-between gap-3'>
@@ -20,7 +23,7 @@ const MonthlyCampaignState = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-semibold'>Email</h6>
+                  <h6 className='text-md mb-0 fw-semibold'>{t("email")}</h6>
                 </div>
               </div>
               <div className='d-flex align-items-center gap-8'>
@@ -40,12 +43,12 @@ const MonthlyCampaignState = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-semibold'>Clicked</h6>
+                  <h6 className='text-md mb-0 fw-semibold'>{t("clicked")}</h6>
                 </div>
               </div>
               <div className='d-flex align-items-center gap-8'>
                 <span className='text-secondary-light text-md fw-medium'>
-                  Clicked
+                  {t("clicked")}
                 </span>
                 <span className='text-danger-600 text-md fw-medium'>1.3%</span>
               </div>
@@ -60,7 +63,7 @@ const MonthlyCampaignState = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-semibold'>Subscribe</h6>
+                  <h6 className='text-md mb-0 fw-semibold'>{t("subscribe")}</h6>
                 </div>
               </div>
               <div className='d-flex align-items-center gap-8'>
@@ -80,7 +83,7 @@ const MonthlyCampaignState = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-semibold'>Complaints </h6>
+                  <h6 className='text-md mb-0 fw-semibold'>{t("complaints")} </h6>
                 </div>
               </div>
               <div className='d-flex align-items-center gap-8'>
@@ -100,7 +103,7 @@ const MonthlyCampaignState = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-semibold'>Unsubscribe</h6>
+                  <h6 className='text-md mb-0 fw-semibold'>{t("unsubscribe")}</h6>
                 </div>
               </div>
               <div className='d-flex align-items-center gap-8'>
@@ -120,7 +123,7 @@ const MonthlyCampaignState = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-semibold'>Subscribe</h6>
+                  <h6 className='text-md mb-0 fw-semibold'>{t("subscribe")}</h6>
                 </div>
               </div>
               <div className='d-flex align-items-center gap-8'>

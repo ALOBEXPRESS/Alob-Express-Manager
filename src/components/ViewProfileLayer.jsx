@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 const ViewProfileLayer = () => {
   const t = useTranslations('profile');
   const [imagePreview, setImagePreview] = useState(
-    "assets/images/user-grid/user-grid-img13.png"
+    "/assets/images/user-grid/user-grid-img13.png"
   );
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);

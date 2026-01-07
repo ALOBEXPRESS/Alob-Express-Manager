@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Icon } from "@iconify/react";
 import useReactApexChart from "@/hook/useReactApexChart";
@@ -11,6 +12,28 @@ import { useTranslations } from 'next-intl';
 const SalesStatisticOne = () => {
   const t = useTranslations('dashboard');
   let { chartOptions, chartSeries } = useReactApexChart();
+  
+  const [series, setSeries] = useState(chartSeries);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    switch (value) {
+      case t('yearly'):
+        setSeries([{ name: "This month", data: [10, 20, 12, 30, 14, 35, 16, 32, 14, 25, 13, 28] }]);
+        break;
+      case t('monthly'):
+        setSeries([{ name: "This month", data: [5, 15, 10, 25, 20, 30, 25, 35, 20, 30, 25, 35] }]);
+        break;
+      case t('weekly'):
+        setSeries([{ name: "This month", data: [2, 5, 3, 6, 4, 8, 6, 9, 5, 8, 6, 9] }]);
+        break;
+      case t('today'):
+        setSeries([{ name: "This month", data: [1, 2, 1, 3, 2, 4, 3, 5, 2, 4, 3, 5] }]);
+        break;
+      default:
+        setSeries(chartSeries);
+    }
+  };
 
   return (
     <div className='col-xxl-6 col-xl-12'>
@@ -21,6 +44,7 @@ const SalesStatisticOne = () => {
             <select
               className='form-select bg-base form-select-sm w-auto'
               defaultValue={t('yearly')}
+              onChange={handleChange}
             >
               <option value={t('yearly')}>{t('yearly')}</option>
               <option value={t('monthly')}>{t('monthly')}</option>
@@ -37,7 +61,7 @@ const SalesStatisticOne = () => {
           </div>
           <ReactApexChart
             options={chartOptions}
-            series={chartSeries}
+            series={series}
             type='area'
             height={264}
           />

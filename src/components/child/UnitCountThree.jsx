@@ -1,8 +1,20 @@
 "use client";
 import useReactApexChart from "../../hook/useReactApexChart";
+import { useTranslations } from 'next-intl';
+import dynamic from "next/dynamic";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const UnitCountThree = () => {
-  let { createChartThree } = useReactApexChart();
+  let { createChartThreeConfig } = useReactApexChart();
+  const t = useTranslations('dashboard');
+
+  const renderChartThree = (color) => {
+    const { options, series } = createChartThreeConfig(color);
+    return <ReactApexChart options={options} series={series} type="area" height={60} width={120} />;
+  };
+
   return (
     <div className=' row row-cols-xxxl-5 row-cols-lg-3 row-cols-sm-2 row-cols-1 gy-4'>
       <div className='col'>
@@ -15,7 +27,7 @@ const UnitCountThree = () => {
                 className='w-40-px h-40-px rounded-circle flex-shrink-0'
               />
               <div className='flex-grow-1'>
-                <h6 className='text-xl mb-1'>Bitcoin</h6>
+                <h6 className='text-xl mb-1'>{t('bitcoin')}</h6>
                 <p className='fw-medium text-secondary-light mb-0'>BTC</p>
               </div>
             </div>
@@ -29,7 +41,7 @@ const UnitCountThree = () => {
                 className='remove-tooltip-title rounded-tooltip-value'
               >
                 {/* Pass the color value here */}
-                {createChartThree("#F98C08")}
+                {renderChartThree("#F98C08")}
               </div>
             </div>
           </div>
@@ -45,7 +57,7 @@ const UnitCountThree = () => {
                 className='w-40-px h-40-px rounded-circle flex-shrink-0'
               />
               <div className='flex-grow-1'>
-                <h6 className='text-xl mb-1'>Ethereum </h6>
+                <h6 className='text-xl mb-1'>{t('ethereum')}</h6>
                 <p className='fw-medium text-secondary-light mb-0'>ETH</p>
               </div>
             </div>
@@ -59,7 +71,7 @@ const UnitCountThree = () => {
                 className='remove-tooltip-title rounded-tooltip-value'
               >
                 {/* Pass the color value here */}
-                {createChartThree("#5F80FF")}
+                {renderChartThree("#5F80FF")}
               </div>
             </div>
           </div>
@@ -75,7 +87,7 @@ const UnitCountThree = () => {
                 className='w-40-px h-40-px rounded-circle flex-shrink-0'
               />
               <div className='flex-grow-1'>
-                <h6 className='text-xl mb-1'>Solana</h6>
+                <h6 className='text-xl mb-1'>{t('solana')}</h6>
                 <p className='fw-medium text-secondary-light mb-0'>SOL</p>
               </div>
             </div>
@@ -89,7 +101,7 @@ const UnitCountThree = () => {
                 className='remove-tooltip-title rounded-tooltip-value'
               >
                 {/* Pass the color value here */}
-                {createChartThree("#C817F8")}
+                {renderChartThree("#C817F8")}
               </div>
             </div>
           </div>
@@ -105,7 +117,7 @@ const UnitCountThree = () => {
                 className='w-40-px h-40-px rounded-circle flex-shrink-0'
               />
               <div className='flex-grow-1'>
-                <h6 className='text-xl mb-1'>Litecoin</h6>
+                <h6 className='text-xl mb-1'>{t('litecoin')}</h6>
                 <p className='fw-medium text-secondary-light mb-0'>LTE</p>
               </div>
             </div>
@@ -119,7 +131,7 @@ const UnitCountThree = () => {
                 className='remove-tooltip-title rounded-tooltip-value'
               >
                 {/* Pass the color value here */}
-                {createChartThree("#2171EA")}
+                {renderChartThree("#2171EA")}
               </div>
             </div>
           </div>
@@ -135,7 +147,7 @@ const UnitCountThree = () => {
                 className='w-40-px h-40-px rounded-circle flex-shrink-0'
               />
               <div className='flex-grow-1'>
-                <h6 className='text-xl mb-1'>Dogecoin</h6>
+                <h6 className='text-xl mb-1'>{t('dogecoin')}</h6>
                 <p className='fw-medium text-secondary-light mb-0'>DOGE</p>
               </div>
             </div>
@@ -149,7 +161,7 @@ const UnitCountThree = () => {
                 className='remove-tooltip-title rounded-tooltip-value'
               >
                 {/* Pass the color value here */}
-                {createChartThree("#C2A633")}
+                {renderChartThree("#C2A633")}
               </div>
             </div>
           </div>

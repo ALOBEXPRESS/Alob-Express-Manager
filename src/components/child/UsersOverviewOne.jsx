@@ -1,5 +1,6 @@
 "use client";
 import useReactApexChart from "@/hook/useReactApexChart";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -10,6 +11,29 @@ import { useTranslations } from 'next-intl';
 const UsersOverviewOne = () => {
   const t = useTranslations('dashboard');
   let { donutChartSeries, donutChartOptions } = useReactApexChart();
+  
+  const [series, setSeries] = useState(donutChartSeries);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    switch (value) {
+      case t('yearly'):
+        setSeries([44, 55, 41, 17]);
+        break;
+      case t('monthly'):
+        setSeries([30, 40, 20, 10]);
+        break;
+      case t('weekly'):
+        setSeries([10, 20, 10, 60]);
+        break;
+      case t('today'):
+        setSeries([5, 10, 5, 80]);
+        break;
+      default:
+        setSeries(donutChartSeries);
+    }
+  };
+
   return (
     <div className='col-xxl-3 col-xl-6'>
       <div className='card h-100 radius-8 border-0 overflow-hidden'>
@@ -20,6 +44,7 @@ const UsersOverviewOne = () => {
               <select
                 className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                 defaultValue={t('today')}
+                onChange={handleChange}
               >
                 <option value={t('today')}>{t('today')}</option>
                 <option value={t('weekly')}>{t('weekly')}</option>
@@ -30,7 +55,7 @@ const UsersOverviewOne = () => {
           </div>
           <ReactApexChart
             options={donutChartOptions}
-            series={donutChartSeries}
+            series={series}
             type='donut'
             height={264}
           />

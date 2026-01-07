@@ -11,12 +11,18 @@ import { useTranslations } from 'next-intl';
 const SalesStatisticTwo = () => {
   const t = useTranslations('dashboard');
   let {
-    createChartFive,
+    createChartFiveConfig,
     semiCircleGaugeSeriesOne,
     semiCircleGaugeOptionsOne,
     dailyIconBarChartSeriesOne,
     dailyIconBarChartOptionsOne,
   } = useReactApexChart();
+
+  const renderChartFive = (color) => {
+    const { options, series } = createChartFiveConfig(color);
+    return <ReactApexChart options={options} series={series} type="area" height={60} width={100} />;
+  };
+
   return (
     <div className='col-xxl-4'>
       <div className='card h-100 radius-8 border-0'>
@@ -55,7 +61,7 @@ const SalesStatisticTwo = () => {
               </div>
               <div id='areaChart'>
                 {/* Pass the color value */}
-                {createChartFive("#FF9F29")}
+                {renderChartFive("#FF9F29")}
               </div>
             </div>
             <div className='d-flex align-items-center gap-1 justify-content-between'>

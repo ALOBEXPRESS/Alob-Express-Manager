@@ -1,8 +1,28 @@
 "use client";
 import useReactApexChart from "../../hook/useReactApexChart";
+import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const UnitCountFive = () => {
-  let { createChartSix } = useReactApexChart();
+  let { createChartSixConfig } = useReactApexChart();
+  const t = useTranslations("dashboard");
+  
+  const [chartData, setChartData] = useState(createChartSixConfig("#45B369", "#487fff"));
+
+  const renderChartSix = () => {
+    const { options, series } = chartData;
+    return <ReactApexChart options={options} series={series} type="area" height={264} />;
+  };
+
+  const handleChange = (e) => {
+    // Simulate data change
+    setChartData(createChartSixConfig("#45B369", "#487fff"));
+  };
+
   return (
     <div className='col-xxl-8'>
       <div className='card radius-8 border-0 p-20'>
@@ -17,7 +37,7 @@ const UnitCountFive = () => {
                     </span>
                     <div>
                       <span className='mb-0 fw-medium text-secondary-light text-lg'>
-                        Total Students
+                        {t("total_students")}
                       </span>
                     </div>
                   </div>
@@ -28,7 +48,7 @@ const UnitCountFive = () => {
                     <span className='text-white px-1 rounded-2 fw-medium bg-success-main text-sm'>
                       +2.5k
                     </span>
-                    This Month
+                    {t("this_month")}
                   </p>
                 </div>
               </div>
@@ -42,7 +62,7 @@ const UnitCountFive = () => {
                     </span>
                     <div>
                       <span className='mb-0 fw-medium text-secondary-light text-lg'>
-                        Total Courses
+                        {t("total_courses")}
                       </span>
                     </div>
                   </div>
@@ -53,7 +73,7 @@ const UnitCountFive = () => {
                     <span className='text-white px-1 rounded-2 fw-medium bg-success-main text-sm'>
                       +30
                     </span>
-                    This Month
+                    {t("this_month")}
                   </p>
                 </div>
               </div>
@@ -67,7 +87,7 @@ const UnitCountFive = () => {
                     </span>
                     <div>
                       <span className='mb-0 fw-medium text-secondary-light text-lg'>
-                        Overall Revenue
+                        {t("overall_revenue")}
                       </span>
                     </div>
                   </div>
@@ -78,7 +98,7 @@ const UnitCountFive = () => {
                     <span className='text-white px-1 rounded-2 fw-medium bg-success-main text-sm'>
                       +1.5k
                     </span>
-                    This Month
+                    {t("this_month")}
                   </p>
                 </div>
               </div>
@@ -88,17 +108,18 @@ const UnitCountFive = () => {
             <div className='card-body p-0'>
               <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
                 <h6 className='mb-2 fw-bold text-lg'>
-                  Average Enrollment Rate
+                  {t("average_enrollment_rate")}
                 </h6>
                 <div className=''>
                   <select
                     className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                     defaultValue='Yearly'
+                    onChange={handleChange}
                   >
-                    <option value='Yearly'>Yearly</option>
-                    <option value='Monthly'>Monthly</option>
-                    <option value='Weekly'>Weekly</option>
-                    <option value='Today'>Today</option>
+                    <option value='Yearly'>{t("yearly")}</option>
+                    <option value='Monthly'>{t("monthly")}</option>
+                    <option value='Weekly'>{t("weekly")}</option>
+                    <option value='Today'>{t("today")}</option>
                   </select>
                 </div>
               </div>
@@ -106,14 +127,14 @@ const UnitCountFive = () => {
                 <li className='d-flex align-items-center gap-2'>
                   <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
                   <span className='text-secondary-light text-sm fw-semibold'>
-                    Paid Course:
+                    {t("paid_course")}:
                     <span className='text-primary-light fw-bold'>350</span>
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-2'>
                   <span className='w-12-px h-12-px rounded-circle bg-success-main' />
                   <span className='text-secondary-light text-sm fw-semibold'>
-                    Free Course:
+                    {t("free_course")}:
                     <span className='text-primary-light fw-bold'>70</span>
                   </span>
                 </li>
@@ -124,7 +145,7 @@ const UnitCountFive = () => {
                   className='apexcharts-tooltip-style-1'
                 >
                   {/* Pass the color value */}
-                  {createChartSix("#45B369", "#487fff")}
+                  {renderChartSix()}
                 </div>
               </div>
             </div>

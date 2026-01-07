@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const UnitCountEight = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='row gy-4'>
       <div className='col-xxl-3 col-sm-6'>
@@ -16,7 +18,7 @@ const UnitCountEight = () => {
                 </span>
                 <div>
                   <span className='fw-medium text-secondary-light text-md'>
-                    Total Period Income
+                    {t("total_period_income")}
                   </span>
                   <h6 className='fw-semibold mt-2'>$50,000</h6>
                 </div>
@@ -26,7 +28,7 @@ const UnitCountEight = () => {
               <span className='bg-success-focus px-6 py-2 rounded-2 fw-medium text-success-main text-sm d-flex align-items-center gap-1'>
                 <i className='ri-arrow-right-up-line' /> 95%
               </span>{" "}
-              Last month $24,000.00
+              {t("last_month")} $24,000.00
             </p>
           </div>
         </div>
@@ -44,7 +46,7 @@ const UnitCountEight = () => {
                 </span>
                 <div>
                   <span className='fw-medium text-secondary-light text-md'>
-                    Total Period Expenses
+                    {t("total_period_expenses")}
                   </span>
                   <h6 className='fw-semibold mt-2'>$35,000</h6>
                 </div>
@@ -54,7 +56,7 @@ const UnitCountEight = () => {
               <span className='bg-success-focus px-6 py-2 rounded-2 fw-medium text-success-main text-sm d-flex align-items-center gap-1'>
                 <i className='ri-arrow-right-up-line' /> 95%
               </span>{" "}
-              Last month $1,600.00
+              {t("last_month")} $1,600.00
             </p>
           </div>
         </div>
@@ -72,7 +74,7 @@ const UnitCountEight = () => {
                 </span>
                 <div>
                   <span className='fw-medium text-secondary-light text-md'>
-                    Net Profit
+                    {t("net_profit")}
                   </span>
                   <h6 className='fw-semibold mt-2'>$50,000</h6>
                 </div>
@@ -82,7 +84,7 @@ const UnitCountEight = () => {
               <span className='bg-danger-focus px-6 py-2 rounded-2 fw-medium text-danger-main text-sm d-flex align-items-center gap-1'>
                 <i className='ri-arrow-right-down-line' /> 70%
               </span>{" "}
-              Last month $24,000.00
+              {t("last_month")} $24,000.00
             </p>
           </div>
         </div>

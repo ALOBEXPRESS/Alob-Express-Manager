@@ -19,7 +19,7 @@ export default defineConfig({
     navigationTimeout: 60000, // 1 min por página para compilar
   },
   webServer: {
-    command: 'npm run start', // Usar produção para performance
+    command: 'npm run dev', // Usar dev para hot reload
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,

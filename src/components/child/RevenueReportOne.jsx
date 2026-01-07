@@ -1,8 +1,10 @@
 "use client";
 import { Icon } from "@iconify/react";
-import React from "react";
+import React, { useState } from "react";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
+import { useTranslations } from 'next-intl';
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -10,6 +12,30 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 const RevenueReportOne = () => {
   let { paymentStatusChartSeriesThree, paymentStatusChartOptionsThree } =
     useReactApexChart();
+  const t = useTranslations('dashboard');
+  
+  const [series, setSeries] = useState(paymentStatusChartSeriesThree);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    switch (value) {
+      case 'Yearly':
+        setSeries([{ name: 'Earning', data: [44, 55, 57, 56, 61, 58, 63, 60, 66] }, { name: 'Expense', data: [76, 85, 101, 98, 87, 105, 91, 114, 94] }]);
+        break;
+      case 'Monthly':
+        setSeries([{ name: 'Earning', data: [30, 40, 35, 50, 49, 60, 70, 91, 125] }, { name: 'Expense', data: [20, 35, 40, 60, 55, 80, 85, 100, 110] }]);
+        break;
+      case 'Weekly':
+        setSeries([{ name: 'Earning', data: [10, 20, 15, 25, 20, 30, 35, 40, 45] }, { name: 'Expense', data: [5, 10, 8, 15, 12, 20, 25, 30, 35] }]);
+        break;
+      case 'Today':
+        setSeries([{ name: 'Earning', data: [2, 5, 3, 6, 4, 8, 6, 9, 12] }, { name: 'Expense', data: [1, 2, 1, 3, 2, 4, 3, 5, 6] }]);
+        break;
+      default:
+        setSeries(paymentStatusChartSeriesThree);
+    }
+  };
+
   return (
     <div className='col-xxl-9'>
       <div className='card radius-8 border-0'>
@@ -17,16 +43,17 @@ const RevenueReportOne = () => {
           <div className='col-xxl-6 pe-xxl-0'>
             <div className='card-body p-24'>
               <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-                <h6 className='mb-2 fw-bold text-lg'>Revenue Report</h6>
+                <h6 className='mb-2 fw-bold text-lg'>{t('revenue_report')}</h6>
                 <div className=''>
                   <select
                     className='form-select form-select-sm w-auto bg-base border text-secondary-light'
                     defaultValue='Yearly'
+                    onChange={handleChange}
                   >
-                    <option value='Yearly'>Yearly</option>
-                    <option value='Monthly'>Monthly</option>
-                    <option value='Weekly'>Weekly</option>
-                    <option value='Today'>Today</option>
+                    <option value='Yearly'>{t('yearly')}</option>
+                    <option value='Monthly'>{t('monthly')}</option>
+                    <option value='Weekly'>{t('weekly')}</option>
+                    <option value='Today'>{t('today')}</option>
                   </select>
                 </div>
               </div>
@@ -34,7 +61,7 @@ const RevenueReportOne = () => {
                 <li className='d-flex align-items-center gap-2'>
                   <span className='w-12-px h-12-px radius-2 bg-primary-600' />
                   <span className='text-secondary-light text-sm fw-semibold'>
-                    Earning:
+                    {t('earning')}:
                     <span className='text-primary-light fw-bold'>
                       $500,00,000.00
                     </span>
@@ -43,7 +70,7 @@ const RevenueReportOne = () => {
                 <li className='d-flex align-items-center gap-2'>
                   <span className='w-12-px h-12-px radius-2 bg-yellow' />
                   <span className='text-secondary-light text-sm fw-semibold'>
-                    Expense:
+                    {t('expense')}:
                     <span className='text-primary-light fw-bold'>
                       $20,000.00
                     </span>
@@ -53,7 +80,7 @@ const RevenueReportOne = () => {
               <div className='mt-40'>
                 <ReactApexChart
                   options={paymentStatusChartOptionsThree}
-                  series={paymentStatusChartSeriesThree}
+                  series={series}
                   type='bar'
                   height={250}
                   id='paymentStatusChart'
@@ -72,7 +99,7 @@ const RevenueReportOne = () => {
                         <Icon icon='fa-solid:box-open' className='icon' />
                       </span>
                       <span className='mb-1 fw-medium text-secondary-light text-md'>
-                        Total Products
+                        {t('total_products')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
                         300
@@ -80,11 +107,11 @@ const RevenueReportOne = () => {
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                       +200
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>
@@ -99,7 +126,7 @@ const RevenueReportOne = () => {
                         />
                       </span>
                       <span className='mb-1 fw-medium text-secondary-light text-md'>
-                        Total Customer
+                        {t('total_customer')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
                         50,000
@@ -107,11 +134,11 @@ const RevenueReportOne = () => {
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
                       -5k
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>
@@ -126,7 +153,7 @@ const RevenueReportOne = () => {
                         />
                       </span>
                       <span className='mb-1 fw-medium text-secondary-light text-md'>
-                        Total Orders
+                        {t('total_orders')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
                         1500
@@ -134,11 +161,11 @@ const RevenueReportOne = () => {
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                       +1k
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>
@@ -153,7 +180,7 @@ const RevenueReportOne = () => {
                         />
                       </span>
                       <span className='mb-1 fw-medium text-secondary-light text-md'>
-                        Total Sales
+                        {t('total_sales')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
                         $25,00,000.00
@@ -161,11 +188,11 @@ const RevenueReportOne = () => {
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
-                    Increase by{" "}
+                    {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
                       +$10k
                     </span>{" "}
-                    this week
+                    {t('this_week')}
                   </p>
                 </div>
               </div>

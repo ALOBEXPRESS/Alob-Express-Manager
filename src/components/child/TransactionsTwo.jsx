@@ -1,17 +1,20 @@
 import Link from "next/link";
+import React from "react";
+import { useTranslations } from "next-intl";
 
 const TransactionsTwo = () => {
+  const t = useTranslations("dashboard");
   return (
     <div className='col-xxl-4'>
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-            <h6 className='mb-2 fw-bold text-lg'>Transactions</h6>
+            <h6 className='mb-2 fw-bold text-lg'>{t("transactions")}</h6>
             <Link
               href='#'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
-              View All
+              {t("view_all")}
               <iconify-icon
                 icon='solar:alt-arrow-right-linear'
                 className='icon'
@@ -29,9 +32,9 @@ const TransactionsTwo = () => {
                   />
                 </div>
                 <div className='flex-grow-1'>
-                  <h6 className='text-md mb-0 fw-normal'>Wallet</h6>
+                  <h6 className='text-md mb-0 fw-normal'>{t("wallet")}</h6>
                   <span className='text-sm text-secondary-light fw-normal'>
-                    Payment
+                    {t("payment")}
                   </span>
                 </div>
               </div>
@@ -51,7 +54,7 @@ const TransactionsTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0 fw-normal'>PayPal</h6>
                   <span className='text-sm text-secondary-light fw-normal'>
-                    Payment
+                    {t("payment")}
                   </span>
                 </div>
               </div>
@@ -71,7 +74,7 @@ const TransactionsTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0 fw-normal'>Credit Card </h6>
                   <span className='text-sm text-secondary-light fw-normal'>
-                    Bill Payment
+                    {t("bill_payment")}
                   </span>
                 </div>
               </div>
@@ -91,7 +94,7 @@ const TransactionsTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-md mb-0 fw-normal'>Bank</h6>
                   <span className='text-sm text-secondary-light fw-normal'>
-                    Bill Payment
+                    {t("bill_payment")}
                   </span>
                 </div>
               </div>

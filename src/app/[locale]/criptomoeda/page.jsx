@@ -1,6 +1,7 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import DashBoardLayerFour from "@/components/DashBoardLayerFour";
 import MasterLayout from "@/masterLayout/MasterLayout";
+import { useTranslations } from 'next-intl';
 
 export const metadata = {
   title: "WowDash NEXT JS - Admin Dashboard Multipurpose Bootstrap 5 Template",
@@ -9,12 +10,13 @@ export const metadata = {
 };
 
 const Page = () => {
+  const t = useTranslations('sidebar');
   return (
     <>
       {/* MasterLayout */}
       <MasterLayout>
         {/* Breadcrumb */}
-        <Breadcrumb title='Cryptocracy' />
+        <Breadcrumb title={t('cryptocurrency')} />
 
         {/* DashBoardLayerFour */}
         <DashBoardLayerFour />

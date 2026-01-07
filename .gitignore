@@ -37,3 +37,7 @@ next-env.d.ts
 
 tests/
 test-results/
+
+.trae/
+.vscode/
+screenshots/
