@@ -78,6 +78,19 @@ Ou conecte seu repositório GitHub à Vercel para deploys automáticos a cada al
 
 ## 📊 Modelagem de Dados (Proposta - CRM & E-commerce)
 
+## 💡 Estratégia de Dados Reais (Checklist)
+
+Para garantir que a modelagem de dados reflita as necessidades reais do projeto, siga este checklist:
+
+- [x] Analisar UI da página "Criptomoeda" para novas tabelas ✅
+- [x] Analisar UI da página "NFT e Jogos" para novas tabelas ✅
+- [x] Analisar UI da página "Médico" para novas tabelas ✅
+- [x] Analisar UI da página "Analytics" para novas tabelas ✅
+- [x] Analisar UI da página "PDV e Estoque" para novas tabelas ✅
+- [x] Analisar UI da página "Finanças e Bancário" para novas tabelas ✅
+- [x] Atualizar ERD com TODAS as entidades (Financeiro, PDV, Médico, etc) ✅
+- [x] Documentar integração de Email (Gmail/Titan), WhatsApp e Google Calendar ✅
+
 Abaixo está o diagrama de entidade-relacionamento (ERD) proposto, baseado na análise dos componentes de interface das páginas de CRM e E-commerce.
 
 ```mermaid
@@ -95,13 +108,25 @@ erDiagram
         string phone
         string image_url
         string status "active, inactive"
-        string role "admin, customer, agent"
-        string country "Para mapa e stats (Filtro por Pais)"
-        string gender "male, female, other"
+        uuid role_id FK "Ligacao com Tabela Roles"
+        string department "HR, Design, Development"
+        string designation "Manager, Developer"
+        string description "Bio ou notas"
+        string country "Para mapa e stats"
+        string gender "male, female"
         string agent_id "ID legivel se for agente"
-        timestamp created_at "Suporta filtro: Novos Usuarios (Hoje/Semana/Mes/Ano)"
-        timestamp last_active_at "Suporta filtro: Usuarios Ativos (Hoje/Semana...)"
+        timestamp created_at "Join Date"
+        timestamp last_active_at
     }
+
+    Roles {
+        uuid id PK
+        string name "Admin, Manager, Waiter"
+        string description
+        string status "active, inactive"
+        timestamp created_at
+    }
+    Users }o--|| Roles : "possui_permissao"
 
     Products ||--o{ OrderItems : "contem"
     Products {
@@ -246,4 +271,380 @@ erDiagram
         int overdue_count
         date report_week
     }
+
+    %% Dados Criptomoedas (NOVO)
+    CryptoWallets {
+        uuid id PK
+        uuid user_id FK
+        string currency "BTC, ETH, etc"
+        string address "Endereco publico da carteira"
+        decimal balance
+        string status "active, inactive"
+    }
+
+    CryptoTransactions {
+        uuid id PK
+        uuid wallet_id FK
+        string type "send, receive, swap_buy, swap_sell"
+        decimal amount_crypto
+        decimal amount_fiat
+        string transaction_hash
+        string counterparty_address
+        string status "completed, pending, terminated"
+        timestamp date "Suporta filtro: Transacoes Cripto (Hoje/Semana/Mes/Ano)"
+    }
+    CryptoTransactions }o--|| CryptoWallets : "afeta_saldo"
+
+    CreditCards {
+        uuid id PK
+        uuid user_id FK
+        string card_alias "Master Card"
+        string last_four "Digitos finais"
+        string holder_name
+        date expiry_date
+        string card_bg_style "Para UI (gradiente/imagem)"
+    }
+    Users ||--o{ CreditCards : "possui"
+    Users ||--o{ CryptoWallets : "possui_carteira"
+
+    %% Dados NFT (NOVO)
+    NFTCollections {
+        uuid id PK
+        string name "Nome da colecao (ex: Bored Ape)"
+        string creator_name "Proprietario ou Artista"
+        string cover_image_url
+        int items_count
+    }
+
+    NFTItems {
+        uuid id PK
+        uuid collection_id FK
+        uuid owner_id FK
+        string name "Nome do item (ex: Fantastic Alien)"
+        string image_url "URL IPFS ou HTTP"
+        decimal price_eth
+        decimal price_usd
+        string category "art, music, utility, fashion"
+        int likes_count
+        timestamp created_at
+    }
+    NFTCollections ||--o{ NFTItems : "contem"
+
+    NFTBids {
+        uuid id PK
+        uuid nft_item_id FK
+        uuid bidder_user_id FK
+        decimal bid_amount_eth
+        timestamp bid_time
+        timestamp expires_at
+        string status "active, accepted, rejected"
+    }
+    NFTItems ||--o{ NFTBids : "recebe_lances"
+
+    NFTCreators {
+        uuid id PK
+        uuid user_id FK
+        string bio
+        decimal total_sales_value
+        int followers_count
+        string cover_image_url
+    }
+    Users ||--o{ NFTCreators : "pode_ser"
+
+    %% Dados Médicos (NOVO)
+    MedicalDepartments {
+        uuid id PK
+        string name "Cardiologia, Psiquiatria, Pediatria"
+        int head_doctor_id FK
+    }
+
+    Doctors {
+        uuid id PK
+        uuid user_id FK
+        uuid department_id FK
+        string specialization
+        timestamp joined_at
+        string status "active, on_vacation"
+    }
+    MedicalDepartments ||--o{ Doctors : "tem_equipe"
+
+    Patients {
+        uuid id PK
+        string name
+        date date_of_birth
+        string gender "Masculino, Feminino"
+        string phone
+        string address
+        timestamp admitted_at
+        uuid last_visited_dept_id FK
+    }
+
+    MedicalAppointments {
+        uuid id PK
+        uuid patient_id FK
+        uuid doctor_id FK
+        uuid department_id FK
+        timestamp appointment_date
+        decimal fee
+        string status "completed, canceled, pending"
+        string type "General Checkup, Vaccination"
+    }
+    Patients ||--o{ MedicalAppointments : "agendas"
+    Doctors ||--o{ MedicalAppointments : "atende"
+
+    Medicines {
+        uuid id PK
+        string name
+        int stock_quantity
+        decimal price
+        date expiry_date
+    }
+
+    %% Analytics & Support (NOVO)
+    AnalyticsDailyMetrics {
+        uuid id PK
+        date date
+        decimal total_revenue
+        decimal total_sales
+        decimal profit
+        decimal loss
+        int total_visitors
+        int refunded_count
+    }
+
+    TrafficSources {
+        uuid id PK
+        string source_name "tiktok, instagram, facebook, site"
+        int visitor_count
+        timestamp date "Para filtro: Mes Passado, Ano Passado"
+    }
+
+    SupportTickets {
+        uuid id PK
+        uuid user_id FK
+        string subject
+        string status "new, open, resolved, closed"
+        timestamp created_at
+        timestamp resolved_at
+        int response_time_minutes
+    }
+
+    PaymentTransactions {
+        uuid id PK
+        uuid user_id FK
+        string provider "wallet, paypal, credit_card, bank"
+        string type "payment, bill_payment"
+        decimal amount
+        string direction "credit, debit"
+        timestamp date
+    }
+    Users ||--o{ SupportTickets : "abre"
+    Users ||--o{ PaymentTransactions : "realiza"
+
+    %% PDV & Estoque (NOVO)
+    Suppliers {
+        uuid id PK
+        string name
+        string contact_info
+        decimal total_supplied_value
+    }
+
+    PurchaseOrders {
+        uuid id PK
+        uuid supplier_id FK
+        timestamp date
+        decimal total_amount
+        string status "pending, completed, canceled"
+    }
+    Suppliers ||--o{ PurchaseOrders : "fornece"
+
+    InventoryTransactions {
+        uuid id PK
+        uuid product_id FK
+        uuid order_id FK "Se venda"
+        uuid purchase_order_id FK "Se compra"
+        string type "in, out"
+        int quantity
+        timestamp date
+    }
+
+    POSSales {
+        uuid id PK
+        uuid user_id FK "Vendedor"
+        uuid customer_id FK "Cliente (opcional)"
+        decimal total_amount
+        decimal discount
+        timestamp date
+        string payment_method "cash, card, split"
+    }
+
+    DebtRecords {
+        uuid id PK
+        uuid user_id FK "Devedor (Cliente)"
+        uuid purchase_order_id FK "Se divida com fornecedor"
+        decimal total_amount
+        decimal paid_amount
+        decimal due_amount
+        date due_date
+        string status "paid, partial, overdue"
+    }
+
+    %% Finanças e Bancário (NOVO)
+    FinancialBeneficiaries {
+        uuid id PK
+        uuid user_id FK "Quem cadastrou"
+        string name "Mr. Bin"
+        string role "Insurance Officer"
+        string image_url
+        string account_details
+    }
+
+    RecurringBills {
+        uuid id PK
+        uuid user_id FK
+        string name "Electricity, Internet"
+        decimal amount
+        date due_date
+        string frequency "monthly, yearly"
+        string status "active, inactive"
+    }
+
+    SavingGoals {
+        uuid id PK
+        uuid user_id FK
+        string name "Digital Assets, Side Project"
+        decimal target_amount
+        decimal current_amount
+        string icon_url
+        string bg_color
+    }
+
+    ExpenseCategories {
+        uuid id PK
+        string name "Health, Education, Food"
+        string color_code
+    }
+    
+    Expenses {
+        uuid id PK
+        uuid user_id FK
+        uuid category_id FK
+        string title
+        decimal amount
+        timestamp date
+    }
+    ExpenseCategories ||--o{ Expenses : "classifica"
+
+    %% Relacionamento Cruzado
+    Users ||--o{ FinancialBeneficiaries : "tem_contatos"
+    Users ||--o{ RecurringBills : "paga"
+
+    %% Faturas & Invoices (NOVO - Detalhado)
+    Invoices {
+        uuid id PK
+        string invoice_number "#526534"
+        uuid user_id FK "Cliente (opcional)"
+        string client_name "Se nao tiver user_id"
+        string client_address
+        string client_phone
+        timestamp issued_date
+        timestamp due_date
+        decimal subtotal
+        decimal tax_amount
+        decimal discount_amount
+        decimal total_amount
+        string status "paid, pending, draft"
+        uuid sales_agent_id FK "Vendedor responsavel"
+    }
+
+    InvoiceItems {
+        uuid id PK
+        uuid invoice_id FK
+        string item_name
+        string unit "PC, KG"
+        int quantity
+        decimal unit_price
+        decimal total_price
+    }
+    Invoices ||--o{ InvoiceItems : "contem"
+    Users ||--o{ Invoices : "emite_como_agente"
+
+
+## 🔌 Guia de Integrações Externas
+
+### 1. Email (Gmail ou Titan) 📧
+Para carregar emails na página `Email`, você **não pode** conectar diretamente via POP/IMAP pelo navegador (frontend) por limitações de segurança.
+*   **Arquitetura**:
+    *   **Backend (API Route)**: Crie uma rota `/api/email/sync`.
+    *   **Protocolo**: Use **IMAP** para ler e **SMTP** para enviar.
+*   **Bibliotecas Node.js Recomendadas**:
+    *   Leitura: `imap-simple` ou `node-imap`.
+    *   Envio: `nodemailer`.
+*   **Segurança**:
+    *   **Gmail**: É obrigatório gerar uma "Senha de App" (App Password) no painel do Google. Não use sua senha pessoal.
+    *   **Titan**: Use as credenciais SMTP/IMAP padrão fornecidas no painel Titan.
+*   **Exemplo de Fluxo**:
+    1.  Frontend chama `GET /api/email/inbox`.
+    2.  Next.js conecta no IMAP do Gmail.
+    3.  Baixa os headers dos últimos 50 emails.
+    4.  Retorna JSON para o frontend renderizar a lista.
+
+### 2. WhatsApp (Chat Message) 💬
+Para carregar mensagens do WhatsApp, você precisa de uma API Intermediária (Gateway), pois o WhatsApp não tem protocolo público aberto como email.
+*   **Opções de API**:
+    *   **Oficial (Meta)**: WhatsApp Cloud API (Gratuito até certo limite, requer verificação de negócio).
+    *   **Não-Oficial (Z-API, WPPConnect)**: Mais fácil de implementar, scaneia QR Code.
+*   **Fluxo de Dados (Webhook)**:
+    1.  O cliente envia mensagem no WhatsApp.
+    2.  A API (Meta/Z-API) envia um POST para seu Webhook (`/api/webhooks/whatsapp`).
+    3.  Seu backend salva a mensagem na tabela `ChatMessages` do Supabase.
+    4.  O Frontend usa **Supabase Realtime** para receber a mensagem instantaneamente na tela, sem recarregar.
+
+### 3. Google Calendar (Calendário) 📅
+Para sincronizar eventos na página `Calendar`.
+*   **API**: [Google Calendar API v3](https://developers.google.com/calendar/api/v3/reference).
+*   **Autenticação (OAuth2)**:
+    *   Crie um projeto no Google Cloud Console.
+    *   Habilite a API Calendar.
+    *   Baixe o arquivo de credenciais (Service Account ou OAuth Client).
+*   **Biblioteca**: `googleapis` (oficial do Google para Node.js).
+*   **Integração**:
+    *   Use `google.calendar('v3').events.list` para puxar eventos.
+    *   Mapeie os campos do Google (`summary`, `start.dateTime`, `end.dateTime`) para o formato esperado pelo componente de calendário do seu template (geralmente FullCalendar).
+
+
+
 ```
+
+## 🌐 Estratégia para Dados Reais (Cripto & NFT)
+
+Para tornar o sistema funcional com dados reais de mercado sem comprometer a performance, recomenda-se a seguinte arquitetura:
+
+### 1. Backend como Proxy (Middleman)
+Não consulte APIs externas diretamente do navegador (frontend). Isso expõe chaves de API e causa erros de CORS.
+*   **Fluxo**: Frontend -> Seu Backend (Next.js API Route) -> API Externa (CoinGecko/OpenSea).
+
+### 2. Caching (Essencial)
+APIs gratuitas têm limites restritos (Rate Limits). Salve as respostas no seu banco ou memória por um tempo determinado.
+*   **Exemplo**: Se o usuário A acessa o dashboard, busque o preço do BTC na API externa e salve com timestamp. Se o usuário B acessar 10 segundos depois, entregue o dado salvo. Atualize apenas após 2-5 minutos.
+
+### 3. APIs Recomendadas
+*   **Preços de Cripto**: [CoinGecko API](https://www.coingecko.com/en/api) (Gratuita / Pro) ou [Binance API](https://binance-docs.github.io/apidocs/).
+*   **NFTs**: [OpenSea API](https://docs.opensea.io/reference/api-overview) ou [Alchemy NFT API](https://www.alchemy.com/nft-api).
+*   **Imagens**: Para NFTs, as imagens geralmente estão no IPFS. Use gateways públicos (ex: `https://ipfs.io/ipfs/HASH`) ou dedicados para carregar rapidamente.
+
+## 📊 Estratégia para Analytics e Transações
+
+### 1. Origem dos Visitantes (TikTok, Instagram, Facebook)
+Para popular a tabela `TrafficSources`, você não deve depender de APIs dessas redes (que são limitadas para dados públicos).
+*   **Aferição no Frontend**: Use parâmetros UTM na URL (`?utm_source=tiktok`) ou `document.referrer` no JavaScript do cliente.
+*   **Armazenamento**: Quando o usuário acessa o site, o backend registra o acesso na tabela `TrafficSources` incrementando o contador do dia/mês.
+
+### 2. Captura de Transações (PayPal, Stripe, Banco)
+Para ter o status em tempo real mostrado na imagem "Transações":
+*   **Webhooks**: Configure Webhooks no painel do PayPal/Stripe apontando para sua API (`/api/webhooks/payment`).
+*   **Fluxo**:
+    1.  Cliente paga no PayPal.
+    2.  PayPal avisa seu servidor (Webhook).
+    3.  Seu servidor insere na tabela `PaymentTransactions` e atualiza o saldo da carteira (`CryptoWallets` ou `UserAssets`).
+
