@@ -568,7 +568,7 @@ erDiagram
     }
     Invoices ||--o{ InvoiceItems : "contem"
     Users ||--o{ Invoices : "emite_como_agente"
-
+```
 
 ## 🔌 Guia de Integrações Externas
 
