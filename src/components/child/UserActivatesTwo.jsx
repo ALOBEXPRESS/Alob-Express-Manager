@@ -37,7 +37,7 @@ const UserActivatesTwo = () => {
               <span className='text-secondary-light text-lg fw-normal'>
                 {t("total_gain")}:
                 <span className='text-primary-light fw-bold text-lg'>
-                  $50,000
+                  $0.00
                 </span>
               </span>
             </li>
@@ -46,7 +46,7 @@ const UserActivatesTwo = () => {
               <span className='text-secondary-light text-lg fw-normal'>
                 {t("total_investment")}:
                 <span className='text-primary-light fw-bold text-lg'>
-                  $20,000
+                  $0.00
                 </span>
               </span>
             </li>

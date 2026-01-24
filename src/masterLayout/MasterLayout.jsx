@@ -7,6 +7,8 @@ import ThemeInit from "../components/helper/ThemeInit";
 import NextLink from "next/link";
 import { useTranslations } from 'next-intl';
 
+import { supabase } from "@/lib/supabase/client";
+
 const MasterLayout = ({ children }) => {
   let pathname = usePathname();
   let [sidebarActive, seSidebarActive] = useState(false);
@@ -15,7 +17,24 @@ const MasterLayout = ({ children }) => {
   const router = useRouter();
   const t = useTranslations('sidebar');
   const tCommon = useTranslations('common');
-  const currentLocale = pathname?.split("/")?.[1];
+  const currentLocale = pathname?.split("/")?.[1] || 'pt-br';
+  
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUser(user);
+      }
+    };
+    getUser();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push(`/${currentLocale}/sign-in`);
+  };
 
   const withLocale = (href) => {
     if (typeof href !== "string") return href;
@@ -31,43 +50,35 @@ const MasterLayout = ({ children }) => {
     return <NextLink href={withLocale(href)} {...props} />;
   };
 
+  const handleDropdownClick = (event) => {
+    event.preventDefault();
+    const clickedLink = event.currentTarget;
+    const clickedDropdown = clickedLink.closest(".dropdown");
+
+    if (!clickedDropdown) return;
+
+    const isActive = clickedDropdown.classList.contains("open");
+
+    const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
+    allDropdowns.forEach((dropdown) => {
+      dropdown.classList.remove("open");
+      const submenu = dropdown.querySelector(".sidebar-submenu");
+      if (submenu) {
+        submenu.style.maxHeight = "0px";
+      }
+    });
+
+    if (!isActive) {
+      clickedDropdown.classList.add("open");
+      const submenu = clickedDropdown.querySelector(".sidebar-submenu");
+      if (submenu) {
+        submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+      }
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    const handleDropdownClick = (event) => {
-      event.preventDefault();
-      const clickedLink = event.currentTarget;
-      const clickedDropdown = clickedLink.closest(".dropdown");
-
-      if (!clickedDropdown) return;
-
-      const isActive = clickedDropdown.classList.contains("open");
-
-      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
-      allDropdowns.forEach((dropdown) => {
-        dropdown.classList.remove("open");
-        const submenu = dropdown.querySelector(".sidebar-submenu");
-        if (submenu) {
-          submenu.style.maxHeight = "0px"; 
-        }
-      });
-
-      if (!isActive) {
-        clickedDropdown.classList.add("open");
-        const submenu = clickedDropdown.querySelector(".sidebar-submenu");
-        if (submenu) {
-          submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
-        }
-      }
-    };
-
-    const dropdownTriggers = document.querySelectorAll(
-      ".sidebar-menu .dropdown > a, .sidebar-menu .dropdown > Link"
-    );
-
-    dropdownTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", handleDropdownClick);
-    });
 
     const openActiveDropdown = () => {
       const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
@@ -81,7 +92,7 @@ const MasterLayout = ({ children }) => {
             dropdown.classList.add("open");
             const submenu = dropdown.querySelector(".sidebar-submenu");
             if (submenu) {
-              submenu.style.maxHeight = `${submenu.scrollHeight}px`; 
+              submenu.style.maxHeight = `${submenu.scrollHeight}px`;
             }
           }
         });
@@ -89,13 +100,7 @@ const MasterLayout = ({ children }) => {
     };
 
     openActiveDropdown();
-
-    return () => {
-      dropdownTriggers.forEach((trigger) => {
-        trigger.removeEventListener("click", handleDropdownClick);
-      });
-    };
-  }, [location.pathname]);
+  }, [location]);
 
   let sidebarControl = () => {
     seSidebarActive(!sidebarActive);
@@ -122,6 +127,7 @@ const MasterLayout = ({ children }) => {
 
   return (
     <section className={mobileMenu ? "overlay active" : "overlay "}>
+      <ThemeInit />
       <aside
         className={
           sidebarActive
@@ -160,18 +166,27 @@ const MasterLayout = ({ children }) => {
         <div className='sidebar-menu-area' suppressHydrationWarning={true}>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
                 />
                 <span>{t('dashboard')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
                     href='/'
-                    className={pathname === "/" || pathname === "/pt-br" || pathname === "/en" ? "active-page" : ""}
+                    className={pathname === "/" || pathname === "/pt-br" || pathname === "/en" || pathname.includes("/calculadora") ? "active-page" : ""}
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />
+                    {t('calculator')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href='/ai'
+                    className={pathname.includes("/ai") ? "active-page" : ""}
                   >
                     <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />
                     {t('ai')}
@@ -312,10 +327,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon icon='hugeicons:invoice-03' className='menu-icon' />
                 <span>{t('invoice')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -357,10 +372,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a href='javascript:void(0)' onClick={handleDropdownClick}>
                 <i className='ri-robot-2-line mr-10' />
                 <span>{t('ai_application')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -411,10 +426,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <i className='ri-robot-2-line mr-10' />
                 <span>{t('crypto_currency')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -458,13 +473,13 @@ const MasterLayout = ({ children }) => {
             <li className='sidebar-menu-group-title'>{t('ui_elements')}</li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a href='#' onClick={handleDropdownClick}>
                 <Icon
                   icon='solar:document-text-outline'
                   className='menu-icon'
                 />
                 <span>{t('components')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -659,10 +674,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a href='#' onClick={handleDropdownClick}>
                 <Icon icon='heroicons:document' className='menu-icon' />
                 <span>{t('forms')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -704,10 +719,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon icon='mingcute:storage-line' className='menu-icon' />
                 <span>{t('table')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -731,10 +746,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a href='#' onClick={handleDropdownClick}>
                 <Icon icon='solar:pie-chart-outline' className='menu-icon' />
                 <span>{t('chart')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -777,13 +792,13 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon
                   icon='flowbite:users-group-outline'
                   className='menu-icon'
                 />
                 <span>{t('users')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -825,10 +840,10 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <i className='ri-user-settings-line' />
                 <span>{t('role_access')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -854,10 +869,10 @@ const MasterLayout = ({ children }) => {
             <li className='sidebar-menu-group-title'>{t('application')}</li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon icon='simple-line-icons:vector' className='menu-icon' />
                 <span>{t('authentication')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -890,13 +905,13 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon
                   icon='flowbite:users-group-outline'
                   className='menu-icon'
                 />
                 <span>{t('gallery')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -950,13 +965,13 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a href='#' onClick={handleDropdownClick}>
                 <Icon
                   icon='flowbite:users-group-outline'
                   className='menu-icon'
                 />
                 <span>{t('blog')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -1065,13 +1080,13 @@ const MasterLayout = ({ children }) => {
             </li>
 
             <li className='dropdown'>
-              <Link href='#'>
+              <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>{tCommon('settings')}</span>
-              </Link>
+              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <Link
@@ -1090,18 +1105,18 @@ const MasterLayout = ({ children }) => {
                     }
                   >
                     <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
-                    Notification
+                    API's
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href='/notification-alert'
+                    href='/alerta-notificacao'
                     className={
-                      pathname.includes("/notification-alert") ? "active-page" : ""
+                      pathname.includes("/alerta-notificacao") ? "active-page" : ""
                     }
                   >
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
-                    Notification Alert
+                    Notificação
                   </Link>
                 </li>
                 <li>
@@ -1263,7 +1278,6 @@ const MasterLayout = ({ children }) => {
                   </div>
                 </div>
                 
-                {/* Message Dropdown and Notification Dropdown kept as is for brevity, can be refactored similarly */}
                 <div className='dropdown' suppressHydrationWarning={true}>
                   <button
                     className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
@@ -1276,7 +1290,150 @@ const MasterLayout = ({ children }) => {
                     />
                   </button>
                   <div className='dropdown-menu to-top dropdown-menu-lg p-0'>
-                     {/* ... Content ... */}
+                    <div className='m-16 p-12 radius-8 bg-primary-50 d-flex align-items-center justify-content-between gap-2'>
+                      <div>
+                        <h6 className='text-lg text-primary-light fw-semibold mb-0'>
+                          Message
+                        </h6>
+                      </div>
+                      <span className='text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center'>
+                        05
+                      </span>
+                    </div>
+                    <div className='max-h-400-px overflow-y-auto scroll-sm pe-4'>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
+                            <img
+                              src='/assets/images/notification/profile-3.png'
+                              alt=''
+                            />
+                            <span className='w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0' />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Kathryn Murphy
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              hey! there i’m...
+                            </p>
+                          </div>
+                        </div>
+                        <div className='d-flex flex-column align-items-end'>
+                          <span className='text-sm text-secondary-light flex-shrink-0'>
+                            12:30 PM
+                          </span>
+                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                            8
+                          </span>
+                        </div>
+                      </a>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
+                            <img
+                              src='/assets/images/notification/profile-4.png'
+                              alt=''
+                            />
+                            <span className='w-8-px h-8-px bg-warning-main rounded-circle position-absolute end-0 bottom-0' />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Kathryn Murphy
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              hey! there i’m...
+                            </p>
+                          </div>
+                        </div>
+                        <div className='d-flex flex-column align-items-end'>
+                          <span className='text-sm text-secondary-light flex-shrink-0'>
+                            12:30 PM
+                          </span>
+                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                            2
+                          </span>
+                        </div>
+                      </a>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
+                            <img
+                              src='/assets/images/notification/profile-5.png'
+                              alt=''
+                            />
+                            <span className='w-8-px h-8-px bg-danger-main rounded-circle position-absolute end-0 bottom-0' />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Kathryn Murphy
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              hey! there i’m...
+                            </p>
+                          </div>
+                        </div>
+                        <div className='d-flex flex-column align-items-end'>
+                          <span className='text-sm text-secondary-light flex-shrink-0'>
+                            12:30 PM
+                          </span>
+                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                            2
+                          </span>
+                        </div>
+                      </a>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
+                            <img
+                              src='/assets/images/notification/profile-6.png'
+                              alt=''
+                            />
+                            <span className='w-8-px h-8-px bg-neutral-300 rounded-circle position-absolute end-0 bottom-0' />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Kathryn Murphy
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              hey! there i’m...
+                            </p>
+                          </div>
+                        </div>
+                        <div className='d-flex flex-column align-items-end'>
+                          <span className='text-sm text-secondary-light flex-shrink-0'>
+                            12:30 PM
+                          </span>
+                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                            2
+                          </span>
+                        </div>
+                      </a>
+                    </div>
+                    <div className='text-center py-12 px-16'>
+                      <a
+                        href='#'
+                        className='text-primary-600 fw-semibold text-md hover-text-primary d-flex align-items-center justify-content-center gap-2'
+                      >
+                        <span>See All Messages</span>
+                        <Icon
+                          icon='iconamoon:arrow-right-2'
+                          className='icon text-xl'
+                        />
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -1292,19 +1449,142 @@ const MasterLayout = ({ children }) => {
                     />
                   </button>
                   <div className='dropdown-menu to-top dropdown-menu-lg p-0'>
-                     {/* ... Content ... */}
+                    <div className='m-16 p-12 radius-8 bg-primary-50 d-flex align-items-center justify-content-between gap-2'>
+                      <div>
+                        <h6 className='text-lg text-primary-light fw-semibold mb-0'>
+                          Notifications
+                        </h6>
+                      </div>
+                      <span className='text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center'>
+                        05
+                      </span>
+                    </div>
+                    <div className='max-h-400-px overflow-y-auto scroll-sm pe-4'>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            <Icon
+                              icon='bitcoin-icons:verify-outline'
+                              className='icon text-xxl'
+                            />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Congratulations
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Your profile has been Verified. Your profile has
+                              been Verified
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </a>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-warning-subtle text-warning-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            <Icon
+                              icon='bitcoin-icons:verify-outline'
+                              className='icon text-xxl'
+                            />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Alerts
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Your profile has been Verified. Your profile has
+                              been Verified
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </a>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-danger-subtle text-danger-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            <Icon
+                              icon='bitcoin-icons:verify-outline'
+                              className='icon text-xxl'
+                            />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Unverified
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Your profile has been Verified. Your profile has
+                              been Verified
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </a>
+                      <a
+                        href='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-neutral-200 text-neutral-600 rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            <Icon
+                              icon='bitcoin-icons:verify-outline'
+                              className='icon text-xxl'
+                            />
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold mb-4'>
+                              Verified
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Your profile has been Verified. Your profile has
+                              been Verified
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </a>
+                    </div>
+                    <div className='text-center py-12 px-16'>
+                      <a
+                        href='#'
+                        className='text-primary-600 fw-semibold text-md hover-text-primary d-flex align-items-center justify-content-center gap-2'
+                      >
+                        <span>See All Notifications</span>
+                        <Icon
+                          icon='iconamoon:arrow-right-2'
+                          className='icon text-xl'
+                        />
+                      </a>
+                    </div>
                   </div>
                 </div>
 
-                <div className='dropdown'>
+                <div className='dropdown' suppressHydrationWarning={true}>
                   <button
                     className='d-flex justify-content-center align-items-center rounded-circle'
                     type='button'
                     data-bs-toggle='dropdown'
                   >
                     <img
-                      src='/assets/images/user.png'
-                      alt='image_user'
+                      src='/assets/images/user-list/user-list1.png'
+                      alt='image'
                       className='w-40-px h-40-px object-fit-cover rounded-circle'
                     />
                   </button>
@@ -1312,17 +1592,14 @@ const MasterLayout = ({ children }) => {
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
                         <h6 className='text-lg text-primary-light fw-semibold mb-2'>
-                          Shaidul Islam
+                          {currentUser?.user_metadata?.full_name || currentUser?.email || 'User'}
                         </h6>
                         <span className='text-secondary-light fw-medium text-sm'>
                           Admin
                         </span>
                       </div>
-                      <button type='button' className='hover-text-danger'>
-                        <Icon
-                          icon='radix-icons:cross-1'
-                          className='icon text-xl'
-                        />
+                      <button type='button' className='close-dropdown'>
+                        <Icon icon='radix-icons:cross-1' className='icon text-xl' />
                       </button>
                     </div>
                     <ul className='to-top-list'>
@@ -1334,8 +1611,8 @@ const MasterLayout = ({ children }) => {
                           <Icon
                             icon='solar:user-linear'
                             className='icon text-xl'
-                          />{" "}
-                          {tCommon('profile')}
+                          />
+                          {tCommon('my_profile')}
                         </Link>
                       </li>
                       <li>
@@ -1346,7 +1623,7 @@ const MasterLayout = ({ children }) => {
                           <Icon
                             icon='tabler:message-check'
                             className='icon text-xl'
-                          />{" "}
+                          />
                           Inbox
                         </Link>
                       </li>
@@ -1363,13 +1640,14 @@ const MasterLayout = ({ children }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link
+                        <button
+                          type='button'
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3'
-                          href='#'
+                          onClick={handleLogout}
                         >
                           <Icon icon='lucide:power' className='icon text-xl' />{" "}
                           {tCommon('logout')}
-                        </Link>
+                        </button>
                       </li>
                     </ul>
                   </div>
@@ -1378,13 +1656,12 @@ const MasterLayout = ({ children }) => {
             </div>
           </div>
         </div>
-
-        <div className='dashboard-main-body'>{children}</div>
-
+        {children}
+        {/* Footer */}
         <footer className='d-footer'>
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
-              <p className='mb-0'>© 2025 WowDash. All Rights Reserved.</p>
+              <p className='mb-0'>© 2024 WowDash. All Rights Reserved.</p>
             </div>
             <div className='col-auto'>
               <p className='mb-0'>

@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from 'next-intl';
 
 const RecentTransactionOne = () => {
@@ -12,13 +11,13 @@ const RecentTransactionOne = () => {
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t('recent_transaction')}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {tCommon('view_all')}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
           <div className='table-responsive scroll-sm'>
             <table className='table bordered-table mb-0 xsm-table'>
@@ -53,10 +52,10 @@ const RecentTransactionOne = () => {
                   </td>
                   <td>
                     <span className='text-primary-light d-block fw-medium'>
-                      + 0.431 BTC
+                      0 BTC
                     </span>
                     <span className='text-secondary-light text-sm'>
-                      $3,480.90
+                      $0.00
                     </span>
                   </td>
                   <td>Abc.........np562</td>
@@ -85,10 +84,10 @@ const RecentTransactionOne = () => {
                   </td>
                   <td>
                     <span className='text-primary-light d-block fw-medium'>
-                      + 0.431 BTC
+                      0 BTC
                     </span>
                     <span className='text-secondary-light text-sm'>
-                      $3,480.90
+                      $0.00
                     </span>
                   </td>
                   <td>Abc.........np562</td>
@@ -117,10 +116,10 @@ const RecentTransactionOne = () => {
                   </td>
                   <td>
                     <span className='text-primary-light d-block fw-medium'>
-                      + 0.431 BTC
+                      0 BTC
                     </span>
                     <span className='text-secondary-light text-sm'>
-                      $3,480.90
+                      $0.00
                     </span>
                   </td>
                   <td>Abc.........np562</td>
@@ -149,10 +148,10 @@ const RecentTransactionOne = () => {
                   </td>
                   <td>
                     <span className='text-primary-light d-block fw-medium'>
-                      + 0.431 BTC
+                      0 BTC
                     </span>
                     <span className='text-secondary-light text-sm'>
-                      $3,480.90
+                      $0.00
                     </span>
                   </td>
                   <td>Abc.........np562</td>
@@ -181,10 +180,10 @@ const RecentTransactionOne = () => {
                   </td>
                   <td>
                     <span className='text-primary-light d-block fw-medium'>
-                      + 0.431 BTC
+                      0 BTC
                     </span>
                     <span className='text-secondary-light text-sm'>
-                      $3,480.90
+                      $0.00
                     </span>
                   </td>
                   <td>Abc.........np562</td>

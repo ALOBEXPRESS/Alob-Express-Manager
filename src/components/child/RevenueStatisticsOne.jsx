@@ -90,9 +90,9 @@ const RevenueStatisticsOne = () => {
             <div className='me-40'>
               <span className='text-secondary-light text-sm mb-1'>{t("income")}</span>
               <div className=''>
-                <h6 className='fw-semibold d-inline-block mb-0'>$26,201</h6>
+                <h6 className='fw-semibold d-inline-block mb-0'>$0.00</h6>
                 <span className='text-success-main fw-bold d-inline-flex align-items-center gap-1'>
-                  10% <Icon icon='iconamoon:arrow-up-2-fill' className='icon' />{" "}
+                  0% <Icon icon='iconamoon:arrow-up-2-fill' className='icon' />{" "}
                 </span>
               </div>
             </div>
@@ -101,9 +101,9 @@ const RevenueStatisticsOne = () => {
                 {t("expenses")}
               </span>
               <div className=''>
-                <h6 className='fw-semibold d-inline-block mb-0'>$18,120</h6>
+                <h6 className='fw-semibold d-inline-block mb-0'>$0.00</h6>
                 <span className='text-danger-main fw-bold d-inline-flex align-items-center gap-1'>
-                  10%{" "}
+                  0%{" "}
                   <Icon icon='iconamoon:arrow-down-2-fill' className='icon' />{" "}
                 </span>
               </div>

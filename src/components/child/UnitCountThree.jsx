@@ -33,8 +33,8 @@ const UnitCountThree = () => {
             </div>
             <div className='mt-3 d-flex flex-wrap justify-content-between align-items-center gap-1'>
               <div className=''>
-                <h6 className='mb-8'>$45,138</h6>
-                <span className='text-success-main text-md'>+ 27%</span>
+                <h6 className='mb-8'>$0</h6>
+                <span className='text-success-main text-md'>0%</span>
               </div>
               <div
                 id='bitcoinAreaChart'
@@ -63,8 +63,8 @@ const UnitCountThree = () => {
             </div>
             <div className='mt-3 d-flex flex-wrap justify-content-between align-items-center gap-1'>
               <div className=''>
-                <h6 className='mb-8'>$45,138</h6>
-                <span className='text-danger-main text-md'>- 27%</span>
+                <h6 className='mb-8'>$0</h6>
+                <span className='text-danger-main text-md'>0%</span>
               </div>
               <div
                 id='ethereumAreaChart'
@@ -93,8 +93,8 @@ const UnitCountThree = () => {
             </div>
             <div className='mt-3 d-flex flex-wrap justify-content-between align-items-center gap-1'>
               <div className=''>
-                <h6 className='mb-8'>$45,138</h6>
-                <span className='text-success-main text-md'>+ 27%</span>
+                <h6 className='mb-8'>$0</h6>
+                <span className='text-success-main text-md'>0%</span>
               </div>
               <div
                 id='solanaAreaChart'
@@ -123,8 +123,8 @@ const UnitCountThree = () => {
             </div>
             <div className='mt-3 d-flex flex-wrap justify-content-between align-items-center gap-1'>
               <div className=''>
-                <h6 className='mb-8'>$45,138</h6>
-                <span className='text-success-main text-md'>+ 27%</span>
+                <h6 className='mb-8'>$0</h6>
+                <span className='text-success-main text-md'>0%</span>
               </div>
               <div
                 id='litecoinAreaChart'
@@ -153,8 +153,8 @@ const UnitCountThree = () => {
             </div>
             <div className='mt-3 d-flex flex-wrap justify-content-between align-items-center gap-1'>
               <div className=''>
-                <h6 className='mb-8'>$45,138</h6>
-                <span className='text-success-main text-md'>+ 27%</span>
+                <h6 className='mb-8'>$0</h6>
+                <span className='text-success-main text-md'>0%</span>
               </div>
               <div
                 id='dogecoinAreaChart'

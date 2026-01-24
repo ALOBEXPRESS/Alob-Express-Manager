@@ -19,10 +19,10 @@ const RecentOrdersTwo = () => {
         <div className='card-body p-24'>
           <h6 className='mb-12 fw-bold text-lg mb-0'>{t('recent_orders')}</h6>
           <div className='d-flex align-items-center gap-2'>
-            <h6 className='fw-semibold mb-0'>$27,200</h6>
+            <h6 className='fw-semibold mb-0'>$0.00</h6>
             <p className='text-sm mb-0'>
               <span className='bg-success-focus border border-success px-8 py-2 rounded-pill fw-semibold text-success-main text-sm d-inline-flex align-items-center gap-1'>
-                10%
+                0%
                 <Icon icon='iconamoon:arrow-up-2-fill' className='icon' />
               </span>
               {t('increases')}

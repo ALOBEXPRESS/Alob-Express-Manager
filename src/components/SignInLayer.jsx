@@ -1,9 +1,122 @@
-import { Icon } from "@iconify/react";
+"use client";
 import Link from "next/link";
-import { useTranslations } from 'next-intl';
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const SignInLayer = () => {
-  const t = useTranslations('auth');
+  const router = useRouter();
+  const pathname = usePathname();
+  const [mode, setMode] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [requestEmail, setRequestEmail] = useState("");
+  const [requestLoading, setRequestLoading] = useState(false);
+  const [requestMessage, setRequestMessage] = useState("");
+
+  const locale = pathname?.split("/")?.[1];
+  const afterLogin = locale ? `/${locale}` : "/";
+
+  useEffect(() => {
+    fetch("/api/admin/bootstrap", { method: "POST" }).catch(() => {});
+  }, []);
+
+  const validateEmail = (value) => {
+    return /\S+@\S+\.\S+/.test(value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!validateEmail(normalizedEmail)) {
+      setError("Informe um e-mail válido.");
+      setLoading(false);
+      return;
+    }
+    if (!password) {
+      setError("Informe a senha.");
+      setLoading(false);
+      return;
+    }
+    const { data: signInData, error: signInError } =
+      await supabase.auth.signInWithPassword({
+      email: normalizedEmail,
+      password,
+    });
+    if (signInError) {
+      setError("Credenciais inválidas. Verifique e tente novamente.");
+      setLoading(false);
+      return;
+    }
+    const currentUser = signInData?.user;
+    if (!currentUser) {
+      setError("Não foi possível validar o usuário.");
+      setLoading(false);
+      return;
+    }
+
+    const { data: adminRow, error: adminError } = await supabase
+      .from("app_admins")
+      .select("user_id")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    const isAdmin = !!adminRow;
+
+    if (!isAdmin) {
+      const { data: profileRow, error: profileError } = await supabase
+        .from("users")
+        .select("status")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+      if (profileError || !profileRow || profileRow.status !== "active") {
+        await supabase.auth.signOut();
+        setError("Seu acesso ainda não foi aprovado.");
+        setLoading(false);
+        return;
+      }
+    }
+
+    setSuccess("Login efetuado com sucesso.");
+    router.push(afterLogin);
+  };
+
+  const handleRequestAccess = async (e) => {
+    e.preventDefault();
+    setRequestLoading(true);
+    setRequestMessage("");
+    const normalizedRequestEmail = requestEmail.trim().toLowerCase();
+    if (!validateEmail(normalizedRequestEmail)) {
+      setRequestMessage("Informe um e-mail válido.");
+      setRequestLoading(false);
+      return;
+    }
+    const { error: requestError } = await supabase
+      .from("access_requests")
+      .insert({ email: normalizedRequestEmail });
+    if (requestError) {
+      if (requestError.code === "23505") {
+        setRequestMessage("Solicitação já enviada para este e-mail.");
+      } else {
+        setRequestMessage("Não foi possível enviar a solicitação.");
+      }
+      setRequestLoading(false);
+      return;
+    }
+    setRequestMessage("Solicitação enviada para análise.");
+    setRequestLoading(false);
+  };
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -17,98 +130,118 @@ const SignInLayer = () => {
             <Link href='/' className='mb-40 max-w-290-px'>
               <img src='/assets/images/logo.png' alt='' />
             </Link>
-            <h4 className='mb-12'>{t('sign_in_title')}</h4>
+            <h4 className='mb-12'>Acesso à calculadora</h4>
             <p className='mb-32 text-secondary-light text-lg'>
-              {t('welcome_back')}
+              Entre com suas credenciais ou solicite acesso.
             </p>
           </div>
-          <form action='#'>
-            <div className='icon-field mb-16'>
-              <span className='icon top-50 translate-middle-y'>
-                <Icon icon='mage:email' />
-              </span>
-              <input
-                type='email'
-                className='form-control h-56-px bg-neutral-50 radius-12'
-                placeholder={t('email')}
-              />
-            </div>
-            <div className='position-relative mb-20'>
-              <div className='icon-field'>
-                <span className='icon top-50 translate-middle-y'>
-                  <Icon icon='solar:lock-password-outline' />
-                </span>
-                <input
-                  type='password'
-                  className='form-control h-56-px bg-neutral-50 radius-12'
-                  id='your-password'
-                  placeholder={t('password')}
-                />
+          <Card>
+            <CardHeader>
+              <div className='shadcn-tabs'>
+                <button
+                  type='button'
+                  className={`shadcn-tab ${mode === "login" ? "active" : ""}`}
+                  onClick={() => {
+                    setMode("login");
+                    setError("");
+                    setSuccess("");
+                  }}
+                >
+                  Entrar
+                </button>
+                <button
+                  type='button'
+                  className={`shadcn-tab ${mode === "request" ? "active" : ""}`}
+                  onClick={() => {
+                    setMode("request");
+                    setRequestMessage("");
+                  }}
+                >
+                  Cadastre-se
+                </button>
               </div>
-              <span
-                className='toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light'
-                data-toggle='#your-password'
-              />
-            </div>
-            <div className=''>
-              <div className='d-flex justify-content-between gap-2'>
-                <div className='form-check style-check d-flex align-items-center'>
-                  <input
-                    className='form-check-input border border-neutral-300'
-                    type='checkbox'
-                    defaultValue=''
-                    id='remeber'
-                  />
-                  <label className='form-check-label' htmlFor='remeber'>
-                    {t('remember_me')}{" "}
-                  </label>
-                </div>
-                <Link href='#' className='text-primary-600 fw-medium'>
-                  {t('forgot_password')}
-                </Link>
+              <CardTitle className='mt-16'>
+                {mode === "login" ? "Acesso autorizado" : "Solicitar acesso"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {mode === "login" ? (
+                <form onSubmit={handleSubmit} className='d-flex flex-column gap-3'>
+                  <div>
+                    <Label htmlFor='login-email'>E-mail</Label>
+                    <Input
+                      id='login-email'
+                      type='email'
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder='empresaalob@gmail.com'
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor='login-password'>Senha</Label>
+                    <Input
+                      id='login-password'
+                      type='password'
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder='Digite sua senha'
+                      required
+                    />
+                  </div>
+                  <Button type='submit' disabled={loading} className='w-100'>
+                    {loading ? "Entrando..." : "Entrar"}
+                  </Button>
+                  {success ? (
+                    <div className='shadcn-alert-success'>{success}</div>
+                  ) : null}
+                  {error ? (
+                    <div className='shadcn-alert-error'>{error}</div>
+                  ) : null}
+                </form>
+              ) : (
+                <form
+                  onSubmit={handleRequestAccess}
+                  className='d-flex flex-column gap-3'
+                >
+                  <div>
+                    <Label htmlFor='request-email'>E-mail</Label>
+                    <Input
+                      id='request-email'
+                      type='email'
+                      value={requestEmail}
+                      onChange={(e) => setRequestEmail(e.target.value)}
+                      placeholder='seuemail@empresa.com'
+                      required
+                    />
+                  </div>
+                  <Button type='submit' disabled={requestLoading} className='w-100'>
+                    {requestLoading ? "Enviando..." : "Solicitar acesso"}
+                  </Button>
+                  {requestMessage ? (
+                    <div
+                      className={
+                        requestMessage.includes("Não") ||
+                        requestMessage.includes("já")
+                          ? "shadcn-alert-error"
+                          : "shadcn-alert-success"
+                      }
+                    >
+                      {requestMessage}
+                    </div>
+                  ) : null}
+                </form>
+              )}
+              <div className='mt-24 text-center text-sm'>
+                <p className='mb-0'>
+                  Precisa de ajuda?{" "}
+                  <Link href='/sign-up' className='text-primary-600 fw-semibold'>
+                    Veja detalhes do cadastro
+                  </Link>
+                </p>
               </div>
-            </div>
-            <button
-              type='submit'
-              className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
-            >
-              {" "}
-              {t('sign_in')}
-            </button>
-            <div className='mt-32 center-border-horizontal text-center'>
-              <span className='bg-base z-1 px-4'>{t('or_sign_in_with')}</span>
-            </div>
-            <div className='mt-32 d-flex align-items-center gap-3'>
-              <button
-                type='button'
-                className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
-              >
-                <Icon
-                  icon='ic:baseline-facebook'
-                  className='text-primary-600 text-xl line-height-1'
-                />
-                {t('google')}
-              </button>
-              <button
-                type='button'
-                className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
-              >
-                <Icon
-                  icon='logos:google-icon'
-                  className='text-primary-600 text-xl line-height-1'
-                />
-                {t('google')}
-              </button>
-            </div>
-            <div className='mt-32 text-center text-sm'>
-              <p className='mb-0'>
-                {t('dont_have_account')}{" "}
-                <Link href='/sign-up' className='text-primary-600 fw-semibold'>
-                  {t('sign_up')}
-                </Link>
-              </p>
-            </div>
-          </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

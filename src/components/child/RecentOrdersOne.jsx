@@ -1,83 +1,51 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { useRecentOrders } from "@/features/ecommerce/hooks/useRecentOrders";
 
 const RecentOrdersOne = () => {
   const t = useTranslations('dashboard');
   const tCommon = useTranslations('common');
   const [showAll, setShowAll] = useState(false);
+  const limit = showAll ? 18 : 6;
+  const { orders } = useRecentOrders(limit);
 
-  const initialData = [
-    {
-      user: {
-        name: 'Dianne Russell',
-        image: '/assets/images/users/user1.png'
-      },
-      invoice: '#6352148',
-      item: 'iphone_14_max',
-      qty: 2,
-      amount: '$5,000.00',
-      status: 'paid',
-      statusClass: 'bg-success-focus text-success-main'
-    },
-    {
-      user: {
-        name: 'Wade Warren',
-        image: '/assets/images/users/user2.png'
-      },
-      invoice: '#6352148',
-      item: 'laptop_hph',
-      qty: 3,
-      amount: '$1,000.00',
-      status: 'pending',
-      statusClass: 'bg-warning-focus text-warning-main'
-    },
-    {
-      user: {
-        name: 'Albert Flores',
-        image: '/assets/images/users/user3.png'
-      },
-      invoice: '#6352148',
-      item: 'smart_watch',
-      qty: 7,
-      amount: '$1,000.00',
-      status: 'shipped',
-      statusClass: 'bg-info-focus text-info-main'
-    },
-    {
-      user: {
-        name: 'Bessie Cooper',
-        image: '/assets/images/users/user4.png'
-      },
-      invoice: '#6352148',
-      item: 'nike_air_shoe',
-      qty: 1,
-      amount: '$3,000.00',
-      status: 'canceled',
-      statusClass: 'bg-danger-focus text-danger-main'
-    },
-    {
-      user: {
-        name: 'Arlene McCoy',
-        image: '/assets/images/users/user5.png'
-      },
-      invoice: '#6352148',
-      item: 'new_headphone',
-      qty: 5,
-      amount: '$4,000.00',
-      status: 'canceled',
-      statusClass: 'bg-danger-focus text-danger-main'
-    }
-  ];
+  const statusClassMap = {
+    pending: "bg-warning-focus text-warning-main",
+    paid: "bg-success-focus text-success-main",
+    cancelled: "bg-danger-focus text-danger-main",
+  };
 
-  const displayData = showAll 
-    ? [...initialData, ...initialData, ...initialData] 
-    : initialData;
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value || 0);
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const displayData = orders.map((order) => {
+    const customerName = [order.customers?.first_name, order.customers?.last_name]
+      .filter(Boolean)
+      .join(" ");
+    const itemsQty = (order.order_items || []).reduce(
+      (acc, item) => acc + (item.quantity || 0),
+      0
+    );
+    return {
+      user: {
+        name: customerName || tCommon("users"),
+        image: "/assets/images/avatar/avatar1.png",
+      },
+      invoice: order.order_number,
+      item: "items",
+      qty: itemsQty,
+      amount: formatCurrency(order.total_amount),
+      status: order.status || "pending",
+      statusClass: statusClassMap[order.status] || statusClassMap.pending,
+    };
+  });
+
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -87,14 +55,14 @@ const RecentOrdersOne = () => {
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t('recent_orders')}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {showAll ? tCommon('show_less') : tCommon('view_all')}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
           <div className='table-responsive scroll-sm'>
             <table className='table bordered-table mb-0'>
@@ -112,7 +80,7 @@ const RecentOrdersOne = () => {
               </thead>
               <tbody>
                 {displayData.map((order, index) => (
-                  <tr key={index}>
+                  <tr key={order.invoice || index}>
                     <td>
                       <div className='d-flex align-items-center'>
                         <img

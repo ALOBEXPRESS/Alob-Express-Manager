@@ -1,9 +1,10 @@
 "use client";
 import { Icon } from "@iconify/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useReactApexChart from "../../hook/useReactApexChart";
 import dynamic from "next/dynamic";
 import { useTranslations } from 'next-intl';
+import { useEcommerceSummary } from "@/features/ecommerce/hooks/useEcommerceSummary";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -15,6 +16,27 @@ const RevenueReportOne = () => {
   const t = useTranslations('dashboard');
   
   const [series, setSeries] = useState(paymentStatusChartSeriesThree);
+  const [calculatorProductCount, setCalculatorProductCount] = useState(0);
+  const { summary } = useEcommerceSummary();
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      // Security check can be added here if needed
+      if (event.data && event.data.type === 'CALCULATOR_PRODUCT_COUNT') {
+        setCalculatorProductCount(event.data.count);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('message', handleMessage);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('message', handleMessage);
+      }
+    };
+  }, []);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -29,12 +51,16 @@ const RevenueReportOne = () => {
         setSeries([{ name: 'Earning', data: [10, 20, 15, 25, 20, 30, 35, 40, 45] }, { name: 'Expense', data: [5, 10, 8, 15, 12, 20, 25, 30, 35] }]);
         break;
       case 'Today':
-        setSeries([{ name: 'Earning', data: [2, 5, 3, 6, 4, 8, 6, 9, 12] }, { name: 'Expense', data: [1, 2, 1, 3, 2, 4, 3, 5, 6] }]);
+        setSeries([{ name: 'Earning', data: [0, 0, 0, 0, 0, 0, 0, 0, 0] }, { name: 'Expense', data: [0, 0, 0, 0, 0, 0, 0, 0, 0] }]);
         break;
       default:
         setSeries(paymentStatusChartSeriesThree);
     }
   };
+
+  const totalProducts = summary.products || calculatorProductCount;
+  const totalCustomers = summary.customers;
+  const totalOrders = summary.orders;
 
   return (
     <div className='col-xxl-9'>
@@ -63,7 +89,7 @@ const RevenueReportOne = () => {
                   <span className='text-secondary-light text-sm fw-semibold'>
                     {t('earning')}:
                     <span className='text-primary-light fw-bold'>
-                      $500,00,000.00
+                      $0.00
                     </span>
                   </span>
                 </li>
@@ -72,7 +98,7 @@ const RevenueReportOne = () => {
                   <span className='text-secondary-light text-sm fw-semibold'>
                     {t('expense')}:
                     <span className='text-primary-light fw-bold'>
-                      $20,000.00
+                      $0.00
                     </span>
                   </span>
                 </li>
@@ -102,14 +128,14 @@ const RevenueReportOne = () => {
                         {t('total_products')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
-                        300
+                        {totalProducts}
                       </h6>
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
                     {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                      +200
+                      +{totalProducts}
                     </span>{" "}
                     {t('this_week')}
                   </p>
@@ -129,14 +155,14 @@ const RevenueReportOne = () => {
                         {t('total_customer')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
-                        50,000
+                        {totalCustomers}
                       </h6>
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
                     {t('increase_by')}{" "}
                     <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
-                      -5k
+                      -{totalCustomers}
                     </span>{" "}
                     {t('this_week')}
                   </p>
@@ -156,14 +182,14 @@ const RevenueReportOne = () => {
                         {t('total_orders')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
-                        1500
+                        {totalOrders}
                       </h6>
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
                     {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                      +1k
+                      +{totalOrders}
                     </span>{" "}
                     {t('this_week')}
                   </p>
@@ -183,14 +209,14 @@ const RevenueReportOne = () => {
                         {t('total_sales')}
                       </span>
                       <h6 className='fw-semibold text-primary-light mb-1'>
-                        $25,00,000.00
+                        $0.00
                       </h6>
                     </div>
                   </div>
                   <p className='text-sm mb-0'>
                     {t('increase_by')}{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                      +$10k
+                      +$0.00
                     </span>{" "}
                     {t('this_week')}
                   </p>

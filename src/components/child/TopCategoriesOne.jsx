@@ -1,6 +1,5 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -22,8 +21,7 @@ const TopCategoriesOne = () => {
     ? [...initialData, ...initialData] 
     : initialData;
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -34,14 +32,14 @@ const TopCategoriesOne = () => {
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t("top_categories")}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {showAll ? tCommon("show_less") : tCommon("view_all")}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
         </div>
         <div className='card-body'>
@@ -62,12 +60,12 @@ const TopCategoriesOne = () => {
                   </span>
                 </div>
               </div>
-              <Link
-                href='#'
+              <button
+                type='button'
                 className='w-24-px h-24-px bg-primary-50 text-primary-600 d-flex justify-content-center align-items-center text-lg bg-hover-primary-100 radius-4'
               >
                 <i className='ri-arrow-right-s-line' />
-              </Link>
+              </button>
             </div>
           ))}
         </div>

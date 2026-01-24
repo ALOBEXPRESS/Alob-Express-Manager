@@ -47,11 +47,11 @@ const CoinAnalyticsTwo = () => {
                 <h6 className='text-md mb-0'>{t('bitcoin')}</h6>
               </div>
             </div>
-            <h6 className='text-md fw-medium mb-0'>$55,000.00</h6>
-            <span className='text-success-main text-md fw-medium'>+3.85%</span>
+            <h6 className='text-md fw-medium mb-0 text-end flex-shrink-0' style={{ minWidth: 80 }}>$0.00</h6>
+            <span className='text-success-main text-md fw-medium text-end flex-shrink-0' style={{ minWidth: 64 }}>0.00%</span>
             <div
               id='markerBitcoinChart'
-              className='remove-tooltip-title rounded-tooltip-value'
+              className='remove-tooltip-title rounded-tooltip-value flex-shrink-0'
             >
               {/* Pass the color value, height, width  here */}
               {renderChartFour("#45B369", 42, 100)}
@@ -68,11 +68,11 @@ const CoinAnalyticsTwo = () => {
                 <h6 className='text-md mb-0'>{t('ethereum')}</h6>
               </div>
             </div>
-            <h6 className='text-md fw-medium mb-0'>$55,000.00</h6>
-            <span className='text-danger-main text-md fw-medium'>-2.85%</span>
+            <h6 className='text-md fw-medium mb-0 text-end flex-shrink-0' style={{ minWidth: 80 }}>$0.00</h6>
+            <span className='text-danger-main text-md fw-medium text-end flex-shrink-0' style={{ minWidth: 64 }}>0.00%</span>
             <div
               id='markerEthereumChart'
-              className='remove-tooltip-title rounded-tooltip-value'
+              className='remove-tooltip-title rounded-tooltip-value flex-shrink-0'
             >
               {/* Pass the color value, height, width  here */}
               {renderChartFour("#EF4A00", 42, 100)}
@@ -89,11 +89,11 @@ const CoinAnalyticsTwo = () => {
                 <h6 className='text-md mb-0'>{t('solana')}</h6>
               </div>
             </div>
-            <h6 className='text-md fw-medium mb-0'>$55,000.00</h6>
-            <span className='text-success-main text-md fw-medium'>+3.85%</span>
+            <h6 className='text-md fw-medium mb-0 text-end flex-shrink-0' style={{ minWidth: 80 }}>$0.00</h6>
+            <span className='text-success-main text-md fw-medium text-end flex-shrink-0' style={{ minWidth: 64 }}>0.00%</span>
             <div
               id='markerSolanaChart'
-              className='remove-tooltip-title rounded-tooltip-value'
+              className='remove-tooltip-title rounded-tooltip-value flex-shrink-0'
             >
               {/* Pass the color value, height, width  here */}
               {renderChartFour("#45B369", 42, 100)}
@@ -110,11 +110,11 @@ const CoinAnalyticsTwo = () => {
                 <h6 className='text-md mb-0'>{t('litecoin')}</h6>
               </div>
             </div>
-            <h6 className='text-md fw-medium mb-0'>$55,000.00</h6>
-            <span className='text-success-main text-md fw-medium'>+3.85%</span>
+            <h6 className='text-md fw-medium mb-0 text-end flex-shrink-0' style={{ minWidth: 80 }}>$0.00</h6>
+            <span className='text-success-main text-md fw-medium text-end flex-shrink-0' style={{ minWidth: 64 }}>0.00%</span>
             <div
               id='markerLitecoinChart'
-              className='remove-tooltip-title rounded-tooltip-value'
+              className='remove-tooltip-title rounded-tooltip-value flex-shrink-0'
             >
               {/* Pass the color value, height, width  here */}
               {renderChartFour("#45B369", 42, 100)}
@@ -131,11 +131,11 @@ const CoinAnalyticsTwo = () => {
                 <h6 className='text-md mb-0'>{t('dogecoin')}</h6>
               </div>
             </div>
-            <h6 className='text-md fw-medium mb-0'>$15,000.00</h6>
-            <span className='text-danger-main text-md fw-medium'>-2.85%</span>
+            <h6 className='text-md fw-medium mb-0 text-end flex-shrink-0' style={{ minWidth: 80 }}>$0.00</h6>
+            <span className='text-danger-main text-md fw-medium text-end flex-shrink-0' style={{ minWidth: 64 }}>0.00%</span>
             <div
               id='markerDogecoinChart'
-              className='remove-tooltip-title rounded-tooltip-value'
+              className='remove-tooltip-title rounded-tooltip-value flex-shrink-0'
             >
               {/* Pass the color value, height, width  here */}
               {renderChartFour("#EF4A00", 42, 100)}
@@ -152,11 +152,11 @@ const CoinAnalyticsTwo = () => {
                 <h6 className='text-md mb-0'>{t('crypto_currency')}</h6>
               </div>
             </div>
-            <h6 className='text-md fw-medium mb-0'>$15,000.00</h6>
-            <span className='text-danger-main text-md fw-medium'>-2.85%</span>
+            <h6 className='text-md fw-medium mb-0 text-end flex-shrink-0' style={{ minWidth: 80 }}>$0.00</h6>
+            <span className='text-danger-main text-md fw-medium text-end flex-shrink-0' style={{ minWidth: 64 }}>0.00%</span>
             <div
               id='markerCryptoChart'
-              className='remove-tooltip-title rounded-tooltip-value'
+              className='remove-tooltip-title rounded-tooltip-value flex-shrink-0'
             >
               {/* Pass the color value, height, width  here */}
               {renderChartFour("#EF4A00", 42, 100)}

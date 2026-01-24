@@ -40,14 +40,14 @@ const GeneratedContent = () => {
               <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
               <span className='text-secondary-light text-sm fw-semibold'>
                 {t('word')}:
-                <span className='text-primary-light fw-bold'>500</span>
+                <span className='text-primary-light fw-bold'>0</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-circle bg-yellow' />
               <span className='text-secondary-light text-sm fw-semibold'>
                 {t('image')}:
-                <span className='text-primary-light fw-bold'>300</span>
+                <span className='text-primary-light fw-bold'>0</span>
               </span>
             </li>
           </ul>

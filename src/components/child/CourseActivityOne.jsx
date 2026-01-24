@@ -2,7 +2,6 @@
 import useReactApexChart from "../../hook/useReactApexChart";
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -26,8 +25,7 @@ const CourseActivityOne = () => {
     { name: 'Digital Marketing', type: 'Free', users: 100, revenue: '$0' },
   ];
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -37,14 +35,14 @@ const CourseActivityOne = () => {
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t("course_activity")}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {showAll ? t("show_less") : t("view_all")}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
         </div>
         <div className='card-body p-24'>

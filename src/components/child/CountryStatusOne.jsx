@@ -3,44 +3,44 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from 'next-intl';
 
+const countryRowsByTimeframe = {
+  Yearly: [
+    { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 15000, percent: 80, progressClass: "bg-primary-600" },
+    { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 12000, percent: 60, progressClass: "bg-orange" },
+    { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 10000, percent: 50, progressClass: "bg-yellow" },
+    { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 8000, percent: 40, progressClass: "bg-success-main" }
+  ],
+  Monthly: [
+    { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 1200, percent: 75, progressClass: "bg-primary-600" },
+    { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 900, percent: 55, progressClass: "bg-orange" },
+    { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 800, percent: 45, progressClass: "bg-yellow" },
+    { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 600, percent: 35, progressClass: "bg-success-main" }
+  ],
+  Weekly: [
+    { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 300, percent: 70, progressClass: "bg-primary-600" },
+    { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 200, percent: 50, progressClass: "bg-orange" },
+    { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 180, percent: 40, progressClass: "bg-yellow" },
+    { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 150, percent: 30, progressClass: "bg-success-main" }
+  ],
+  Today: [
+    { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 50, percent: 65, progressClass: "bg-primary-600" },
+    { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 30, percent: 45, progressClass: "bg-orange" },
+    { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 25, percent: 35, progressClass: "bg-yellow" },
+    { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 20, percent: 25, progressClass: "bg-success-main" }
+  ]
+};
+
+const markerValuesByTimeframe = {
+  Yearly: { china: "10,000", australia: "8,000", usa: "80%", uk: "5,000", uae: "2,000" },
+  Monthly: { china: "800", australia: "600", usa: "75%", uk: "400", uae: "150" },
+  Weekly: { china: "200", australia: "150", usa: "70%", uk: "100", uae: "40" },
+  Today: { china: "30", australia: "20", usa: "65%", uk: "15", uae: "5" }
+};
+
 const CountryStatusOne = () => {
   const t = useTranslations('dashboard');
   const tCommon = useTranslations('common');
   const [selectedTimeframe, setSelectedTimeframe] = useState("Yearly");
-
-  const countryRowsByTimeframe = {
-    Yearly: [
-      { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 1240, percent: 80, progressClass: "bg-primary-600" },
-      { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 1240, percent: 60, progressClass: "bg-orange" },
-      { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 1240, percent: 49, progressClass: "bg-yellow" },
-      { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 1240, percent: 100, progressClass: "bg-success-main" }
-    ],
-    Monthly: [
-      { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 380, percent: 72, progressClass: "bg-primary-600" },
-      { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 290, percent: 54, progressClass: "bg-orange" },
-      { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 210, percent: 41, progressClass: "bg-yellow" },
-      { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 520, percent: 88, progressClass: "bg-success-main" }
-    ],
-    Weekly: [
-      { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 120, percent: 65, progressClass: "bg-primary-600" },
-      { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 95, percent: 46, progressClass: "bg-orange" },
-      { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 70, percent: 33, progressClass: "bg-yellow" },
-      { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 140, percent: 77, progressClass: "bg-success-main" }
-    ],
-    Today: [
-      { flagSrc: "/assets/images/flags/flag1.png", countryKey: "usa", users: 18, percent: 52, progressClass: "bg-primary-600" },
-      { flagSrc: "/assets/images/flags/flag2.png", countryKey: "japan", users: 12, percent: 38, progressClass: "bg-orange" },
-      { flagSrc: "/assets/images/flags/flag3.png", countryKey: "france", users: 9, percent: 24, progressClass: "bg-yellow" },
-      { flagSrc: "/assets/images/flags/flag4.png", countryKey: "germany", users: 21, percent: 61, progressClass: "bg-success-main" }
-    ]
-  };
-
-  const markerValuesByTimeframe = {
-    Yearly: { china: "250", australia: "250", usa: "82%", uk: "250", uae: "250" },
-    Monthly: { china: "90", australia: "110", usa: "68%", uk: "75", uae: "60" },
-    Weekly: { china: "22", australia: "30", usa: "55%", uk: "18", uae: "16" },
-    Today: { china: "4", australia: "6", usa: "41%", uk: "3", uae: "2" }
-  };
 
   useEffect(() => {
     let mapInstance;
@@ -55,6 +55,11 @@ const CountryStatusOne = () => {
       if (cancelled) return;
 
       const markerValues = markerValuesByTimeframe[selectedTimeframe] ?? markerValuesByTimeframe.Yearly;
+
+      const mapElement = document.getElementById('map-country-status-one');
+      if (mapElement) {
+        mapElement.innerHTML = '';
+      }
 
       mapInstance = new jsVectorMap({
         selector: "#map-country-status-one",

@@ -1,6 +1,5 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -9,27 +8,14 @@ const LatestPerformanceOne = () => {
   const tCommon = useTranslations('common');
   const [showAll, setShowAll] = useState(false);
 
-  const toDoData = [
-    { name: 'hotel_management_system', id: '#5632', assigned: 'Kathryn Murphy', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5633', assigned: 'Darlene Robertson', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5634', assigned: 'Courtney Henry', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5635', assigned: 'Jenny Wilson', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5636', assigned: 'Leslie Alexander', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' }
-  ];
+  const toDoData = [];
 
-  const recentLeadsData = [
-    { name: 'hotel_management_system', id: '#5632', assigned: 'Kathryn Murphy', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5633', assigned: 'Darlene Robertson', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5634', assigned: 'Courtney Henry', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5635', assigned: 'Jenny Wilson', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' },
-    { name: 'hotel_management_system', id: '#5636', assigned: 'Leslie Alexander', date: '27 Mar 2024', status: 'active', statusClass: 'bg-success-focus text-success-main' }
-  ];
+  const recentLeadsData = [];
 
   const displayToDo = showAll ? [...toDoData, ...toDoData] : toDoData;
   const displayRecent = showAll ? [...recentLeadsData, ...recentLeadsData] : recentLeadsData;
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -67,28 +53,28 @@ const LatestPerformanceOne = () => {
             </button>
             <ul className='dropdown-menu p-12 border bg-base shadow'>
               <li>
-                <Link
+                <button
+                  type='button'
                   className='dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900'
-                  href='#'
                 >
                   Action
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
+                <button
+                  type='button'
                   className='dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900'
-                  href='#'
                 >
                   Another action
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
+                <button
+                  type='button'
                   className='dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900'
-                  href='#'
                 >
                   Something else here
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
@@ -136,14 +122,14 @@ const LatestPerformanceOne = () => {
               </button>
             </li>
           </ul>
-          <Link
-            href='#'
+          <button
+            type='button'
             onClick={handleViewAll}
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
             {tCommon('view_all')}
             <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-          </Link>
+          </button>
         </div>
         <div className='card-body p-24'>
           <div className='tab-content' id='pills-tabContent'>

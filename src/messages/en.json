@@ -7,6 +7,7 @@
     "search": "Search",
     "notifications": "Notifications",
     "profile": "Profile",
+    "my_profile": "My Profile",
     "home": "Home",
     "welcome": "Welcome",
     "view_all": "View All",
@@ -21,7 +22,14 @@
     "email": "Email",
     "role": "Role",
     "date": "Date",
-    "amount": "Amount"
+    "amount": "Amount",
+    "my_profile": "My Profile",
+    "items": "Items",
+    "price": "Price",
+    "stock": "Stock",
+    "in_stock": "In Stock",
+    "out_stock": "Out of Stock",
+    "stock_report": "Stock Report"
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -34,6 +42,7 @@
     "payment_gateway": "Payment Gateway",
     "terms_condition": "Terms & Conditions",
     "choose_language": "Choose Your Language",
+    "calculator": "Calculator",
     "crm": "CRM",
     "ecommerce": "E-commerce",
     "cryptocurrency": "Cryptocurrency",

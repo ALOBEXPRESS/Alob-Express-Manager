@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useTranslations } from 'next-intl';
 
 const TotalBalanceOne = () => {
@@ -10,7 +9,7 @@ const TotalBalanceOne = () => {
           <span className='mb-4 text-sm text-secondary-light'>
             {t('total_balance')}
           </span>
-          <h6 className='mb-4'>$320,320.00</h6>
+          <h6 className='mb-4'>$0.00</h6>
           <ul
             className='nav nav-pills pill-tab mb-24 mt-28 border input-form-light p-1 radius-8 bg-neutral-50'
             id='pills-tab'
@@ -135,16 +134,16 @@ const TotalBalanceOne = () => {
                   {t('total_balance')}
                 </span>
                 <h6 className='mb-4 fw-semibold text-xl text-warning-main'>
-                  $320,320.00
+                  $0.00
                 </h6>
               </div>
-              <Link
-                href='#'
+              <button
+                type='button'
                 className='btn btn-primary text-sm btn-sm px-8 py-12 w-100 radius-8'
               >
                 {" "}
                 {t('transfer_now')}
-              </Link>
+              </button>
             </div>
             <div
               className='tab-pane fade'
@@ -220,16 +219,16 @@ const TotalBalanceOne = () => {
                   Total Balance
                 </span>
                 <h6 className='mb-4 fw-semibold text-xl text-warning-main'>
-                  $320,320.00
+                  $0.00
                 </h6>
               </div>
-              <Link
-                href='#'
+              <button
+                type='button'
                 className='btn btn-primary text-sm btn-sm px-8 py-12 w-100 radius-8'
               >
                 {" "}
-                Transfer Now
-              </Link>
+                {t('transfer_now')}
+              </button>
             </div>
           </div>
         </div>

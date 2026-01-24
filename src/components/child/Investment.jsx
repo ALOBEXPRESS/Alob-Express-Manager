@@ -8,24 +8,24 @@ const Investment = () => {
 
   const data = {
     [t("today")]: {
-      total: "$120",
-      percentages: { income: "70%", realState: "20%", business: "10%" },
-      values: { income: "$84", realState: "$24", business: "$12" }
+      total: "$0.00",
+      percentages: { income: "0%", realState: "0%", business: "0%" },
+      values: { income: "$0.00", realState: "$0.00", business: "$0.00" }
     },
     [t("weekly")]: {
-      total: "$500",
-      percentages: { income: "60%", realState: "30%", business: "10%" },
-      values: { income: "$50,000", realState: "$150", business: "$100" }
+      total: "$0.00",
+      percentages: { income: "0%", realState: "0%", business: "0%" },
+      values: { income: "$0.00", realState: "$0.00", business: "$0.00" }
     },
     [t("monthly")]: {
-      total: "$2,500",
-      percentages: { income: "50%", realState: "35%", business: "15%" },
-      values: { income: "$1,250", realState: "$875", business: "$375" }
+      total: "$0.00",
+      percentages: { income: "0%", realState: "0%", business: "0%" },
+      values: { income: "$0.00", realState: "$0.00", business: "$0.00" }
     },
     [t("yearly")]: {
-      total: "$30,000",
-      percentages: { income: "40%", realState: "40%", business: "20%" },
-      values: { income: "$12,000", realState: "$12,000", business: "$6,000" }
+      total: "$0.00",
+      percentages: { income: "0%", realState: "0%", business: "0%" },
+      values: { income: "$0.00", realState: "$0.00", business: "$0.00" }
     }
   };
 

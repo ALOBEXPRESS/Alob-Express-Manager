@@ -18,16 +18,16 @@ const UsersOverviewOne = () => {
     const value = e.target.value;
     switch (value) {
       case t('yearly'):
-        setSeries([44, 55, 41, 17]);
+        setSeries([0, 0, 0, 0]);
         break;
       case t('monthly'):
-        setSeries([30, 40, 20, 10]);
+        setSeries([0, 0, 0, 0]);
         break;
       case t('weekly'):
-        setSeries([10, 20, 10, 60]);
+        setSeries([0, 0, 0, 0]);
         break;
       case t('today'):
-        setSeries([5, 10, 5, 80]);
+        setSeries([0, 0, 0, 0]);
         break;
       default:
         setSeries(donutChartSeries);
@@ -64,14 +64,14 @@ const UsersOverviewOne = () => {
               <span className='w-12-px h-12-px radius-2 bg-primary-600' />
               <span className='text-secondary-light text-sm fw-normal'>
                 {t('new')}:
-                <span className='text-primary-light fw-semibold'>500</span>
+                <span className='text-primary-light fw-semibold'>0</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px radius-2 bg-yellow' />
               <span className='text-secondary-light text-sm fw-normal'>
                 {t('subscribed')}:
-                <span className='text-primary-light fw-semibold'>300</span>
+                <span className='text-primary-light fw-semibold'>0</span>
               </span>
             </li>
           </ul>

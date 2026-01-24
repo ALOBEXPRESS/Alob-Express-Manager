@@ -37,7 +37,7 @@ const Metrics = () => {
                     <p className='fw-medium text-primary-light mb-1'>
                       Total Users
                     </p>
-                    <h6 className='mb-0'>20,000</h6>
+                    <h6 className='mb-0'>0</h6>
                   </div>
                   <div className='w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center'>
                     <Icon
@@ -49,7 +49,7 @@ const Metrics = () => {
                 <p className='fw-medium text-sm text-primary-light mt-12 mb-0'>
                   <span className='text-success-main'>
                     <Icon icon='bxs:up-arrow' className='text-xs d-block' />
-                    +5000
+                    0
                   </span>{" "}
                   Last 30 days users
                 </p>
@@ -65,7 +65,7 @@ const Metrics = () => {
                     <p className='fw-medium text-primary-light mb-1'>
                       Total Subscription
                     </p>
-                    <h6 className='mb-0'>15,000</h6>
+                    <h6 className='mb-0'>0</h6>
                   </div>
                   <div className='w-50-px h-50-px bg-purple rounded-circle d-flex justify-content-center align-items-center'>
                     <Icon
@@ -77,7 +77,7 @@ const Metrics = () => {
                 <p className='fw-medium text-sm text-primary-light mt-12 mb-0'>
                   <span className='text-danger-main'>
                     <Icon icon='bxs:down-arrow' className='text-xs d-block' />
-                    -800
+                    0
                   </span>{" "}
                   Last 30 days subscription
                 </p>
@@ -93,7 +93,7 @@ const Metrics = () => {
                     <p className='fw-medium text-primary-light mb-1'>
                       Total Free Users
                     </p>
-                    <h6 className='mb-0'>5,000</h6>
+                    <h6 className='mb-0'>0</h6>
                   </div>
                   <div className='w-50-px h-50-px bg-info rounded-circle d-flex justify-content-center align-items-center'>
                     <Icon
@@ -105,7 +105,7 @@ const Metrics = () => {
                 <p className='fw-medium text-sm text-primary-light mt-12 mb-0'>
                   <span className='text-success-main'>
                     <Icon icon='bxs:up-arrow' className='text-xs d-block' />
-                    +200
+                    0
                   </span>{" "}
                   Last 30 days users
                 </p>
@@ -121,7 +121,7 @@ const Metrics = () => {
                     <p className='fw-medium text-primary-light mb-1'>
                       Total Income
                     </p>
-                    <h6 className='mb-0'>$42,000</h6>
+                    <h6 className='mb-0'>$0</h6>
                   </div>
                   <div className='w-50-px h-50-px bg-success-main rounded-circle d-flex justify-content-center align-items-center'>
                     <Icon
@@ -133,7 +133,7 @@ const Metrics = () => {
                 <p className='fw-medium text-sm text-primary-light mt-12 mb-0'>
                   <span className='text-success-main'>
                     <Icon icon='bxs:up-arrow' className='text-xs d-block' />
-                    +$20,000
+                    +$0
                   </span>{" "}
                   Last 30 days income
                 </p>
@@ -201,7 +201,7 @@ const Metrics = () => {
                   <p className='text-sm mb-0'>
                     Increase by{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                      +200
+                      +0
                     </span>{" "}
                     this week
                   </p>
@@ -237,7 +237,7 @@ const Metrics = () => {
                   <p className='text-sm mb-0'>
                     Increase by{" "}
                     <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                      +200
+                      +0
                     </span>{" "}
                     this week
                   </p>
@@ -270,7 +270,7 @@ const Metrics = () => {
                   <p className='text-sm mb-0'>
                     Increase by{" "}
                     <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
-                      -$10k
+                      -$0
                     </span>{" "}
                     this week
                   </p>
@@ -323,13 +323,13 @@ const Metrics = () => {
                   <span className='mb-1 fw-medium text-secondary-light text-md'>
                     Total Products
                   </span>
-                  <h6 className='fw-semibold text-primary-light mb-1'>300</h6>
+                  <h6 className='fw-semibold text-primary-light mb-1'>0</h6>
                 </div>
               </div>
               <p className='text-sm mb-0'>
                 Increase by{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +200
+                  +0
                 </span>{" "}
                 this week
               </p>
@@ -369,13 +369,13 @@ const Metrics = () => {
                   <span className='mb-1 fw-medium text-secondary-light text-md'>
                     Total Orders
                   </span>
-                  <h6 className='fw-semibold text-primary-light mb-1'>1500</h6>
+                  <h6 className='fw-semibold text-primary-light mb-1'>0</h6>
                 </div>
               </div>
               <p className='text-sm mb-0'>
                 Increase by{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +1k
+                  +0
                 </span>{" "}
                 this week
               </p>
@@ -392,7 +392,7 @@ const Metrics = () => {
                     Total Sales
                   </span>
                   <h6 className='fw-semibold text-primary-light mb-1'>
-                    $25,00,000.00
+                    $0.00
                   </h6>
                 </div>
               </div>

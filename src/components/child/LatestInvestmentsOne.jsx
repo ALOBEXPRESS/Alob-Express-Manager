@@ -49,12 +49,12 @@ const LatestInvestmentsOne = () => {
                     </div>
                   </td>
                   <td>
-                    <h6 className='text-md mb-0 fw-normal'>7500</h6>
+                    <h6 className='text-md mb-0 fw-normal'>0</h6>
                     <span className='text-sm text-secondary-light fw-normal'>
                       {t("ounces")}
                     </span>
                   </td>
-                  <td>$7,500.00</td>
+                  <td>$0.00</td>
                   <td>25 May 2024</td>
                   <td className='text-center'>
                     <span className='bg-success-focus text-success-main px-16 py-4 radius-8 fw-medium text-sm'>
@@ -79,12 +79,12 @@ const LatestInvestmentsOne = () => {
                     </div>
                   </td>
                   <td>
-                    <h6 className='text-md mb-0 fw-normal'>5,40,000</h6>
+                    <h6 className='text-md mb-0 fw-normal'>0</h6>
                     <span className='text-sm text-secondary-light fw-normal'>
                       {t("dollars")}
                     </span>
                   </td>
-                  <td>$5,40,000.00</td>
+                  <td>$0.00</td>
                   <td>25 May 2024</td>
                   <td className='text-center'>
                     <span className='bg-warning-focus text-warning-main px-16 py-4 radius-8 fw-medium text-sm'>
@@ -109,12 +109,12 @@ const LatestInvestmentsOne = () => {
                     </div>
                   </td>
                   <td>
-                    <h6 className='text-md mb-0 fw-normal'>1500</h6>
+                    <h6 className='text-md mb-0 fw-normal'>0</h6>
                     <span className='text-sm text-secondary-light fw-normal'>
                       {t("products")}
                     </span>
                   </td>
-                  <td>$50,000.00</td>
+                  <td>$0.00</td>
                   <td>25 May 2024</td>
                   <td className='text-center'>
                     <span className='bg-success-focus text-success-main px-16 py-4 radius-8 fw-medium text-sm'>
@@ -139,12 +139,12 @@ const LatestInvestmentsOne = () => {
                     </div>
                   </td>
                   <td>
-                    <h6 className='text-md mb-0 fw-normal'>350</h6>
+                    <h6 className='text-md mb-0 fw-normal'>0</h6>
                     <span className='text-sm text-secondary-light fw-normal'>
                       {t("ounces")}
                     </span>
                   </td>
-                  <td>$30,000.00</td>
+                  <td>$0.00</td>
                   <td>25 May 2024</td>
                   <td className='text-center'>
                     <span className='bg-warning-focus text-warning-main px-16 py-4 radius-8 fw-medium text-sm'>
@@ -169,12 +169,12 @@ const LatestInvestmentsOne = () => {
                     </div>
                   </td>
                   <td>
-                    <h6 className='text-md mb-0 fw-normal'>24,000</h6>
+                    <h6 className='text-md mb-0 fw-normal'>0</h6>
                     <span className='text-sm text-secondary-light fw-normal'>
                       {t("shares")}
                     </span>
                   </td>
-                  <td>$63,000.00</td>
+                  <td>$0.00</td>
                   <td>25 May 2024</td>
                   <td className='text-center'>
                     <span className='bg-success-focus text-success-main px-16 py-4 radius-8 fw-medium text-sm'>

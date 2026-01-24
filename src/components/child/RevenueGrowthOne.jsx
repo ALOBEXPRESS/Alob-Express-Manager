@@ -30,31 +30,31 @@ const RevenueGrowthOne = () => {
       case 'Yearly':
         setChartConfig((prev) => ({
           ...prev,
-          series: [{ name: "Data", data: [10, 20, 15, 30, 25, 40, 35, 50] }]
+          series: [{ name: "Data", data: [0, 0, 0, 0, 0, 0, 0, 0] }]
         }));
         break;
       case 'Monthly':
         setChartConfig((prev) => ({
           ...prev,
-          series: [{ name: "Data", data: [5, 15, 10, 20, 15, 25, 20, 30] }]
+          series: [{ name: "Data", data: [0, 0, 0, 0, 0, 0, 0, 0] }]
         }));
         break;
       case 'Weekly':
         setChartConfig((prev) => ({
           ...prev,
-          series: [{ name: "Data", data: [2, 5, 3, 8, 4, 10, 6, 12] }]
+          series: [{ name: "Data", data: [0, 0, 0, 0, 0, 0, 0, 0] }]
         }));
         break;
       case 'Today':
         setChartConfig((prev) => ({
           ...prev,
-          series: [{ name: "Data", data: [1, 2, 1, 3, 2, 4, 3, 5] }]
+          series: [{ name: "Data", data: [0, 0, 0, 0, 0, 0, 0, 0] }]
         }));
         break;
       default:
         setChartConfig((prev) => ({
           ...prev,
-          series: [{ name: "Data", data: [10, 20, 15, 30, 25, 40, 35, 50] }]
+          series: [{ name: "Data", data: [0, 0, 0, 0, 0, 0, 0, 0] }]
         }));
     }
   };
@@ -84,9 +84,9 @@ const RevenueGrowthOne = () => {
             </div>
           </div>
           <div className='text-end mt-3'>
-             <h6 className='mb-2 fw-bold text-lg'>$50,000.00</h6>
+             <h6 className='mb-2 fw-bold text-lg'>$0.00</h6>
               <span className='bg-success-focus ps-12 pe-12 pt-2 pb-2 rounded-2 fw-medium text-success-main text-sm'>
-                $10k
+                 $0k
               </span>
           </div>
           <div id='revenue-chart' className='mt-28'>

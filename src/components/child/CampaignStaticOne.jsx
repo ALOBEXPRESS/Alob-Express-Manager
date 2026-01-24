@@ -13,10 +13,10 @@ const CampaignStaticOne = () => {
   let { donutChartSeriesTwo, donutChartOptionsTwo } = useReactApexChart();
   
   const [progressData, setProgressData] = useState({
-    email: 80,
-    website: 60,
-    facebook: 49,
-    other: 70
+    email: 0,
+    website: 0,
+    facebook: 0,
+    other: 0
   });
   const [customerOverviewTimeframe, setCustomerOverviewTimeframe] = useState("Yearly");
   const [customerSeries, setCustomerSeries] = useState(donutChartSeriesTwo);
@@ -25,19 +25,19 @@ const CampaignStaticOne = () => {
     const value = e.target.value;
     switch (value) {
       case 'Yearly':
-        setProgressData({ email: 80, website: 60, facebook: 49, other: 70 });
+        setProgressData({ email: 50, website: 40, facebook: 30, other: 10 });
         break;
       case 'Monthly':
-        setProgressData({ email: 60, website: 50, facebook: 30, other: 50 });
+        setProgressData({ email: 30, website: 50, facebook: 20, other: 20 });
         break;
       case 'Weekly':
-        setProgressData({ email: 40, website: 30, facebook: 20, other: 30 });
+        setProgressData({ email: 20, website: 30, facebook: 40, other: 10 });
         break;
       case 'Today':
-        setProgressData({ email: 10, website: 5, facebook: 2, other: 8 });
+        setProgressData({ email: 10, website: 20, facebook: 10, other: 5 });
         break;
       default:
-        setProgressData({ email: 80, website: 60, facebook: 49, other: 70 });
+        setProgressData({ email: 50, website: 40, facebook: 30, other: 10 });
     }
   };
 
@@ -49,13 +49,13 @@ const CampaignStaticOne = () => {
         setCustomerSeries(donutChartSeriesTwo);
         break;
       case 'Monthly':
-        setCustomerSeries([35, 20, 45]);
+        setCustomerSeries([40, 30, 30]);
         break;
       case 'Weekly':
-        setCustomerSeries([25, 15, 60]);
+        setCustomerSeries([20, 50, 30]);
         break;
       case 'Today':
-        setCustomerSeries([15, 10, 75]);
+        setCustomerSeries([10, 20, 70]);
         break;
       default:
         setCustomerSeries(donutChartSeriesTwo);
@@ -237,19 +237,19 @@ const CampaignStaticOne = () => {
                   <li className='d-flex align-items-center gap-2 mb-28'>
                     <span className='w-12-px h-12-px rounded-circle bg-success-main' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      {t("total")}: 500
+                      {t("total")}: 0
                     </span>
                   </li>
                   <li className='d-flex align-items-center gap-2 mb-28'>
                     <span className='w-12-px h-12-px rounded-circle bg-warning-main' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      {t("new")}: 500
+                      {t("new")}: 0
                     </span>
                   </li>
                   <li className='d-flex align-items-center gap-2'>
                     <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      {t("active")}: 1500
+                      {t("active")}: 0
                     </span>
                   </li>
                 </ul>

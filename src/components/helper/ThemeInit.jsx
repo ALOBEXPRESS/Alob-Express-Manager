@@ -1,14 +1,50 @@
 "use client";
 import { useEffect } from "react";
+import { supabase } from "@/lib/supabase/client";
+
+const themeColors = new Set(["blue", "magenta", "orange", "green", "red", "blueDark"]);
+const defaultThemeColor = "blue";
 
 const ThemeInit = () => {
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedColor = localStorage.getItem("theme-color");
-      if (storedColor) {
-        document.documentElement.setAttribute("data-theme-color", storedColor);
+    let isMounted = true;
+    const applyTheme = async () => {
+      const storedColor =
+        typeof window !== "undefined" ? localStorage.getItem("theme-color") : null;
+      const normalizedStoredColor = themeColors.has(storedColor)
+        ? storedColor
+        : defaultThemeColor;
+      let nextColor = normalizedStoredColor || defaultThemeColor;
+      const { data: userData } = await supabase.auth.getUser();
+      const user = userData?.user;
+      if (user) {
+        const { data, error } = await supabase
+          .from("users")
+          .select("theme_color")
+          .eq("id", user.id)
+          .maybeSingle();
+        const normalizedDbColor = themeColors.has(data?.theme_color)
+          ? data.theme_color
+          : null;
+        if (!error && normalizedDbColor) {
+          nextColor = normalizedDbColor;
+        } else if (!error && !normalizedDbColor) {
+          await supabase
+            .from("users")
+            .upsert({ id: user.id, theme_color: nextColor }, { onConflict: "id" });
+        }
       }
-    }
+      if (!isMounted) return;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("theme-color", nextColor);
+        document.documentElement.setAttribute("data-theme-color", nextColor);
+        document.body?.setAttribute("data-theme-color", nextColor);
+      }
+    };
+    applyTheme();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return null;

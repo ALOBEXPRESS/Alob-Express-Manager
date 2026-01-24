@@ -8,48 +8,7 @@ const LatestRegisteredOne = () => {
   const tCommon = useTranslations('common');
   const [showAll, setShowAll] = useState(false);
 
-  const initialData = [
-    {
-      image: '/assets/images/users/user1.png',
-      name: 'Dianne Russell',
-      email: 'redaniel@gmail.com',
-      date: '27 Mar 2024',
-      plan: 'free',
-      status: 'active'
-    },
-    {
-      image: '/assets/images/users/user2.png',
-      name: 'Wade Warren',
-      email: 'xterris@gmail.com',
-      date: '27 Mar 2024',
-      plan: 'basic',
-      status: 'active'
-    },
-    {
-      image: '/assets/images/users/user3.png',
-      name: 'Albert Flores',
-      email: 'seannand@mail.ru',
-      date: '27 Mar 2024',
-      plan: 'standard',
-      status: 'active'
-    },
-    {
-      image: '/assets/images/users/user4.png',
-      name: 'Bessie Cooper',
-      email: 'igerrin@gmail.com',
-      date: '27 Mar 2024',
-      plan: 'business',
-      status: 'active'
-    },
-    {
-      image: '/assets/images/users/user5.png',
-      name: 'Arlene McCoy',
-      email: 'fellx@mail.ru',
-      date: '27 Mar 2024',
-      plan: 'enterprise',
-      status: 'active'
-    }
-  ];
+  const initialData = [];
 
   // If showAll is true, duplicate data to simulate more users
   const displayData = showAll 
@@ -102,7 +61,7 @@ const LatestRegisteredOne = () => {
                 >
                   {t('latest_subscribe')}
                   <span className='text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert'>
-                    35
+                    0
                   </span>
                 </button>
               </li>

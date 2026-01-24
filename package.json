@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "concurrently -k \"next dev --turbo\" \"pnpm -C dropshipping-calculator-app dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -23,6 +23,8 @@
     "@phosphor-icons/react": "^2.1.7",
     "@popperjs/core": "^2.11.8",
     "@ramonak/react-progress-bar": "^5.2.0",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "2.49.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -64,6 +66,8 @@
   "devDependencies": {
     "@iconify/react": "^5.0.2",
     "@playwright/test": "^1.57.0",
+    "concurrently": "9.1.2",
+    "eslint-config-next": "15.0.4",
     "webpack": "^5.90.3"
   }
 }

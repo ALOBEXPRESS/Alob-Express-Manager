@@ -36,10 +36,10 @@ const MyOrdersOne = () => {
               <tbody>
                 <tr>
                   <td>
-                    <span className='text-success-main'>0.265415.00</span>
+                    <span className='text-success-main'>0</span>
                   </td>
-                  <td>29.4251512</td>
-                  <td>2.154</td>
+                  <td>0</td>
+                  <td>0</td>
                   <td className='text-center line-height-1'>
                     <button
                       type='button'
@@ -51,10 +51,10 @@ const MyOrdersOne = () => {
                 </tr>
                 <tr>
                   <td>
-                    <span className='text-success-main'>0.265415.00</span>
+                    <span className='text-success-main'>0</span>
                   </td>
-                  <td>29.4251512</td>
-                  <td>2.154</td>
+                  <td>0</td>
+                  <td>0</td>
                   <td className='text-center line-height-1'>
                     <button
                       type='button'
@@ -66,10 +66,10 @@ const MyOrdersOne = () => {
                 </tr>
                 <tr>
                   <td>
-                    <span className='text-danger-main'>0.265415.00</span>
+                    <span className='text-danger-main'>0</span>
                   </td>
-                  <td>29.4251512</td>
-                  <td>2.154</td>
+                  <td>0</td>
+                  <td>0</td>
                   <td className='text-center line-height-1'>
                     <button
                       type='button'
@@ -81,10 +81,10 @@ const MyOrdersOne = () => {
                 </tr>
                 <tr>
                   <td>
-                    <span className='text-success-main'>0.265415.00</span>
+                    <span className='text-success-main'>0</span>
                   </td>
-                  <td>29.4251512</td>
-                  <td>2.154</td>
+                  <td>0</td>
+                  <td>0</td>
                   <td className='text-center line-height-1'>
                     <button
                       type='button'
@@ -96,10 +96,10 @@ const MyOrdersOne = () => {
                 </tr>
                 <tr>
                   <td>
-                    <span className='text-danger-main'>0.265415.00</span>
+                    <span className='text-danger-main'>0</span>
                   </td>
-                  <td>29.4251512</td>
-                  <td>2.154</td>
+                  <td>0</td>
+                  <td>0</td>
                   <td className='text-center line-height-1'>
                     <button
                       type='button'
@@ -111,10 +111,10 @@ const MyOrdersOne = () => {
                 </tr>
                 <tr>
                   <td>
-                    <span className='text-danger-main'>0.265415.00</span>
+                    <span className='text-danger-main'>0</span>
                   </td>
-                  <td>29.4251512</td>
-                  <td>2.154</td>
+                  <td>0</td>
+                  <td>0</td>
                   <td className='text-center line-height-1'>
                     <button
                       type='button'

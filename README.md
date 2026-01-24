@@ -14,6 +14,20 @@ O frontend é construído utilizando **Next.js** e oferece uma interface rica e 
     - Configurações de Usuário e Organização
     - Chat e Mensagens
 
+## 🧮 Calculadora de Dropshipping
+
+A calculadora foi integrada como uma nova rota no menu principal: **/calculadora** (acima de IA). A UI é carregada via iframe apontando para o projeto separado em `dropshipping-calculator-app`, evitando conflitos de dependências entre React 18 (dashboard) e React 19 (calculadora).
+
+Para executar localmente:
+
+1. No diretório `dropshipping-calculator-app`, instale e rode:
+   - `pnpm install`
+   - `pnpm dev`
+2. Abra a rota `http://localhost:3000/pt-br/calculadora`.
+3. Se a calculadora estiver em outra porta ou domínio, defina `NEXT_PUBLIC_CALCULATOR_URL` no ambiente do Next.js.
+
+Em produção, hospede o build do Vite em qualquer host estático e configure `NEXT_PUBLIC_CALCULATOR_URL` com a URL publicada.
+
 ## 🏗️ Arquitetura do Backend (Proposta)
 
 Para suportar as funcionalidades do frontend e transformar o template em um produto SaaS funcional, foi projetada uma arquitetura de banco de dados relacional robusta.

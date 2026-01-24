@@ -1,9 +1,42 @@
-import { Icon } from "@iconify/react";
+"use client";
 import Link from "next/link";
-import { useTranslations } from 'next-intl';
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const SignUpLayer = () => {
-  const t = useTranslations('auth');
+  const pathname = usePathname();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const locale = pathname?.split("/")?.[1];
+  const signInUrl = locale ? `/${locale}/sign-in` : "/sign-in";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    const normalizedEmail = email.trim().toLowerCase();
+    const { error: requestError } = await supabase
+      .from("access_requests")
+      .insert({ email: normalizedEmail });
+    if (requestError) {
+      if (requestError.code === "23505") {
+        setMessage("Solicitação já enviada para este e-mail.");
+      } else {
+        setMessage("Não foi possível enviar a solicitação.");
+      }
+      setLoading(false);
+      return;
+    }
+    setMessage("Solicitação enviada. Aguarde aprovação.");
+    setLoading(false);
+  };
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -17,120 +50,53 @@ const SignUpLayer = () => {
             <Link href='/' className='mb-40 max-w-290-px'>
               <img src='/assets/images/logo.png' alt='' />
             </Link>
-            <h4 className='mb-12'>{t('sign_up_title')}</h4>
+            <h4 className='mb-12'>Solicitar acesso</h4>
             <p className='mb-32 text-secondary-light text-lg'>
-              {t('welcome_back')}
+              Envie seu e-mail para análise do administrador.
             </p>
           </div>
-          <form action='#'>
-            <div className='icon-field mb-16'>
-              <span className='icon top-50 translate-middle-y'>
-                <Icon icon='f7:person' />
-              </span>
-              <input
-                type='text'
-                className='form-control h-56-px bg-neutral-50 radius-12'
-                placeholder={t('username')}
-              />
-            </div>
-            <div className='icon-field mb-16'>
-              <span className='icon top-50 translate-middle-y'>
-                <Icon icon='mage:email' />
-              </span>
-              <input
-                type='email'
-                className='form-control h-56-px bg-neutral-50 radius-12'
-                placeholder={t('email')}
-              />
-            </div>
-            <div className='mb-20'>
-              <div className='position-relative '>
-                <div className='icon-field'>
-                  <span className='icon top-50 translate-middle-y'>
-                    <Icon icon='solar:lock-password-outline' />
-                  </span>
-                  <input
-                    type='password'
-                    className='form-control h-56-px bg-neutral-50 radius-12'
-                    id='your-password'
-                    placeholder={t('password')}
+          <Card>
+            <CardHeader>
+              <CardTitle>Cadastro de interesse</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className='d-flex flex-column gap-3'>
+                <div>
+                  <Label htmlFor='signup-email'>E-mail</Label>
+                  <Input
+                    id='signup-email'
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder='seuemail@empresa.com'
+                    required
                   />
                 </div>
-                <span
-                  className='toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light'
-                  data-toggle='#your-password'
-                />
-              </div>
-              <span className='mt-12 text-sm text-secondary-light'>
-                {t('password_hint')}
-              </span>
-            </div>
-            <div className=''>
-              <div className='d-flex justify-content-between gap-2'>
-                <div className='form-check style-check d-flex align-items-start'>
-                  <input
-                    className='form-check-input border border-neutral-300 mt-4'
-                    type='checkbox'
-                    defaultValue=''
-                    id='condition'
-                  />
-                  <label
-                    className='form-check-label text-sm'
-                    htmlFor='condition'
+                <Button type='submit' disabled={loading} className='w-100'>
+                  {loading ? "Enviando..." : "Solicitar acesso"}
+                </Button>
+                {message ? (
+                  <div
+                    className={
+                      message.includes("Não") || message.includes("já")
+                        ? "shadcn-alert-error"
+                        : "shadcn-alert-success"
+                    }
                   >
-                    {t('terms_agreement')}
-                    <Link href='#' className='text-primary-600 fw-semibold'>
-                      {t('terms_conditions')}
-                    </Link>{" "}
-                    {t('and_our')}
-                    <Link href='#' className='text-primary-600 fw-semibold'>
-                      {t('privacy_policy')}
-                    </Link>
-                  </label>
-                </div>
+                    {message}
+                  </div>
+                ) : null}
+              </form>
+              <div className='mt-24 text-center text-sm'>
+                <p className='mb-0'>
+                  Já tem acesso?{" "}
+                  <Link href={signInUrl} className='text-primary-600 fw-semibold'>
+                    Fazer login
+                  </Link>
+                </p>
               </div>
-            </div>
-            <button
-              type='submit'
-              className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
-            >
-              {" "}
-              {t('sign_up')}
-            </button>
-            <div className='mt-32 center-border-horizontal text-center'>
-              <span className='bg-base z-1 px-4'>{t('or_sign_up_with')}</span>
-            </div>
-            <div className='mt-32 d-flex align-items-center gap-3'>
-              <button
-                type='button'
-                className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
-              >
-                <Icon
-                  icon='ic:baseline-facebook'
-                  className='text-primary-600 text-xl line-height-1'
-                />
-                {t('google')}
-              </button>
-              <button
-                type='button'
-                className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
-              >
-                <Icon
-                  icon='logos:google-icon'
-                  className='text-primary-600 text-xl line-height-1'
-                />
-                {t('google')}
-              </button>
-            </div>
-            <div className='mt-32 text-center text-sm'>
-              <p className='mb-0'>
-                {t('already_have_account')}{" "}
-                <Link href='/sign-in' className='text-primary-600 fw-semibold'>
-                  {t('sign_in')}
-                </Link>
-              </p>
-            </div>
-          </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

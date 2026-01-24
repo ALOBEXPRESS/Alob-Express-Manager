@@ -14,30 +14,30 @@ const CustomersStatisticsOne = () => {
   const t = useTranslations('dashboard');
   
   const [series, setSeries] = useState(statisticsDonutChartSeries);
-  const [stats, setStats] = useState({ male: '20,000', female: '25,000' });
+  const [stats, setStats] = useState({ male: '0', female: '0' });
 
   const handleChange = (e) => {
     const value = e.target.value;
     switch (value) {
       case 'Yearly':
-        setSeries([20000, 25000]);
-        setStats({ male: '20,000', female: '25,000' });
+        setSeries([0, 0]);
+        setStats({ male: '0', female: '0' });
         break;
       case 'Monthly':
-        setSeries([1500, 2000]);
-        setStats({ male: '1,500', female: '2,000' });
+        setSeries([0, 0]);
+        setStats({ male: '0', female: '0' });
         break;
       case 'Weekly':
-        setSeries([300, 400]);
-        setStats({ male: '300', female: '400' });
+        setSeries([0, 0]);
+        setStats({ male: '0', female: '0' });
         break;
       case 'Today':
-        setSeries([50, 60]);
-        setStats({ male: '50', female: '60' });
+        setSeries([0, 0]);
+        setStats({ male: '0', female: '0' });
         break;
       default:
         setSeries(statisticsDonutChartSeries);
-        setStats({ male: '20,000', female: '25,000' });
+        setStats({ male: '0', female: '0' });
     }
   };
 
@@ -62,7 +62,7 @@ const CustomersStatisticsOne = () => {
           </div>
           <div className='position-relative'>
             <span className='w-80-px h-80-px bg-base shadow text-primary-light fw-semibold text-xl d-flex justify-content-center align-items-center rounded-circle position-absolute end-0 top-0 z-1'>
-              +30%
+              +0%
             </span>
 
             <ReactApexChart
@@ -74,7 +74,7 @@ const CustomersStatisticsOne = () => {
               className='mt-36 flex-grow-1 apexcharts-tooltip-z-none title-style circle-none'
             />
             <span className='w-80-px h-80-px bg-base shadow text-primary-light fw-semibold text-xl d-flex justify-content-center align-items-center rounded-circle position-absolute start-0 bottom-0 z-1'>
-              +25%
+              +0%
             </span>
           </div>
           <ul className='d-flex flex-wrap align-items-center justify-content-between mt-3 gap-3'>

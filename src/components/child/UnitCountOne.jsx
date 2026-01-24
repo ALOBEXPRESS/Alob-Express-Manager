@@ -12,7 +12,7 @@ const UnitCountOne = () => {
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
                                 <p className="fw-medium text-primary-light mb-1">{t('total_users')}</p>
-                                <h6 className="mb-0">20,000</h6>
+                                <h6 className="mb-0">0</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center">
                                 <Icon
@@ -23,7 +23,7 @@ const UnitCountOne = () => {
                         </div>
                         <p className="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
-                                <Icon icon="bxs:up-arrow" className="text-xs" /> +5000
+                                <Icon icon="bxs:up-arrow" className="text-xs" /> +0
                             </span>
                             {t('last_30_days_users')}
                         </p>
@@ -39,7 +39,7 @@ const UnitCountOne = () => {
                                 <p className="fw-medium text-primary-light mb-1">
                                     {t('total_subscription')}
                                 </p>
-                                <h6 className="mb-0">15,000</h6>
+                                <h6 className="mb-0">0</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-purple rounded-circle d-flex justify-content-center align-items-center">
                                 <Icon
@@ -50,7 +50,7 @@ const UnitCountOne = () => {
                         </div>
                         <p className="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
                             <span className="d-inline-flex align-items-center gap-1 text-danger-main">
-                                <Icon icon="bxs:down-arrow" className="text-xs" /> -800
+                                <Icon icon="bxs:down-arrow" className="text-xs" /> -0
                             </span>
                             {t('last_30_days_subscription')}
                         </p>
@@ -66,7 +66,7 @@ const UnitCountOne = () => {
                                 <p className="fw-medium text-primary-light mb-1">
                                     {t('total_free_users')}
                                 </p>
-                                <h6 className="mb-0">5,000</h6>
+                                <h6 className="mb-0">0</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-info rounded-circle d-flex justify-content-center align-items-center">
                                 <Icon
@@ -77,7 +77,7 @@ const UnitCountOne = () => {
                         </div>
                         <p className="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
-                                <Icon icon="bxs:up-arrow" className="text-xs" /> +200
+                                <Icon icon="bxs:up-arrow" className="text-xs" /> +0
                             </span>
                             {t('last_30_days_users')}
                         </p>
@@ -91,7 +91,7 @@ const UnitCountOne = () => {
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
                                 <p className="fw-medium text-primary-light mb-1">{t('total_income')}</p>
-                                <h6 className="mb-0">$42,000</h6>
+                                <h6 className="mb-0">$0.00</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-success-main rounded-circle d-flex justify-content-center align-items-center">
                                 <Icon
@@ -102,7 +102,7 @@ const UnitCountOne = () => {
                         </div>
                         <p className="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
-                                <Icon icon="bxs:up-arrow" className="text-xs" /> +$20,000
+                                <Icon icon="bxs:up-arrow" className="text-xs" /> +$0.00
                             </span>
                             {t('last_30_days_income')}
                         </p>
@@ -116,7 +116,7 @@ const UnitCountOne = () => {
                         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                             <div>
                                 <p className="fw-medium text-primary-light mb-1">{t('total_expense')}</p>
-                                <h6 className="mb-0">$30,000</h6>
+                                <h6 className="mb-0">$0.00</h6>
                             </div>
                             <div className="w-50-px h-50-px bg-red rounded-circle d-flex justify-content-center align-items-center">
                                 <Icon
@@ -127,7 +127,7 @@ const UnitCountOne = () => {
                         </div>
                         <p className="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
                             <span className="d-inline-flex align-items-center gap-1 text-success-main">
-                                <Icon icon="bxs:up-arrow" className="text-xs" /> +$5,000
+                                <Icon icon="bxs:up-arrow" className="text-xs" /> +$0.00
                             </span>
                             {t('last_30_days_expense')}
                         </p>

@@ -4,10 +4,10 @@ const NotificationAlertLayer = () => {
       <div className='card-body p-40'>
         <form action='#'>
           <div className='mb-24'>
-            <h6 className='mb-16'>Mail Notification Messages</h6>
+            <h6 className='mb-16'>API de E-mail</h6>
             <div className='d-flex flex-wrap justify-content-between gap-1'>
               <label className='form-label fw-medium text-secondary-light text-md mb-8'>
-                Admin New Order Message
+                Mensagem de novo pedido (Admin)
               </label>
               <div className='form-switch switch-primary d-flex align-items-center gap-3'>
                 <input
@@ -21,21 +21,21 @@ const NotificationAlertLayer = () => {
                   className='form-check-label line-height-1 fw-medium text-secondary-light'
                   htmlFor='On'
                 >
-                  On
+                  Ativo
                 </label>
               </div>
             </div>
             <textarea
               className='form-control radius-8 h-80-px'
-              placeholder='You have a new order.'
+              placeholder='Você tem um novo pedido.'
               defaultValue={""}
             />
           </div>
           <div className='mb-24'>
-            <h6 className='mb-16'>Sms Notification Messages</h6>
+            <h6 className='mb-16'>API de SMS</h6>
             <div className='d-flex flex-wrap justify-content-between gap-1'>
               <label className='form-label fw-medium text-secondary-light text-md mb-8'>
-                Admin New Order Message
+                Mensagem de novo pedido (Admin)
               </label>
               <div className='form-switch switch-primary d-flex align-items-center gap-3'>
                 <input
@@ -48,21 +48,21 @@ const NotificationAlertLayer = () => {
                   className='form-check-label line-height-1 fw-medium text-secondary-light'
                   htmlFor='Off'
                 >
-                  OFF
+                  Inativo
                 </label>
               </div>
             </div>
             <textarea
               className='form-control radius-8 h-80-px'
-              placeholder='You have a new order.'
+              placeholder='Você tem um novo pedido.'
               defaultValue={""}
             />
           </div>
           <div className='mb-24'>
-            <h6 className='mb-16'>Push Notification Messages</h6>
+            <h6 className='mb-16'>API de Push</h6>
             <div className='d-flex flex-wrap justify-content-between gap-1'>
               <label className='form-label fw-medium text-secondary-light text-md mb-8'>
-                Admin New Order Message
+                Mensagem de novo pedido (Admin)
               </label>
               <div className='form-switch switch-primary d-flex align-items-center gap-3'>
                 <input
@@ -75,13 +75,13 @@ const NotificationAlertLayer = () => {
                   className='form-check-label line-height-1 fw-medium text-secondary-light'
                   htmlFor='Offf'
                 >
-                  OFF
+                  Inativo
                 </label>
               </div>
             </div>
             <textarea
               className='form-control radius-8 h-80-px'
-              placeholder='You have a new order.'
+              placeholder='Você tem um novo pedido.'
               defaultValue={""}
             />
           </div>
@@ -90,13 +90,13 @@ const NotificationAlertLayer = () => {
               type='reset'
               className='border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-40 py-11 radius-8'
             >
-              Reset
+              Redefinir
             </button>
             <button
               type='submit'
               className='btn btn-primary border border-primary-600 text-md px-24 py-12 radius-8'
             >
-              Save Change
+              Salvar alterações
             </button>
           </div>
         </form>

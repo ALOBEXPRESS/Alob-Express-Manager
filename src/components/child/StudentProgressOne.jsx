@@ -1,6 +1,5 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -21,8 +20,7 @@ const StudentProgressOne = () => {
     ? [...initialData, ...initialData] 
     : initialData;
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -32,14 +30,14 @@ const StudentProgressOne = () => {
         <div className='card-header'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t("student_progress")}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {showAll ? t("show_less") : t("view_all")}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
         </div>
         <div className='card-body'>

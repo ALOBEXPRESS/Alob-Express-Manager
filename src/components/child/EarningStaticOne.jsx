@@ -19,16 +19,16 @@ const EarningStaticOne = () => {
     const value = e.target.value;
     switch (value) {
       case 'Yearly':
-        setSeries([{ name: "Earnings", data: [20, 30, 25, 40, 35, 50, 45] }]);
+        setSeries([{ name: "Earnings", data: [30, 40, 45, 50, 49, 60, 70] }]);
         break;
       case 'Monthly':
-        setSeries([{ name: "Earnings", data: [15, 25, 20, 30, 25, 40, 35] }]);
+        setSeries([{ name: "Earnings", data: [10, 20, 30, 40, 50, 60, 70] }]);
         break;
       case 'Weekly':
-        setSeries([{ name: "Earnings", data: [5, 10, 8, 15, 12, 20, 18] }]);
+        setSeries([{ name: "Earnings", data: [5, 10, 15, 20, 25, 30, 35] }]);
         break;
       case 'Today':
-        setSeries([{ name: "Earnings", data: [2, 4, 3, 6, 5, 8, 7] }]);
+        setSeries([{ name: "Earnings", data: [2, 4, 6, 8, 10, 12, 14] }]);
         break;
       default:
         setSeries(barChartSeriesTwo);
@@ -68,7 +68,7 @@ const EarningStaticOne = () => {
                 <span className='text-secondary-light text-sm fw-medium'>
                   {t('sales')}
                 </span>
-                <h6 className='text-md fw-semibold mb-0'>$200k</h6>
+                <h6 className='text-md fw-semibold mb-0'>$0k</h6>
               </div>
             </div>
             <div className='d-inline-flex align-items-center gap-2 p-2 radius-8 border pe-36 br-hover-primary group-item'>
@@ -79,7 +79,7 @@ const EarningStaticOne = () => {
                 <span className='text-secondary-light text-sm fw-medium'>
                   {t('income')}
                 </span>
-                <h6 className='text-md fw-semibold mb-0'>$200k</h6>
+                <h6 className='text-md fw-semibold mb-0'>$0k</h6>
               </div>
             </div>
             <div className='d-inline-flex align-items-center gap-2 p-2 radius-8 border pe-36 br-hover-primary group-item'>
@@ -90,7 +90,7 @@ const EarningStaticOne = () => {
                 <span className='text-secondary-light text-sm fw-medium'>
                   {t('profit')}
                 </span>
-                <h6 className='text-md fw-semibold mb-0'>$200k</h6>
+                <h6 className='text-md fw-semibold mb-0'>$0k</h6>
               </div>
             </div>
           </div>

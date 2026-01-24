@@ -43,10 +43,10 @@ const UnitCountFive = () => {
                   </div>
                 </div>
                 <div className='d-flex align-items-center justify-content-between flex-wrap gap-8'>
-                  <h5 className='fw-semibold mb-0'>15,000</h5>
+                  <h5 className='fw-semibold mb-0'>0</h5>
                   <p className='text-sm mb-0 d-flex align-items-center gap-8'>
                     <span className='text-white px-1 rounded-2 fw-medium bg-success-main text-sm'>
-                      +2.5k
+                      +0
                     </span>
                     {t("this_month")}
                   </p>
@@ -93,10 +93,10 @@ const UnitCountFive = () => {
                   </div>
                 </div>
                 <div className='d-flex align-items-center justify-content-between flex-wrap gap-8'>
-                  <h5 className='fw-semibold mb-0'>$50,000</h5>
+                  <h5 className='fw-semibold mb-0'>$0.00</h5>
                   <p className='text-sm mb-0 d-flex align-items-center gap-8'>
                     <span className='text-white px-1 rounded-2 fw-medium bg-success-main text-sm'>
-                      +1.5k
+                      +0
                     </span>
                     {t("this_month")}
                   </p>
@@ -128,14 +128,14 @@ const UnitCountFive = () => {
                   <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
                   <span className='text-secondary-light text-sm fw-semibold'>
                     {t("paid_course")}:
-                    <span className='text-primary-light fw-bold'>350</span>
+                    <span className='text-primary-light fw-bold'>0</span>
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-2'>
                   <span className='w-12-px h-12-px rounded-circle bg-success-main' />
                   <span className='text-secondary-light text-sm fw-semibold'>
                     {t("free_course")}:
-                    <span className='text-primary-light fw-bold'>70</span>
+                    <span className='text-primary-light fw-bold'>0</span>
                   </span>
                 </li>
               </ul>

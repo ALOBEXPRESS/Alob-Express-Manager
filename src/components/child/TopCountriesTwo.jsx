@@ -120,18 +120,18 @@ const TopCountriesTwo = () => {
                     className='progress progress-sm rounded-pill'
                     role='progressbar'
                     aria-label='Success example'
-                    aria-valuenow={25}
+                    aria-valuenow={0}
                     aria-valuemin={0}
                     aria-valuemax={100}
                   >
                     <div
                       className='progress-bar bg-primary-600 rounded-pill'
-                      style={{ width: "80%" }}
+                      style={{ width: "0%" }}
                     />
                   </div>
                 </div>
                 <span className='text-secondary-light font-xs fw-semibold'>
-                  80%
+                  0%
                 </span>
               </div>
             </div>
@@ -155,18 +155,18 @@ const TopCountriesTwo = () => {
                     className='progress progress-sm rounded-pill'
                     role='progressbar'
                     aria-label='Success example'
-                    aria-valuenow={25}
+                    aria-valuenow={0}
                     aria-valuemin={0}
                     aria-valuemax={100}
                   >
                     <div
                       className='progress-bar bg-orange rounded-pill'
-                      style={{ width: "60%" }}
+                      style={{ width: "0%" }}
                     />
                   </div>
                 </div>
                 <span className='text-secondary-light font-xs fw-semibold'>
-                  60%
+                  0%
                 </span>
               </div>
             </div>
@@ -190,18 +190,18 @@ const TopCountriesTwo = () => {
                     className='progress progress-sm rounded-pill'
                     role='progressbar'
                     aria-label='Success example'
-                    aria-valuenow={25}
+                    aria-valuenow={0}
                     aria-valuemin={0}
                     aria-valuemax={100}
                   >
                     <div
                       className='progress-bar bg-yellow rounded-pill'
-                      style={{ width: "49%" }}
+                      style={{ width: "0%" }}
                     />
                   </div>
                 </div>
                 <span className='text-secondary-light font-xs fw-semibold'>
-                  49%
+                  0%
                 </span>
               </div>
             </div>
@@ -215,7 +215,7 @@ const TopCountriesTwo = () => {
                 <div className='flex-grow-1'>
                   <h6 className='text-sm mb-0'>{t("germany")}</h6>
                   <span className='text-xs text-secondary-light fw-medium'>
-                    {t("users_count", { count: "1,240" })}
+                    {t("users_count", { count: "0" })}
                   </span>
                 </div>
               </div>
@@ -225,18 +225,18 @@ const TopCountriesTwo = () => {
                     className='progress progress-sm rounded-pill'
                     role='progressbar'
                     aria-label='Success example'
-                    aria-valuenow={25}
+                    aria-valuenow={0}
                     aria-valuemin={0}
                     aria-valuemax={100}
                   >
                     <div
                       className='progress-bar bg-success-main rounded-pill'
-                      style={{ width: "100%" }}
+                      style={{ width: "0%" }}
                     />
                   </div>
                 </div>
                 <span className='text-secondary-light font-xs fw-semibold'>
-                  100%
+                  0%
                 </span>
               </div>
             </div>

@@ -1,6 +1,5 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -9,18 +8,11 @@ const LastTransactionOne = () => {
   const tCommon = useTranslations('common');
   const [showAll, setShowAll] = useState(false);
 
-  const initialData = [
-    { id: '5986124445445', date: '27 Mar 2024', status: 'pending', statusClass: 'bg-warning-focus text-warning-main', amount: '$20,000.00' },
-    { id: '5986124445445', date: '27 Mar 2024', status: 'rejected', statusClass: 'bg-danger-focus text-danger-main', amount: '$20,000.00' },
-    { id: '5986124445445', date: '27 Mar 2024', status: 'completed', statusClass: 'bg-success-focus text-success-main', amount: '$20,000.00' },
-    { id: '5986124445445', date: '27 Mar 2024', status: 'completed', statusClass: 'bg-success-focus text-success-main', amount: '$20,000.00' },
-    { id: '5986124445445', date: '27 Mar 2024', status: 'completed', statusClass: 'bg-success-focus text-success-main', amount: '$20,000.00' },
-  ];
+  const initialData = [];
 
   const displayData = showAll ? [...initialData, ...initialData] : initialData;
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -29,14 +21,14 @@ const LastTransactionOne = () => {
       <div className='card h-100'>
         <div className='card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between'>
           <h6 className='text-lg fw-semibold mb-0'>{t('last_transaction')}</h6>
-          <Link
-            href='#'
+          <button
+            type='button'
             onClick={handleViewAll}
             className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
           >
             {showAll ? tCommon('show_less') : tCommon('view_all')}
             <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-          </Link>
+          </button>
         </div>
         <div className='card-body p-24'>
           <div className='table-responsive scroll-sm'>

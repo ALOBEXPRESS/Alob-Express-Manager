@@ -38,7 +38,7 @@ const UnitCountTwo = () => {
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
                       {t('new_users')}
                     </span>
-                    <h6 className='fw-semibold'>15,000</h6>
+                    <h6 className='fw-semibold'>0</h6>
                   </div>
                 </div>
                 <div
@@ -52,7 +52,7 @@ const UnitCountTwo = () => {
               <p className='text-sm mb-0'>
                 {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +200
+                  +0
                 </span>{" "}
                 {t('this_week')}
               </p>
@@ -71,7 +71,7 @@ const UnitCountTwo = () => {
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
                       {t('active_users')}
                     </span>
-                    <h6 className='fw-semibold'>8,000</h6>
+                    <h6 className='fw-semibold'>0</h6>
                   </div>
                 </div>
                 <div
@@ -85,7 +85,7 @@ const UnitCountTwo = () => {
               <p className='text-sm mb-0'>
                 {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +200
+                  +0
                 </span>{" "}
                 {t('this_week')}
               </p>
@@ -104,7 +104,7 @@ const UnitCountTwo = () => {
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
                       {t('total_sales')}
                     </span>
-                    <h6 className='fw-semibold'>$5,00,000</h6>
+                    <h6 className='fw-semibold'>$0</h6>
                   </div>
                 </div>
                 <div
@@ -118,7 +118,7 @@ const UnitCountTwo = () => {
               <p className='text-sm mb-0'>
                 {t('increase_by')}{" "}
                 <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
-                  -$10k
+                  -$0k
                 </span>{" "}
                 {t('this_week')}
               </p>
@@ -137,7 +137,7 @@ const UnitCountTwo = () => {
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
                       {t('conversion')}
                     </span>
-                    <h6 className='fw-semibold'>25%</h6>
+                    <h6 className='fw-semibold'>0%</h6>
                   </div>
                 </div>
                 <div
@@ -151,7 +151,7 @@ const UnitCountTwo = () => {
               <p className='text-sm mb-0'>
                 {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +5%
+                  +0%
                 </span>{" "}
                 {t('this_week')}
               </p>
@@ -170,7 +170,7 @@ const UnitCountTwo = () => {
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
                       {t('leads')}
                     </span>
-                    <h6 className='fw-semibold'>250</h6>
+                    <h6 className='fw-semibold'>0</h6>
                   </div>
                 </div>
                 <div
@@ -184,7 +184,7 @@ const UnitCountTwo = () => {
               <p className='text-sm mb-0'>
                 {t('increase_by')}{" "}
                 <span className='bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm'>
-                  +20
+                  +0
                 </span>{" "}
                 {t('this_week')}
               </p>
@@ -203,7 +203,7 @@ const UnitCountTwo = () => {
                     <span className='mb-2 fw-medium text-secondary-light text-sm'>
                       {t('total_profit')}
                     </span>
-                    <h6 className='fw-semibold'>$3,00,700</h6>
+                    <h6 className='fw-semibold'>$0</h6>
                   </div>
                 </div>
                 <div
@@ -217,7 +217,7 @@ const UnitCountTwo = () => {
               <p className='text-sm mb-0'>
                 {t('increase_by')}{" "}
                 <span className='bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm'>
-                  -$10k
+                  -$0k
                 </span>{" "}
                 {t('this_week')}
               </p>

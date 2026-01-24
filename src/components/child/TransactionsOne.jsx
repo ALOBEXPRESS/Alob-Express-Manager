@@ -1,33 +1,24 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useTransactions } from "@/features/finance/hooks/useTransactions";
 
 const TransactionsOne = () => {
   const t = useTranslations("dashboard");
   const [period, setPeriod] = useState('this_month');
+  const { transactions } = useTransactions(period === "this_month" ? 6 : 12);
 
-  const transactions = {
-    this_month: [
-      { img: '/assets/images/payment/payment1.png', name: 'Paytm', desc: 'starbucks', amount: '-$20', amountClass: 'text-danger' },
-      { img: '/assets/images/payment/payment2.png', name: 'PayPal', desc: 'client_payment', amount: '+$800', amountClass: 'text-success-main' },
-      { img: '/assets/images/payment/payment3.png', name: 'Stripe', desc: 'ordered_iphone_14', amount: '-$300', amountClass: 'text-danger-main' },
-      { img: '/assets/images/payment/payment4.png', name: 'Razorpay', desc: 'refund', amount: '+$500', amountClass: 'text-success-main' },
-      { img: '/assets/images/payment/payment1.png', name: 'Paytm', desc: 'starbucks', amount: '-$1500', amountClass: 'text-danger-main' },
-      { img: '/assets/images/payment/payment3.png', name: 'Stripe', desc: 'ordered_iphone_14', amount: '+$800', amountClass: 'text-success-main' },
-    ],
-    last_month: [
-      { img: '/assets/images/payment/payment2.png', name: 'PayPal', desc: 'client_payment', amount: '+$1200', amountClass: 'text-success-main' },
-      { img: '/assets/images/payment/payment1.png', name: 'Paytm', desc: 'starbucks', amount: '-$40', amountClass: 'text-danger' },
-      { img: '/assets/images/payment/payment3.png', name: 'Stripe', desc: 'ordered_iphone_14', amount: '-$600', amountClass: 'text-danger-main' },
-      { img: '/assets/images/payment/payment4.png', name: 'Razorpay', desc: 'refund', amount: '+$200', amountClass: 'text-success-main' },
-    ]
-  };
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value || 0);
 
   const handleChange = (e) => {
     setPeriod(e.target.value);
   };
 
-  const currentTransactions = transactions[period] || transactions.this_month;
+  const currentTransactions = transactions;
 
   return (
     <div className='col-xxl-3'>
@@ -48,21 +39,23 @@ const TransactionsOne = () => {
           </div>
           <div className='mt-32'>
             {currentTransactions.map((tx, index) => (
-              <div key={index} className={`d-flex align-items-center justify-content-between gap-3 ${index !== currentTransactions.length - 1 ? 'mb-32' : ''}`}>
+              <div key={tx.id || index} className={`d-flex align-items-center justify-content-between gap-3 ${index !== currentTransactions.length - 1 ? 'mb-32' : ''}`}>
                 <div className='d-flex align-items-center gap-2'>
                   <img
-                    src={tx.img}
+                    src='/assets/images/payment/payment1.png'
                     alt=''
                     className='w-40-px h-40-px radius-8 flex-shrink-0'
                   />
                   <div className='flex-grow-1'>
-                    <h6 className='text-md mb-0 fw-normal'>{tx.name}</h6>
+                    <h6 className='text-md mb-0 fw-normal'>{tx.type}</h6>
                     <span className='text-sm text-secondary-light fw-normal'>
-                      {t(tx.desc)}
+                      {tx.reference || t("transactions")}
                     </span>
                   </div>
                 </div>
-                <span className={`${tx.amountClass} text-md fw-medium`}>{tx.amount}</span>
+                <span className='text-md fw-medium'>
+                  {formatCurrency(tx.amount)}
+                </span>
               </div>
             ))}
           </div>

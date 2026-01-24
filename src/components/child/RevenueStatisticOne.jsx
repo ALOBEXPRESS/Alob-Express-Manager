@@ -33,9 +33,9 @@ const RevenueStatisticOne = () => {
                 </span>
               </div>
               <div className='d-flex align-items-center gap-8'>
-                <h6 className='mb-0'>$26,201</h6>
+                <h6 className='mb-0'>$0.00</h6>
                 <span className='text-success-600 d-flex align-items-center gap-1 text-sm fw-bolder'>
-                  10%
+                  0%
                   <i className='ri-arrow-up-s-fill d-flex' />
                 </span>
               </div>
@@ -48,9 +48,9 @@ const RevenueStatisticOne = () => {
                 </span>
               </div>
               <div className='d-flex align-items-center gap-8'>
-                <h6 className='mb-0'>$18,120</h6>
+                <h6 className='mb-0'>$0.00</h6>
                 <span className='text-danger-600 d-flex align-items-center gap-1 text-sm fw-bolder'>
-                  10%
+                  0%
                   <i className='ri-arrow-down-s-fill d-flex' />
                 </span>
               </div>

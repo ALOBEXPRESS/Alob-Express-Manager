@@ -1,28 +1,43 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useStockReport } from "@/features/ecommerce/hooks/useStockReport";
 
 const StockReportOne = () => {
   const t = useTranslations("dashboard");
   const tCommon = useTranslations("common");
   const [showAll, setShowAll] = useState(false);
+  const limit = showAll ? 12 : 6;
+  const { items } = useStockReport(limit);
 
-  const initialData = [
-    { name: 'Nike Air Shoes', price: '$500.00', stock: 25, status: 'out_of_stock', color: 'bg-primary-600', width: '0%', textClass: 'text-secondary-light' },
-    { name: 'Nike Air Shoes', price: '$300.00', stock: 18, status: 'low_stock', color: 'bg-danger-main', width: '40%', textClass: 'text-secondary-light' },
-    { name: 'Nike Air Shoes', price: '$500.00', stock: 80, status: 'high_stock', color: 'bg-success-main', width: '80%', textClass: 'text-secondary-light' },
-    { name: 'Nike Air Shoes', price: '$300.00', stock: 50, status: 'high_stock', color: 'bg-success-main', width: '50%', textClass: 'text-secondary-light' },
-    { name: 'Nike Air Shoes', price: '$150.00', stock: 70, status: 'high_stock', color: 'bg-success-main', width: '70%', textClass: 'text-secondary-light' }
-  ];
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value || 0);
 
-  const displayData = showAll 
-    ? [...initialData, ...initialData] 
-    : initialData;
+  const maxStock = Math.max(1, ...items.map((item) => item.stock_quantity || 0));
+  const displayData = items.map((item) => {
+    const percentage = Math.round(((item.stock_quantity || 0) / maxStock) * 100);
+    const color =
+      percentage <= 25
+        ? "bg-danger-main"
+        : percentage <= 60
+        ? "bg-warning-main"
+        : "bg-success-main";
+    return {
+      id: item.id,
+      name: item.name,
+      price: formatCurrency(item.price),
+      stock: item.stock_quantity || 0,
+      width: `${percentage}%`,
+      color,
+      status: (item.stock_quantity || 0) > 0 ? "in_stock" : "out_stock",
+    };
+  });
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -32,14 +47,14 @@ const StockReportOne = () => {
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t("stock_report")}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {showAll ? tCommon("show_less") : tCommon("view_all")}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
           <div className='table-responsive scroll-sm'>
             <table className='table bordered-table mb-0'>
@@ -56,7 +71,7 @@ const StockReportOne = () => {
               </thead>
               <tbody>
                 {displayData.map((item, index) => (
-                  <tr key={index}>
+                  <tr key={item.id || index}>
                     <td>{item.name}</td>
                     <td>{item.price}</td>
                     <td>

@@ -11,12 +11,8 @@ export const metadata = {
 const Page = () => {
   return (
     <>
-      {/* MasterLayout */}
       <MasterLayout>
-        {/* Breadcrumb */}
-        <Breadcrumb title='Settings - Notification Alert' />
-
-        {/* NotificationAlertLayer */}
+        <Breadcrumb title="Configurações - API's" />
         <NotificationAlertLayer />
       </MasterLayout>
     </>

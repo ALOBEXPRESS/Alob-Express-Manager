@@ -50,12 +50,12 @@ const ProjectStatusOne = () => {
                         >
                           <div
                             className='progress-bar bg-red rounded-pill'
-                            style={{ width: "30%" }}
+                            style={{ width: "0%" }}
                           />
                         </div>
                       </div>
                       <span className='mt-8 text-secondary-light text-sm fw-medium'>
-                        30%
+                        0%
                       </span>
                     </div>
                   </td>
@@ -70,18 +70,18 @@ const ProjectStatusOne = () => {
                           className='progress progress-sm rounded-pill'
                           role='progressbar'
                           aria-label='Success example'
-                          aria-valuenow={25}
+                          aria-valuenow={0}
                           aria-valuemin={0}
                           aria-valuemax={100}
                         >
                           <div
                             className='progress-bar bg-warning-main rounded-pill'
-                            style={{ width: "50%" }}
+                            style={{ width: "0%" }}
                           />
                         </div>
                       </div>
                       <span className='mt-8 text-secondary-light text-sm fw-medium'>
-                        50%
+                        0%
                       </span>
                     </div>
                   </td>
@@ -96,18 +96,18 @@ const ProjectStatusOne = () => {
                           className='progress progress-sm rounded-pill'
                           role='progressbar'
                           aria-label='Success example'
-                          aria-valuenow={25}
+                          aria-valuenow={0}
                           aria-valuemin={0}
                           aria-valuemax={100}
                         >
                           <div
                             className='progress-bar bg-info-main rounded-pill'
-                            style={{ width: "60%" }}
+                            style={{ width: "0%" }}
                           />
                         </div>
                       </div>
                       <span className='mt-8 text-secondary-light text-sm fw-medium'>
-                        60%
+                        0%
                       </span>
                     </div>
                   </td>
@@ -122,18 +122,18 @@ const ProjectStatusOne = () => {
                           className='progress progress-sm rounded-pill'
                           role='progressbar'
                           aria-label='Success example'
-                          aria-valuenow={25}
+                          aria-valuenow={0}
                           aria-valuemin={0}
                           aria-valuemax={100}
                         >
                           <div
                             className='progress-bar bg-success-main rounded-pill'
-                            style={{ width: "80%" }}
+                            style={{ width: "0%" }}
                           />
                         </div>
                       </div>
                       <span className='mt-8 text-secondary-light text-sm fw-medium'>
-                        80%
+                        0%
                       </span>
                     </div>
                   </td>
@@ -148,18 +148,18 @@ const ProjectStatusOne = () => {
                           className='progress progress-sm rounded-pill'
                           role='progressbar'
                           aria-label='Success example'
-                          aria-valuenow={25}
+                          aria-valuenow={0}
                           aria-valuemin={0}
                           aria-valuemax={100}
                         >
                           <div
                             className='progress-bar bg-red rounded-pill'
-                            style={{ width: "70%" }}
+                            style={{ width: "0%" }}
                           />
                         </div>
                       </div>
                       <span className='mt-8 text-secondary-light text-sm fw-medium'>
-                        70%
+                        0%
                       </span>
                     </div>
                   </td>

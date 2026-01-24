@@ -1,25 +1,116 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { supabase } from "@/lib/supabase/client";
+
+const themeOptions = [
+  {
+    id: "blue",
+    label: "Blue",
+    primaryClass: "bg-primary-600",
+    focusClass: "bg-primary-100",
+    labelClass: "text-secondary-light",
+  },
+  {
+    id: "magenta",
+    label: "Magenta",
+    primaryClass: "bg-lilac-600",
+    focusClass: "bg-lilac-100",
+    labelClass: "text-lilac-light",
+  },
+  {
+    id: "orange",
+    label: "Orange",
+    primaryClass: "bg-warning-600",
+    focusClass: "bg-warning-100",
+    labelClass: "text-secondary-light",
+  },
+  {
+    id: "green",
+    label: "Green",
+    primaryClass: "bg-success-600",
+    focusClass: "bg-success-100",
+    labelClass: "text-secondary-light",
+  },
+  {
+    id: "red",
+    label: "Red",
+    primaryClass: "bg-danger-600",
+    focusClass: "bg-danger-100",
+    labelClass: "text-secondary-light",
+  },
+  {
+    id: "blueDark",
+    label: "Blue Dark",
+    primaryClass: "bg-info-600",
+    focusClass: "bg-info-100",
+    labelClass: "text-secondary-light",
+  },
+];
+const themeIds = new Set(themeOptions.map((option) => option.id));
+const defaultThemeColor = "blue";
 
 const ThemeLayer = () => {
   const [previewImage1, setPreviewImage1] = useState("");
   const [previewImage2, setPreviewImage2] = useState("");
-  const [activeThemeColor, setActiveThemeColor] = useState("blue");
+  const [activeThemeColor, setActiveThemeColor] = useState(defaultThemeColor);
+  const userHasSelectedTheme = useRef(false);
+
+  const applyThemeToDom = (color) => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("theme-color", color);
+    document.documentElement.setAttribute("data-theme-color", color);
+    document.body?.setAttribute("data-theme-color", color);
+  };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedColor = localStorage.getItem("theme-color") || "blue";
-      setActiveThemeColor(storedColor);
-      document.documentElement.setAttribute("data-theme-color", storedColor);
-    }
+    let isMounted = true;
+    const loadTheme = async () => {
+      try {
+        const storedColor =
+          typeof window !== "undefined" ? localStorage.getItem("theme-color") : null;
+        const normalizedStoredColor = themeIds.has(storedColor)
+          ? storedColor
+          : defaultThemeColor;
+        let nextColor = normalizedStoredColor || defaultThemeColor;
+        const { data: userData } = await supabase.auth.getUser();
+        const user = userData?.user;
+        if (user) {
+          const { data, error } = await supabase
+            .from("users")
+            .select("theme_color")
+            .eq("id", user.id)
+            .maybeSingle();
+          const normalizedDbColor = themeIds.has(data?.theme_color)
+            ? data.theme_color
+            : null;
+          if (!error && normalizedDbColor) {
+            nextColor = normalizedDbColor;
+          } else if (!error && !normalizedDbColor) {
+            await supabase
+              .from("users")
+              .upsert({ id: user.id, theme_color: nextColor }, { onConflict: "id" });
+          }
+        }
+        if (!isMounted || userHasSelectedTheme.current) return;
+        setActiveThemeColor(nextColor);
+        applyThemeToDom(nextColor);
+      } catch (error) {
+        if (!isMounted || userHasSelectedTheme.current) return;
+        setActiveThemeColor(defaultThemeColor);
+        applyThemeToDom(defaultThemeColor);
+      }
+    };
+    loadTheme();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleColorChange = (color) => {
-    setActiveThemeColor(color);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme-color", color);
-      document.documentElement.setAttribute("data-theme-color", color);
-    }
+    const normalizedColor = themeIds.has(color) ? color : defaultThemeColor;
+    userHasSelectedTheme.current = true;
+    setActiveThemeColor(normalizedColor);
+    applyThemeToDom(normalizedColor);
   };
 
   const readURL = (input, setPreviewImage) => {
@@ -31,9 +122,20 @@ const ThemeLayer = () => {
       reader.readAsDataURL(input.target.files[0]);
     }
   };
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Logic to save changes if needed, but changes are already saved on change
+    const normalizedColor = themeIds.has(activeThemeColor)
+      ? activeThemeColor
+      : defaultThemeColor;
+    userHasSelectedTheme.current = true;
+    applyThemeToDom(normalizedColor);
+    const { data: userData } = await supabase.auth.getUser();
+    const user = userData?.user;
+    if (user) {
+      await supabase
+        .from("users")
+        .upsert({ id: user.id, theme_color: normalizedColor }, { onConflict: "id" });
+    }
   };
 
   return (
@@ -100,180 +202,37 @@ const ThemeLayer = () => {
           <div className='mt-32'>
             <h6 className='text-xl mb-16'>Theme Colors</h6>
             <div className='row gy-4'>
-              <div className='col-xxl-2 col-md-4 col-sm-6'>
-                <input
-                  className='form-check-input payment-gateway-input'
-                  name='theme-color'
-                  type='radio'
-                  id='blue'
-                  checked={activeThemeColor === 'blue'}
-                  onChange={() => handleColorChange('blue')}
-                />
-                <label
-                  htmlFor='blue'
-                  className='payment-gateway-label border radius-8 p-8 w-100'
-                >
-                  <span className='d-flex align-items-center gap-2'>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-primary-600 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Blue
+              {themeOptions.map((option) => (
+                <div key={option.id} className='col-xxl-2 col-md-4 col-sm-6'>
+                  <input
+                    className='form-check-input payment-gateway-input'
+                    name='theme-color'
+                    type='radio'
+                    id={option.id}
+                    checked={activeThemeColor === option.id}
+                    onChange={() => handleColorChange(option.id)}
+                  />
+                  <label
+                    htmlFor={option.id}
+                    className='payment-gateway-label border radius-8 p-8 w-100'
+                  >
+                    <span className='d-flex align-items-center gap-2'>
+                      <span className='w-50 text-center'>
+                        <span className={`h-72-px w-100 ${option.primaryClass} radius-4`} />
+                        <span className={`${option.labelClass} text-md fw-semibold mt-8`}>
+                          {option.label}
+                        </span>
+                      </span>
+                      <span className='w-50 text-center'>
+                        <span className={`h-72-px w-100 ${option.focusClass} radius-4`} />
+                        <span className={`${option.labelClass} text-md fw-semibold mt-8`}>
+                          Focus
+                        </span>
                       </span>
                     </span>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-primary-100 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Focus
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div className='col-xxl-2 col-md-4 col-sm-6'>
-                <input
-                  className='form-check-input payment-gateway-input'
-                  name='theme-color'
-                  type='radio'
-                  id='magenta'
-                  checked={activeThemeColor === 'magenta'}
-                  onChange={() => handleColorChange('magenta')}
-                />
-                <label
-                  htmlFor='magenta'
-                  className='payment-gateway-label border radius-8 p-8 w-100'
-                >
-                  <span className='d-flex align-items-center gap-2'>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-lilac-600 radius-4' />
-                      <span className='text-lilac-light text-md fw-semibold mt-8'>
-                        Magenta
-                      </span>
-                    </span>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-lilac-100 radius-4' />
-                      <span className='text-lilac-light text-md fw-semibold mt-8'>
-                        Focus
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div className='col-xxl-2 col-md-4 col-sm-6'>
-                <input
-                  className='form-check-input payment-gateway-input'
-                  name='theme-color'
-                  type='radio'
-                  id='orange'
-                  checked={activeThemeColor === 'orange'}
-                  onChange={() => handleColorChange('orange')}
-                />
-                <label
-                  htmlFor='orange'
-                  className='payment-gateway-label border radius-8 p-8 w-100'
-                >
-                  <span className='d-flex align-items-center gap-2'>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-warning-600 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Orange
-                      </span>
-                    </span>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-warning-100 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Focus
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div className='col-xxl-2 col-md-4 col-sm-6'>
-                <input
-                  className='form-check-input payment-gateway-input'
-                  name='theme-color'
-                  type='radio'
-                  id='green'
-                  checked={activeThemeColor === 'green'}
-                  onChange={() => handleColorChange('green')}
-                />
-                <label
-                  htmlFor='green'
-                  className='payment-gateway-label border radius-8 p-8 w-100'
-                >
-                  <span className='d-flex align-items-center gap-2'>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-success-600 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Green
-                      </span>
-                    </span>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-success-100 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Focus
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div className='col-xxl-2 col-md-4 col-sm-6'>
-                <input
-                  className='form-check-input payment-gateway-input'
-                  name='theme-color'
-                  type='radio'
-                  id='red'
-                  checked={activeThemeColor === 'red'}
-                  onChange={() => handleColorChange('red')}
-                />
-                <label
-                  htmlFor='red'
-                  className='payment-gateway-label border radius-8 p-8 w-100'
-                >
-                  <span className='d-flex align-items-center gap-2'>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-danger-600 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Red
-                      </span>
-                    </span>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-danger-100 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Focus
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div className='col-xxl-2 col-md-4 col-sm-6'>
-                <input
-                  className='form-check-input payment-gateway-input'
-                  name='theme-color'
-                  type='radio'
-                  id='blueDark'
-                  checked={activeThemeColor === 'blueDark'}
-                  onChange={() => handleColorChange('blueDark')}
-                />
-                <label
-                  htmlFor='blueDark'
-                  className='payment-gateway-label border radius-8 p-8 w-100'
-                >
-                  <span className='d-flex align-items-center gap-2'>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-info-600 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Blue Dark
-                      </span>
-                    </span>
-                    <span className='w-50 text-center'>
-                      <span className='h-72-px w-100 bg-info-100 radius-4' />
-                      <span className='text-secondary-light text-md fw-semibold mt-8'>
-                        Focus
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
+                  </label>
+                </div>
+              ))}
               <div className='d-flex align-items-center justify-content-center gap-3 mt-24'>
                 <button
                   type='reset'

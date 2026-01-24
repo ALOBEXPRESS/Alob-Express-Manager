@@ -34,7 +34,7 @@ const SalesStatisticTwo = () => {
                 <span className='text-secondary-light fw-normal mb-12 text-xl'>
                   {t('daily_conversions')}
                 </span>
-                <h5 className='fw-semibold mb-0'>%60</h5>
+                <h5 className='fw-semibold mb-0'>0%</h5>
               </div>
               <div className='position-relative'>
                 <ReactApexChart
@@ -57,7 +57,7 @@ const SalesStatisticTwo = () => {
                 <span className='text-secondary-light fw-normal mb-12 text-xl'>
                   {t('visits_by_day')}
                 </span>
-                <h5 className='fw-semibold mb-0'>20k</h5>
+                <h5 className='fw-semibold mb-0'>0</h5>
               </div>
               <div id='areaChart'>
                 {/* Pass the color value */}
@@ -69,7 +69,7 @@ const SalesStatisticTwo = () => {
                 <span className='text-secondary-light fw-normal mb-12 text-xl'>
                   {t('today_income')}
                 </span>
-                <h5 className='fw-semibold mb-0'>$5.5k</h5>
+                <h5 className='fw-semibold mb-0'>$0.00</h5>
               </div>
               <ReactApexChart
                 id='dailyIconBarChart'

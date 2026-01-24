@@ -1,68 +1,34 @@
 "use client";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useTopProducts } from "@/features/ecommerce/hooks/useTopProducts";
 
 const TopSellingProductOne = () => {
   const t = useTranslations("dashboard");
   const tCommon = useTranslations("common");
   const [showAll, setShowAll] = useState(false);
+  const limit = showAll ? 12 : 6;
+  const { products } = useTopProducts(limit);
 
-  const initialData = [
-    {
-      img: '/assets/images/product/product-img1.png',
-      name: 'blue_t_shirt',
-      category: 'fashion',
-      price: '$500.00',
-      discount: '15%',
-      sold: 300,
-      totalOrders: 70
-    },
-    {
-      img: '/assets/images/product/product-img2.png',
-      name: 'nike_air_shoe',
-      category: 'fashion',
-      price: '$150.00',
-      discount: 'N/A',
-      sold: 200,
-      totalOrders: 70
-    },
-    {
-      img: '/assets/images/product/product-img3.png',
-      name: 'woman_dresses',
-      category: 'fashion',
-      price: '$300.00',
-      discount: '$50.00',
-      sold: 1500,
-      totalOrders: 70
-    },
-    {
-      img: '/assets/images/product/product-img4.png',
-      name: 'smart_watch',
-      category: 'fashion',
-      price: '$400.00',
-      discount: '$50.00',
-      sold: 700,
-      totalOrders: 70
-    },
-    {
-      img: '/assets/images/product/product-img5.png',
-      name: 'hoodie_rose',
-      category: 'fashion',
-      price: '$300.00',
-      discount: '25%',
-      sold: 500,
-      totalOrders: 70
-    }
-  ];
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value || 0);
 
-  const displayData = showAll 
-    ? [...initialData, ...initialData] 
-    : initialData;
+  const displayData = products.map((entry) => ({
+    id: entry.product?.id,
+    img: "/assets/images/product/product-img1.png",
+    name: entry.product?.name || t("items"),
+    category: "products",
+    price: formatCurrency(entry.product?.price),
+    discount: "0%",
+    sold: entry.sold || 0,
+    totalOrders: entry.totalOrders || 0,
+  }));
 
-  const handleViewAll = (e) => {
-    e.preventDefault();
+  const handleViewAll = () => {
     setShowAll(!showAll);
   };
 
@@ -72,14 +38,14 @@ const TopSellingProductOne = () => {
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>
             <h6 className='mb-2 fw-bold text-lg mb-0'>{t("top_selling_product")}</h6>
-            <Link
-              href='#'
+            <button
+              type='button'
               onClick={handleViewAll}
               className='text-primary-600 hover-text-primary d-flex align-items-center gap-1'
             >
               {showAll ? tCommon("show_less") : tCommon("view_all")}
               <Icon icon='solar:alt-arrow-right-linear' className='icon' />
-            </Link>
+            </button>
           </div>
           <div className='table-responsive scroll-sm'>
             <table className='table bordered-table mb-0'>
@@ -96,7 +62,7 @@ const TopSellingProductOne = () => {
               </thead>
               <tbody>
                 {displayData.map((product, index) => (
-                  <tr key={index}>
+                  <tr key={product.id || index}>
                     <td>
                       <div className='d-flex align-items-center'>
                         <img

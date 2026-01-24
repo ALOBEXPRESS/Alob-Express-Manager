@@ -24,19 +24,19 @@ const ClientPaymentOne = () => {
             <li className='d-flex align-items-center gap-2 me-28'>
               <span className='w-12-px h-12-px rounded-circle bg-success-main' />
               <span className='text-secondary-light text-sm fw-medium'>
-                {t('paid')}: 500
+                {t('paid')}: 0
               </span>
             </li>
             <li className='d-flex align-items-center gap-2 me-28'>
               <span className='w-12-px h-12-px rounded-circle bg-info-main' />
               <span className='text-secondary-light text-sm fw-medium'>
-                {t('pending')}: 500
+                {t('pending')}: 0
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px rounded-circle bg-warning-main' />
               <span className='text-secondary-light text-sm fw-medium'>
-                {t('overdue')}: 1500
+                {t('overdue')}: 0
               </span>
             </li>
           </ul>

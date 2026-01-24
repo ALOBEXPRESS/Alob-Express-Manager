@@ -50,14 +50,14 @@ const UserActivatesOne = () => {
               <span className='w-12-px h-12-px radius-2 bg-primary-600' />
               <span className='text-secondary-light text-sm fw-normal'>
                 {t('visits_by_day')}:
-                <span className='text-primary-light fw-bold'>20,000</span>
+                <span className='text-primary-light fw-bold'>0</span>
               </span>
             </li>
             <li className='d-flex align-items-center gap-2'>
               <span className='w-12-px h-12-px radius-2 bg-yellow' />
               <span className='text-secondary-light text-sm fw-normal'>
                 {t('referral_join')}:
-                <span className='text-primary-light fw-bold'>25,000</span>
+                <span className='text-primary-light fw-bold'>0</span>
               </span>
             </li>
           </ul>
