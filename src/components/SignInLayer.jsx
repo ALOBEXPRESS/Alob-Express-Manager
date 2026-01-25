@@ -125,7 +125,7 @@ const SignInLayer = () => {
         </div>
       </div>
       <div className='auth-right py-32 px-24 d-flex flex-column justify-content-center'>
-        <div className='max-w-464-px mx-auto w-100'>
+        <div className='max-w-560-px mx-auto w-100'>
           <div>
             <Link href='/' className='mb-40 max-w-290-px'>
               <img src='/assets/images/logo.png' alt='' />
@@ -174,7 +174,7 @@ const SignInLayer = () => {
                       type='email'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder='empresaalob@gmail.com'
+                      placeholder=''
                       required
                     />
                   </div>

@@ -94,10 +94,14 @@ const CalculatorEmbed = ({ src, title }) => {
   );
 
   const handleIframeLoad = useCallback(async () => {
+    console.log("CalculatorEmbed: Iframe loaded");
     iframeReadyRef.current = true;
     setShowFallback(false);
     const organizationId = await getActiveOrganizationId();
+    console.log("CalculatorEmbed: Organization ID:", organizationId);
+    
     if (!organizationId) {
+      console.warn("CalculatorEmbed: No active organization found.");
       latestProductsRef.current = [];
       sendToIframe({ type: "CALCULATOR_PRODUCTS_LIST", products: [] });
       return;
