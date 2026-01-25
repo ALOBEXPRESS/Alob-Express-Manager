@@ -13,6 +13,7 @@ const CompanyLayer = () => {
   const [stateRegion, setStateRegion] = useState("Select State");
   const [zip, setZip] = useState("");
   const [address, setAddress] = useState("");
+  const [addressNumber, setAddressNumber] = useState("");
   const [emergencyReserve, setEmergencyReserve] = useState("");
   const [workingCapital, setWorkingCapital] = useState("");
   const [stateOptions, setStateOptions] = useState([]);
@@ -43,7 +44,7 @@ const CompanyLayer = () => {
       const { data, error: fetchError } = await supabase
         .from("organizations")
         .select(
-          "name,email,phone,country,city,state,zip,address,emergency_reserve,working_capital"
+          "name,email,phone,country,city,state,zip,address,address_number,emergency_reserve,working_capital"
         )
         .eq("id", organizationId)
         .maybeSingle();
@@ -61,6 +62,7 @@ const CompanyLayer = () => {
         setStateRegion(data.state || "Select State");
         setZip(data.zip || "");
         setAddress(data.address || "");
+        setAddressNumber(data.address_number || "");
         setEmergencyReserve(
           data.emergency_reserve !== null && data.emergency_reserve !== undefined
             ? String(data.emergency_reserve)
@@ -159,27 +161,45 @@ const CompanyLayer = () => {
       setError("Não foi possível identificar a organização.");
       return;
     }
+    if (!name || name.trim() === "") {
+      setError("O campo 'Full Name' é obrigatório.");
+      return;
+    }
     if (emergencyReserve === "" || workingCapital === "") {
       setError("Preencha Reserva de emergência e Capital de giro.");
       return;
     }
     setSaving(true);
+    const generateSlug = (text) => {
+      return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, "") // Remove accents
+        .replace(/\s+/g, '-')     // Replace spaces with -
+        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+        .replace(/\-\-+/g, '-');  // Replace multiple - with single -
+    };
+
     const payload = {
       id: organizationId,
       name,
+      slug: generateSlug(name),
       email,
-      phone,
+      phone: phone || null,
       country,
       city,
       state: stateRegion,
-      zip,
-      address,
+      zip: zip || null,
+      address: address || null,
+      address_number: addressNumber || null,
       emergency_reserve: parseCurrency(emergencyReserve),
       working_capital: parseCurrency(workingCapital),
     };
     const { error: saveError } = await supabase.from("organizations").upsert(payload);
     if (saveError) {
-      setError("Não foi possível salvar as configurações.");
+      console.error("Erro ao salvar:", saveError);
+      setError(`Erro: ${saveError.message || saveError.details || "Erro desconhecido ao salvar"}`);
       setSaving(false);
       return;
     }
@@ -247,7 +267,7 @@ const CompanyLayer = () => {
                   Phone Number
                 </label>
                 <input
-                  type='email'
+                  type='tel'
                   className='form-control radius-8'
                   id='number'
                   placeholder='Enter phone number'
@@ -302,40 +322,6 @@ const CompanyLayer = () => {
             <div className='col-sm-6'>
               <div className='mb-20'>
                 <label
-                  htmlFor='city'
-                  className='form-label fw-semibold text-primary-light text-sm mb-8'
-                >
-                  City <span className='text-danger-600'>*</span>{" "}
-                </label>
-                <select
-                  className='form-control radius-8 form-select'
-                  id='city'
-                  value={city}
-                  onChange={(event) => setCity(event.target.value)}
-                >
-                  <option value='Select City' disabled>
-                    Select City
-                  </option>
-                  {country === "Brasil"
-                    ? cityOptions.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))
-                    : (
-                        <>
-                          <option value='Washington'>Washington</option>
-                          <option value='Dhaka'>Dhaka</option>
-                          <option value='Lahore'>Lahore</option>
-                          <option value='Panjab'>Panjab</option>
-                        </>
-                      )}
-                </select>
-              </div>
-            </div>
-            <div className='col-sm-6'>
-              <div className='mb-20'>
-                <label
                   htmlFor='state'
                   className='form-label fw-semibold text-primary-light text-sm mb-8'
                 >
@@ -354,6 +340,40 @@ const CompanyLayer = () => {
                     ? stateOptions.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.label}
+                        </option>
+                      ))
+                    : (
+                        <>
+                          <option value='Washington'>Washington</option>
+                          <option value='Dhaka'>Dhaka</option>
+                          <option value='Lahore'>Lahore</option>
+                          <option value='Panjab'>Panjab</option>
+                        </>
+                      )}
+                </select>
+              </div>
+            </div>
+            <div className='col-sm-6'>
+              <div className='mb-20'>
+                <label
+                  htmlFor='city'
+                  className='form-label fw-semibold text-primary-light text-sm mb-8'
+                >
+                  City <span className='text-danger-600'>*</span>{" "}
+                </label>
+                <select
+                  className='form-control radius-8 form-select'
+                  id='city'
+                  value={city}
+                  onChange={(event) => setCity(event.target.value)}
+                >
+                  <option value='Select City' disabled>
+                    Select City
+                  </option>
+                  {country === "Brasil"
+                    ? cityOptions.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
                         </option>
                       ))
                     : (
@@ -405,6 +425,24 @@ const CompanyLayer = () => {
                   placeholder='Enter Your Address'
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
+                />
+              </div>
+            </div>
+            <div className='col-sm-6'>
+              <div className='mb-20'>
+                <label
+                  htmlFor='addressNumber'
+                  className='form-label fw-semibold text-primary-light text-sm mb-8'
+                >
+                  Número
+                </label>
+                <input
+                  type='text'
+                  className='form-control radius-8'
+                  id='addressNumber'
+                  placeholder='Nº'
+                  value={addressNumber}
+                  onChange={(event) => setAddressNumber(event.target.value)}
                 />
               </div>
             </div>

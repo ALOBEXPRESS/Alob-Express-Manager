@@ -94,9 +94,11 @@ const CalculatorEmbed = ({ src, title }) => {
   );
 
   const handleIframeLoad = useCallback(async () => {
-    console.log("CalculatorEmbed: Iframe loaded");
-    iframeReadyRef.current = true;
-    setShowFallback(false);
+    console.log("CalculatorEmbed: Iframe loaded (network level)");
+    // Note: We do NOT set iframeReadyRef.current = true here anymore.
+    // We wait for the app to send a message (CALCULATOR_HEIGHT or others) to confirm it is running.
+    // However, we still attempt to sync in case it IS ready but just hasn't sent height yet.
+    
     const organizationId = await getActiveOrganizationId();
     console.log("CalculatorEmbed: Organization ID:", organizationId);
     
@@ -117,12 +119,15 @@ const CalculatorEmbed = ({ src, title }) => {
       if (!iframeReadyRef.current) {
         setShowFallback(true);
       }
-    }, 2500);
+    }, 10000);
 
     const handleMessage = async (event) => {
-      if (event.data && event.data.type === "CALCULATOR_HEIGHT") {
+      if (event.data && event.data.type && typeof event.data.type === "string" && event.data.type.startsWith("CALCULATOR_")) {
         iframeReadyRef.current = true;
         setShowFallback(false);
+      }
+
+      if (event.data && event.data.type === "CALCULATOR_HEIGHT") {
         setIframeHeight(`${event.data.height}px`);
         if (latestProductsRef.current.length > 0) {
           sendToIframe({
@@ -205,7 +210,10 @@ const CalculatorEmbed = ({ src, title }) => {
           supplierName: payload.supplierName,
           costPrice: parsePrice(payload.costPrice),
           marketplace: payload.marketplace || "",
+          amazonPlan: payload.amazonPlan,
+          amazonCategory: payload.amazonCategory,
           netRevenue: parsePrice(payload.netRevenue),
+          variations: payload.variations || [],
         });
 
         const normalizedPrice = parsePrice(payload.sellingPrice);

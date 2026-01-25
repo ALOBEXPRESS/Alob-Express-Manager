@@ -183,7 +183,7 @@ const MasterLayout = ({ children }) => {
                     {t('calculator')}
                   </Link>
                 </li>
-                <li>
+{/* <li>
                   <Link
                     href='/ai'
                     className={pathname.includes("/ai") ? "active-page" : ""}
@@ -191,8 +191,8 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />
                     {t('ai')}
                   </Link>
-                </li>
-                <li>
+                </li> */}
+{/* <li>
                   <Link
                     href='/crm'
                     className={pathname.includes("/crm") ? "active-page" : ""}
@@ -200,7 +200,7 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
                     {t('crm')}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href='/e-commerce'
@@ -210,7 +210,7 @@ const MasterLayout = ({ children }) => {
                     {t('ecommerce')}
                   </Link>
                 </li>
-                <li>
+{/* <li>
                   <Link
                     href='/criptomoeda'
                     className={pathname.includes("/criptomoeda") ? "active-page" : ""}
@@ -218,8 +218,8 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-danger-main w-auto' />
                     {t('cryptocurrency')}
                   </Link>
-                </li>
-                <li>
+                </li> */}
+{/* <li>
                   <Link
                     href='/investimento'
                     className={pathname.includes("/investimento") ? "active-page" : ""}
@@ -227,8 +227,8 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-success-main w-auto' />{" "}
                     {t('investment')}
                   </Link>
-                </li>
-                <li>
+                </li> */}
+{/* <li>
                   <Link
                     href='/lms'
                     className={pathname.includes("/lms") ? "active-page" : ""}
@@ -236,8 +236,8 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-purple w-auto' />{" "}
                     {t('lms')}
                   </Link>
-                </li>
-                <li>
+                </li> */}
+{/* <li>
                   <Link
                     href='/nft-e-jogos'
                     className={pathname.includes("/nft-e-jogos") ? "active-page" : ""}
@@ -245,8 +245,8 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('nft_gaming')}
                   </Link>
-                </li>
-                <li>
+                </li> */}
+{/* <li>
                   <Link
                     href='/medico'
                     className={pathname.includes("/medico") ? "active-page" : ""}
@@ -254,8 +254,8 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('medical')}
                   </Link>
-                </li>
-                <li>
+                </li> */}
+{/* <li>
                   <Link
                     href='/analytics'
                     className={pathname.includes("/analytics") ? "active-page" : ""}
@@ -263,7 +263,7 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('analytics')}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href='/pdv-e-estoque'
@@ -273,7 +273,7 @@ const MasterLayout = ({ children }) => {
                     {t('pos_inventory')}
                   </Link>
                 </li>
-                <li>
+{/* <li>
                   <Link
                     href='/financas-e-bancario'
                     className={pathname.includes("/financas-e-bancario") ? "active-page" : ""}
@@ -281,7 +281,7 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     {t('finance_banking')}
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
 
@@ -371,7 +371,7 @@ const MasterLayout = ({ children }) => {
               </ul>
             </li>
 
-            <li className='dropdown'>
+            {/* <li className='dropdown'>
               <a href='javascript:void(0)' onClick={handleDropdownClick}>
                 <i className='ri-robot-2-line mr-10' />
                 <span>{t('ai_application')}</span>
@@ -423,7 +423,7 @@ const MasterLayout = ({ children }) => {
                   </Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
             <li className='dropdown'>
               <a onClick={handleDropdownClick} style={{ cursor: 'pointer' }}>
