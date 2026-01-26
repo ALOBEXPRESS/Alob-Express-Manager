@@ -29,7 +29,10 @@ const mapProduct = (row) => {
     supplierName: meta.supplierName || "",
     costPrice: meta.costPrice || 0,
     marketplace: meta.marketplace || "",
+    accountHolder: meta.accountHolder || "",
+    accountType: meta.accountType || "",
     netRevenue: meta.netRevenue || 0,
+    variations: meta.variations || [],
   };
 };
 
@@ -194,14 +197,19 @@ const CalculatorEmbed = ({ src, title }) => {
           return;
         }
 
-        const { data: existing } = await supabase
-          .from("products")
-          .select("id")
-          .eq("organization_id", organizationId)
-          .eq("name", payload.name)
-          .like("sku", "calc-%")
-          .limit(1)
-          .maybeSingle();
+        let existingId = payload.id;
+
+        if (!existingId) {
+          const { data: existing } = await supabase
+            .from("products")
+            .select("id")
+            .eq("organization_id", organizationId)
+            .eq("name", payload.name)
+            .like("sku", "calc-%")
+            .limit(1)
+            .maybeSingle();
+          existingId = existing?.id;
+        }
 
         const description = JSON.stringify({
           imageUrl: payload.imageUrl,
