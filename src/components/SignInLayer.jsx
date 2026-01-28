@@ -127,10 +127,9 @@ const SignInLayer = () => {
       <div className='auth-right py-32 px-24 d-flex flex-column justify-content-center'>
         <div className='max-w-560-px mx-auto w-100'>
           <div>
-            <Link href='/' className='mb-40 max-w-290-px'>
+            <Link href='/' className='mb-40 max-w-150-px'>
               <img src='/Logonome-alobexpress 2.png' alt='' className='w-100 h-auto' />
             </Link>
-            <h4 className='mb-12'>Acesso à calculadora</h4>
             <p className='mb-32 text-secondary-light text-lg'>
               Entre com suas credenciais ou solicite acesso.
             </p>
@@ -160,9 +159,6 @@ const SignInLayer = () => {
                   Cadastre-se
                 </button>
               </div>
-              <CardTitle className='mt-16'>
-                {mode === "login" ? "Acesso autorizado" : "Solicitar acesso"}
-              </CardTitle>
             </CardHeader>
             <CardContent>
               {mode === "login" ? (
@@ -174,7 +170,7 @@ const SignInLayer = () => {
                       type='email'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder=''
+                      placeholder='Digite seu email'
                       required
                     />
                   </div>

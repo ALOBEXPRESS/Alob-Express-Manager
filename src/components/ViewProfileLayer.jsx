@@ -1,13 +1,26 @@
 "use client";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from 'next-intl';
+import { supabase, getSafeUser } from "@/lib/supabase/client";
 
 const ViewProfileLayer = () => {
   const t = useTranslations('profile');
   const [imagePreview, setImagePreview] = useState(
     "/assets/images/user-grid/user-grid-img13.png"
   );
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [department, setDepartment] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [designSpecialties, setDesignSpecialties] = useState([]);
+  const [language, setLanguage] = useState("");
+  const [bio, setBio] = useState("");
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -29,6 +42,110 @@ const ViewProfileLayer = () => {
       };
       reader.readAsDataURL(input.target.files[0]);
     }
+  };
+
+  const departmentOptions = ["Venda", "Design", "Marketing", "Jurídico"];
+  const designOptions = ["Social media", "Websites", "Logo"];
+
+  const handleToggleDesignSpecialty = (value) => {
+    setDesignSpecialties((previous) => {
+      if (previous.includes(value)) {
+        return previous.filter((item) => item !== value);
+      }
+      return [...previous, value];
+    });
+  };
+
+  const loadProfile = useCallback(async () => {
+    setLoadingProfile(true);
+    setError("");
+    const { user } = await getSafeUser();
+    if (!user) {
+      setLoadingProfile(false);
+      return;
+    }
+    const metadata = user.user_metadata || {};
+    const { data, error: fetchError } = await supabase
+      .from("users")
+      .select("full_name,email,phone")
+      .eq("id", user.id)
+      .maybeSingle();
+    if (fetchError) {
+      setError(fetchError.message || t('save_error'));
+      setLoadingProfile(false);
+      return;
+    }
+    setFullName(data?.full_name || "");
+    setEmail(data?.email || user.email || "");
+    setPhone(data?.phone || "");
+    setDepartment(metadata.department || "");
+    const storedDesignation = Array.isArray(metadata.designation)
+      ? metadata.designation
+      : metadata.designation
+        ? [metadata.designation]
+        : [];
+    setDesignSpecialties(storedDesignation);
+    setDesignation(storedDesignation[0] || "");
+    setLanguage(metadata.languages || "");
+    setBio(metadata.bio || "");
+    setLoadingProfile(false);
+  }, [t]);
+
+  useEffect(() => {
+    loadProfile();
+  }, [loadProfile]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSaving(true);
+    setError("");
+    setSuccess("");
+    const { user } = await getSafeUser();
+    if (!user) {
+      setError(t('user_not_found'));
+      setSaving(false);
+      return;
+    }
+    const designationValues =
+      department === "Design"
+        ? designSpecialties
+        : designation
+          ? [designation]
+          : [];
+    const payload = {
+      id: user.id,
+      full_name: fullName || null,
+      email: email || null,
+      phone: phone || null,
+    };
+    const { error: saveError } = await supabase
+      .from("users")
+      .upsert(payload, { onConflict: "id" });
+    if (saveError) {
+      setError(saveError.message || t('save_error'));
+      setSaving(false);
+      return;
+    }
+    const { error: metadataError } = await supabase.auth.updateUser({
+      data: {
+        department: department || null,
+        designation: designationValues.length ? designationValues : null,
+        languages: language || null,
+        bio: bio || null,
+      },
+    });
+    if (metadataError) {
+      setError(metadataError.message || t('save_error'));
+      setSaving(false);
+      return;
+    }
+    setSuccess(t('save_success'));
+    setSaving(false);
+  };
+
+  const handleCancel = async () => {
+    setSuccess("");
+    await loadProfile();
   };
   return (
     <div className='row gy-4'>
@@ -220,7 +337,7 @@ const ViewProfileLayer = () => {
                   </div>
                 </div>
                 {/* Upload Image End */}
-                <form action='#'>
+                <form onSubmit={handleSubmit}>
                   <div className='row'>
                     <div className='col-sm-6'>
                       <div className='mb-20'>
@@ -228,14 +345,16 @@ const ViewProfileLayer = () => {
                           htmlFor='name'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Full Name
+                          {t('full_name')}
                           <span className='text-danger-600'>*</span>
                         </label>
                         <input
                           type='text'
                           className='form-control radius-8'
                           id='name'
-                          placeholder='Enter Full Name'
+                          placeholder={t('full_name_placeholder')}
+                          value={fullName}
+                          onChange={(event) => setFullName(event.target.value)}
                         />
                       </div>
                     </div>
@@ -245,13 +364,15 @@ const ViewProfileLayer = () => {
                           htmlFor='email'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Email <span className='text-danger-600'>*</span>
+                          {t('email')} <span className='text-danger-600'>*</span>
                         </label>
                         <input
                           type='email'
                           className='form-control radius-8'
                           id='email'
-                          placeholder='Enter email address'
+                          placeholder={t('email_placeholder')}
+                          value={email}
+                          onChange={(event) => setEmail(event.target.value)}
                         />
                       </div>
                     </div>
@@ -261,13 +382,15 @@ const ViewProfileLayer = () => {
                           htmlFor='number'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Phone
+                          {t('phone_number')}
                         </label>
                         <input
-                          type='email'
+                          type='tel'
                           className='form-control radius-8'
                           id='number'
-                          placeholder='Enter phone number'
+                          placeholder={t('phone_placeholder')}
+                          value={phone}
+                          onChange={(event) => setPhone(event.target.value)}
                         />
                       </div>
                     </div>
@@ -277,26 +400,27 @@ const ViewProfileLayer = () => {
                           htmlFor='depart'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Department
+                          {t('department')}
                           <span className='text-danger-600'>*</span>{" "}
                         </label>
                         <select
                           className='form-control radius-8 form-select'
                           id='depart'
-                          defaultValue='Select Event Title'
+                          value={department}
+                          onChange={(event) => {
+                            setDepartment(event.target.value);
+                            setDesignation("");
+                            setDesignSpecialties([]);
+                          }}
                         >
-                          <option value='Select Event Title' disabled>
-                            Select Event Title
+                          <option value='' disabled>
+                            {t('department_placeholder')}
                           </option>
-                          <option value='Enter Event Title'>
-                            Enter Event Title
-                          </option>
-                          <option value='Enter Event Title One'>
-                            Enter Event Title One
-                          </option>
-                          <option value='Enter Event Title Two'>
-                            Enter Event Title Two
-                          </option>
+                          {departmentOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -306,27 +430,38 @@ const ViewProfileLayer = () => {
                           htmlFor='desig'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Designation
+                          {t('designation')}
                           <span className='text-danger-600'>*</span>{" "}
                         </label>
-                        <select
-                          className='form-control radius-8 form-select'
-                          id='desig'
-                          defaultValue='Select Designation Title'
-                        >
-                          <option value='Select Designation Title' disabled>
-                            Select Designation Title
-                          </option>
-                          <option value='Enter Designation Title'>
-                            Enter Designation Title
-                          </option>
-                          <option value='Enter Designation Title One'>
-                            Enter Designation Title One
-                          </option>
-                          <option value='Enter Designation Title Two'>
-                            Enter Designation Title Two
-                          </option>
-                        </select>
+                        {department === "Design" ? (
+                          <div className='d-flex flex-column gap-2'>
+                            {designOptions.map((option) => (
+                              <label
+                                key={option}
+                                className='d-flex align-items-center gap-2 text-secondary-light'
+                                htmlFor={`design-${option}`}
+                              >
+                                <input
+                                  id={`design-${option}`}
+                                  type='checkbox'
+                                  className='form-check-input'
+                                  checked={designSpecialties.includes(option)}
+                                  onChange={() => handleToggleDesignSpecialty(option)}
+                                />
+                                {option}
+                              </label>
+                            ))}
+                          </div>
+                        ) : (
+                          <input
+                            type='text'
+                            className='form-control radius-8'
+                            id='desig'
+                            placeholder={t('designation_placeholder')}
+                            value={designation}
+                            onChange={(event) => setDesignation(event.target.value)}
+                          />
+                        )}
                       </div>
                     </div>
                     <div className='col-sm-6'>
@@ -335,21 +470,22 @@ const ViewProfileLayer = () => {
                           htmlFor='Language'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Language
+                          {t('languages')}
                           <span className='text-danger-600'>*</span>{" "}
                         </label>
                         <select
                           className='form-control radius-8 form-select'
                           id='Language'
-                          defaultValue='Select Language'
+                          value={language}
+                          onChange={(event) => setLanguage(event.target.value)}
                         >
-                          <option value='Select Language' disabled>
-                            Select Language
+                          <option value='' disabled>
+                            {t('language_placeholder')}
                           </option>
-                          <option value='English'>English</option>
-                          <option value='Bangla'>Bangla</option>
-                          <option value='Hindi'>Hindi</option>
-                          <option value='Arabic'>Arabic</option>
+                          <option value='Inglês'>{t('language_english')}</option>
+                          <option value='Bengali'>{t('language_bengali')}</option>
+                          <option value='Hindi'>{t('language_hindi')}</option>
+                          <option value='Árabe'>{t('language_arabic')}</option>
                         </select>
                       </div>
                     </div>
@@ -359,14 +495,15 @@ const ViewProfileLayer = () => {
                           htmlFor='desc'
                           className='form-label fw-semibold text-primary-light text-sm mb-8'
                         >
-                          Description
+                          {t('bio')}
                         </label>
                         <textarea
                           name='#0'
                           className='form-control radius-8'
                           id='desc'
-                          placeholder='Write description...'
-                          defaultValue={""}
+                          placeholder={t('bio_placeholder')}
+                          value={bio}
+                          onChange={(event) => setBio(event.target.value)}
                         />
                       </div>
                     </div>
@@ -375,16 +512,25 @@ const ViewProfileLayer = () => {
                     <button
                       type='button'
                       className='border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8'
+                      onClick={handleCancel}
+                      disabled={loadingProfile || saving}
                     >
-                      Cancel
+                      {t('cancel')}
                     </button>
                     <button
-                      type='button'
+                      type='submit'
                       className='btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8'
+                      disabled={loadingProfile || saving}
                     >
-                      Save
+                      {saving ? t('saving') : t('save')}
                     </button>
                   </div>
+                  {success ? (
+                    <div className='shadcn-alert-success mt-16'>{success}</div>
+                  ) : null}
+                  {error ? (
+                    <div className='shadcn-alert-error mt-16'>{error}</div>
+                  ) : null}
                 </form>
               </div>
               <div
@@ -399,14 +545,14 @@ const ViewProfileLayer = () => {
                     htmlFor='your-password'
                     className='form-label fw-semibold text-primary-light text-sm mb-8'
                   >
-                    New Password <span className='text-danger-600'>*</span>
+                    {t('new_password')} <span className='text-danger-600'>*</span>
                   </label>
                   <div className='position-relative'>
                     <input
                       type={passwordVisible ? "text" : "password"}
                       className='form-control radius-8'
                       id='your-password'
-                      placeholder='Enter New Password*'
+                      placeholder={t('new_password_placeholder')}
                     />
                     <span
                       className={`toggle-password ${
@@ -422,14 +568,14 @@ const ViewProfileLayer = () => {
                     htmlFor='confirm-password'
                     className='form-label fw-semibold text-primary-light text-sm mb-8'
                   >
-                    Confirm Password <span className='text-danger-600'>*</span>
+                    {t('confirm_password')} <span className='text-danger-600'>*</span>
                   </label>
                   <div className='position-relative'>
                     <input
                       type={confirmPasswordVisible ? "text" : "password"}
                       className='form-control radius-8'
                       id='confirm-password'
-                      placeholder='Confirm Password*'
+                      placeholder={t('confirm_password_placeholder')}
                     />
                     <span
                       className={`toggle-password ${
@@ -456,7 +602,7 @@ const ViewProfileLayer = () => {
                   />
                   <div className='d-flex align-items-center gap-3 justify-content-between'>
                     <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Company News
+                      {t('company_news')}
                     </span>
                     <input
                       className='form-check-input'
@@ -473,7 +619,7 @@ const ViewProfileLayer = () => {
                   />
                   <div className='d-flex align-items-center gap-3 justify-content-between'>
                     <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Push Notification
+                      {t('push_notification')}
                     </span>
                     <input
                       className='form-check-input'
@@ -491,7 +637,7 @@ const ViewProfileLayer = () => {
                   />
                   <div className='d-flex align-items-center gap-3 justify-content-between'>
                     <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Weekly News Letters
+                      {t('weekly_newsletters')}
                     </span>
                     <input
                       className='form-check-input'
@@ -509,7 +655,7 @@ const ViewProfileLayer = () => {
                   />
                   <div className='d-flex align-items-center gap-3 justify-content-between'>
                     <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Meetups Near you
+                      {t('meetups_near_you')}
                     </span>
                     <input
                       className='form-check-input'
@@ -526,7 +672,7 @@ const ViewProfileLayer = () => {
                   />
                   <div className='d-flex align-items-center gap-3 justify-content-between'>
                     <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Orders Notifications
+                      {t('order_notifications')}
                     </span>
                     <input
                       className='form-check-input'
