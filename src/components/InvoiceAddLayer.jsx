@@ -43,7 +43,7 @@ const InvoiceAddLayer = () => {
                   </div>
                   <div className='col-sm-4'>
                     <img
-                      src='/assets/images/logo.png'
+                      src='/Logonome-alobexpress 2.png'
                       alt='image_icon'
                       className='mb-8'
                     />

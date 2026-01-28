@@ -71,6 +71,21 @@ erDiagram
         datetime updated_at
     }
 
+    APP_ADMIN {
+        uuid user_id PK
+        datetime created_at
+    }
+
+    ACCESS_REQUEST {
+        uuid id PK
+        string email
+        string status
+        datetime created_at
+        datetime reviewed_at
+        uuid reviewed_by FK
+        text notes
+    }
+
     ORGANIZATION_MEMBER {
         uuid id PK
         uuid organization_id FK
@@ -250,6 +265,8 @@ erDiagram
 
     ORGANIZATION ||--o{ ORGANIZATION_MEMBER : has
     USER ||--o{ ORGANIZATION_MEMBER : is_part_of
+    USER ||--o{ APP_ADMIN : is_admin
+    USER ||--o{ ACCESS_REQUEST : reviews
     ORGANIZATION_MEMBER }|--|| ROLE : has_role
     ROLE ||--o{ ROLE_PERMISSION : grants
     PERMISSION ||--o{ ROLE_PERMISSION : belongs_to

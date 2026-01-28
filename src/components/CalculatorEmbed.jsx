@@ -22,6 +22,7 @@ const mapProduct = (row) => {
   return {
     id: row.id,
     name: row.name,
+    sku: meta.sku || "",
     sellingPrice: row.price,
     imageUrl: meta.imageUrl || "",
     colorHex: meta.colorHex || "#16A34A",
@@ -33,6 +34,7 @@ const mapProduct = (row) => {
     accountType: meta.accountType || "",
     netRevenue: meta.netRevenue || 0,
     variations: meta.variations || [],
+    stockQuantity: row.stock_quantity ?? 0,
   };
 };
 
@@ -66,7 +68,7 @@ const CalculatorEmbed = ({ src, title }) => {
   const fetchProducts = useCallback(async (organizationId) => {
     const { data, error } = await supabase
       .from("products")
-      .select("id,name,price,description,sku,created_at")
+      .select("id,name,price,description,sku,created_at,stock_quantity")
       .eq("organization_id", organizationId)
       .like("sku", "calc-%")
       .order("created_at", { ascending: false });
@@ -197,10 +199,11 @@ const CalculatorEmbed = ({ src, title }) => {
           return;
         }
 
-        let existingId = payload.id;
+        const isEdit = Boolean(payload.id);
+        let existing = null;
 
-        if (!existingId) {
-          const { data: existing } = await supabase
+        if (!isEdit) {
+          const { data } = await supabase
             .from("products")
             .select("id")
             .eq("organization_id", organizationId)
@@ -208,10 +211,11 @@ const CalculatorEmbed = ({ src, title }) => {
             .like("sku", "calc-%")
             .limit(1)
             .maybeSingle();
-          existingId = existing?.id;
+          existing = data;
         }
 
         const description = JSON.stringify({
+          sku: payload.sku || "",
           imageUrl: payload.imageUrl,
           colorHex: payload.colorHex,
           marginStatus: payload.marginStatus,
@@ -221,18 +225,41 @@ const CalculatorEmbed = ({ src, title }) => {
           amazonPlan: payload.amazonPlan,
           amazonCategory: payload.amazonCategory,
           netRevenue: parsePrice(payload.netRevenue),
+          accountHolder: payload.accountHolder || "",
+          accountType: payload.accountType || "",
           variations: payload.variations || [],
         });
 
         const normalizedPrice = parsePrice(payload.sellingPrice);
         const normalizedStock = Math.max(0, Math.floor(parsePrice(payload.stockQuantity)));
 
-        if (existing?.id) {
-           sendToIframe({
+        if (!isEdit && existing?.id) {
+          sendToIframe({
             type: "CALCULATOR_PRODUCT_ERROR",
             message: "Produto já cadastrado.",
           });
           return;
+        }
+
+        if (isEdit) {
+          const { error } = await supabase
+            .from("products")
+            .update({
+              name: payload.name,
+              description,
+              price: normalizedPrice,
+              stock_quantity: normalizedStock,
+            })
+            .eq("organization_id", organizationId)
+            .eq("id", payload.id)
+            .like("sku", "calc-%");
+          if (error) {
+            sendToIframe({
+              type: "CALCULATOR_PRODUCT_ERROR",
+              message: "Não foi possível atualizar o produto.",
+            });
+            return;
+          }
         } else {
           await supabase.from("products").insert({
             organization_id: organizationId,

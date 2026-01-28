@@ -121,14 +121,14 @@ const SignInLayer = () => {
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
         <div className='d-flex align-items-center flex-column h-100 justify-content-center'>
-          <img src='/assets/images/auth/auth-img.png' alt='' />
+          <img src='/banner-destaque.webp' alt='' className='w-100 h-100 object-fit-cover auth-banner-shift-left' />
         </div>
       </div>
       <div className='auth-right py-32 px-24 d-flex flex-column justify-content-center'>
         <div className='max-w-560-px mx-auto w-100'>
           <div>
             <Link href='/' className='mb-40 max-w-290-px'>
-              <img src='/assets/images/logo.png' alt='' />
+              <img src='/Logonome-alobexpress 2.png' alt='' className='w-100 h-auto' />
             </Link>
             <h4 className='mb-12'>Acesso à calculadora</h4>
             <p className='mb-32 text-secondary-light text-lg'>

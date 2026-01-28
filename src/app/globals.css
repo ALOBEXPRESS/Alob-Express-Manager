@@ -104,12 +104,12 @@
 }
 
 .shadcn-btn-primary {
-  background: #2563eb;
+  background: #fe2c55;
   color: #ffffff;
 }
 
 .shadcn-btn-primary:hover {
-  background: #1d4ed8;
+  background: #e0254a;
 }
 
 .shadcn-btn-outline {
@@ -179,4 +179,9 @@
   font-size: 0.9rem;
   border-radius: 10px;
   padding: 10px 12px;
+}
+
+.auth-banner-shift-left {
+  object-position: left center;
+  transform: translateX(0px);
 }

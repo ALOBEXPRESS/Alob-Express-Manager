@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { supabase, getSafeUser } from "@/lib/supabase/client";
 
 const themeColors = new Set(["blue", "magenta", "orange", "green", "red", "blueDark"]);
 const defaultThemeColor = "blue";
@@ -15,8 +15,7 @@ const ThemeInit = () => {
         ? storedColor
         : defaultThemeColor;
       let nextColor = normalizedStoredColor || defaultThemeColor;
-      const { data: userData } = await supabase.auth.getUser();
-      const user = userData?.user;
+      const { user } = await getSafeUser();
       if (user) {
         const { data, error } = await supabase
           .from("users")

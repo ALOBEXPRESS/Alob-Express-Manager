@@ -41,3 +41,8 @@ test-results/
 .trae/
 .vscode/
 screenshots/
+
+.agent/
+.env
+security/
+database/

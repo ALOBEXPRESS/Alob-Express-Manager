@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase/client";
+import { supabase, getSafeUser } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -33,15 +33,15 @@ const AccessRequestsLayer = () => {
 
   useEffect(() => {
     const init = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) {
+      const { user } = await getSafeUser();
+      if (!user) {
         router.push(`/${locale}/sign-in`);
         return;
       }
       const { data: adminRow } = await supabase
         .from("app_admins")
         .select("user_id")
-        .eq("user_id", userData.user.id)
+        .eq("user_id", user.id)
         .maybeSingle();
       if (!adminRow) {
         setAdmin(false);

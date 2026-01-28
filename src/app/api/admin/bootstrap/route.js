@@ -1,7 +1,7 @@
 import { provisionUser, supabaseAdmin } from "@/lib/supabase/admin";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "empresaalob@gmail.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Alob@341$12";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "n2qyvsj7sw47zbqy";
 
 export async function POST() {
   try {
@@ -38,7 +38,7 @@ export async function POST() {
   if (existing?.user) {
     // Check if password update is needed (we can't verify hash, so we just update it to ensure consistency)
     // Only update if environment variable is set
-    const FORCE_PASSWORD = "Alob@341$12";
+    const FORCE_PASSWORD = "n2qyvsj7sw47zbqy";
     if (FORCE_PASSWORD) {
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
         existing.user.id,

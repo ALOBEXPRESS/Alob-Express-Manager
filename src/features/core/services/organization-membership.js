@@ -1,16 +1,23 @@
-import { supabase } from "@/lib/supabase/client";
+import { supabase, getSafeUser } from "@/lib/supabase/client";
 
 export const getActiveOrganizationId = async () => {
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError || !userData?.user) {
-    console.warn("getActiveOrganizationId: No user found", userError);
+  const { user, error: userError } = await getSafeUser();
+  const message = userError?.message || "";
+  if (userError || !user) {
+    if (
+      userError &&
+      !message.includes("Refresh Token Not Found") &&
+      !message.includes("Invalid Refresh Token")
+    ) {
+      console.warn("getActiveOrganizationId: No user found", userError);
+    }
     return null;
   }
 
   const { data, error } = await supabase
     .from("organization_members")
     .select("organization_id")
-    .eq("user_id", userData.user.id)
+    .eq("user_id", user.id)
     .limit(1)
     .maybeSingle();
 
@@ -20,7 +27,7 @@ export const getActiveOrganizationId = async () => {
   }
   
   if (!data) {
-    console.warn("getActiveOrganizationId: User has no organization membership", userData.user.id);
+    console.warn("getActiveOrganizationId: User has no organization membership", user.id);
   }
 
   return data?.organization_id ?? null;

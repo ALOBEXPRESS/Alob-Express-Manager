@@ -7,7 +7,7 @@ import ThemeInit from "../components/helper/ThemeInit";
 import NextLink from "next/link";
 import { useTranslations } from 'next-intl';
 
-import { supabase } from "@/lib/supabase/client";
+import { supabase, getSafeUser } from "@/lib/supabase/client";
 
 const MasterLayout = ({ children }) => {
   let pathname = usePathname();
@@ -23,7 +23,7 @@ const MasterLayout = ({ children }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { user } = await getSafeUser();
       if (user) {
         setCurrentUser(user);
       }
@@ -147,12 +147,12 @@ const MasterLayout = ({ children }) => {
         <div>
           <Link href='/' className='sidebar-logo'>
             <img
-              src='/assets/images/logo.png'
+              src='/Logonome-alobexpress 2.png'
               alt='site logo'
               className='light-logo'
             />
             <img
-              src='/assets/images/logo-light.png'
+              src='/Logonome-alobexpress 2.png'
               alt='site logo'
               className='dark-logo'
             />
