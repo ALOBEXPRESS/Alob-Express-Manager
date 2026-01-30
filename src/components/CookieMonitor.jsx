@@ -22,28 +22,31 @@ export default function CookieMonitor() {
       const cookieString = document.cookie;
       const cookieSize = new Blob([cookieString]).size;
       
-      if (cookieSize > 2000) {
+      if (cookieSize > 4000) {
         console.warn(`[CookieMonitor] Cookies grandes: ${cookieSize} bytes. Limpando...`);
         
         const cookies = document.cookie.split(';');
         let deleted = 0;
         const host = window.location.hostname;
         const domains = ['', host, `.${host}`];
-        const paths = ['/', '/pt-br', '/en'];
+        const paths = ['/', '/pt-br', '/en', '/pt-BR'];
         
         cookies.forEach(cookie => {
           const cookieName = cookie.split('=')[0].trim();
-          
           if (!cookieName) return;
 
-          paths.forEach(path => {
-            domains.forEach(domain => {
-              const domainPart = domain ? `; domain=${domain}` : '';
-              document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}${domainPart}`;
-              document.cookie = `${cookieName}=; Max-Age=0; path=${path}${domainPart}`;
+          const isSupabase = cookieName.startsWith('sb-') || cookieName.includes('supabase');
+
+          if (cookieSize > 8000 || !isSupabase) {
+            paths.forEach(path => {
+              domains.forEach(domain => {
+                const domainPart = domain ? `; domain=${domain}` : '';
+                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}${domainPart}`;
+                document.cookie = `${cookieName}=; Max-Age=0; path=${path}${domainPart}`;
+              });
             });
-          });
-          deleted++;
+            deleted++;
+          }
         });
         
         const newSize = new Blob([document.cookie]).size;

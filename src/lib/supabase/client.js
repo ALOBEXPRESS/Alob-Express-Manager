@@ -147,6 +147,9 @@ const customStorage = {
 
 export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey, {
   auth: {
+    // Definimos explicitamente o uso de sessionStorage para evitar o acúmulo de
+    // cookies no localhost, o que causa o erro HTTP 431 (Request Header Too Large).
+    // Nota: Isso desabilita o Auth via SSR, mas é necessário para evitar o erro 431.
     storage: customStorage,
     storageKey: 'supabase-auth',
     persistSession: true,

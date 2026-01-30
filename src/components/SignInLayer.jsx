@@ -33,13 +33,17 @@ const SignInLayer = () => {
   };
 
   const deleteCookie = useCallback((name) => {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/pt-br;`;
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/en;`;
-    document.cookie = `${name}=; Max-Age=0; path=/;`;
+    const paths = ['/', '/pt-br', '/en', '/pt-BR'];
     const host = window.location.hostname;
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=${host}`;
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=.${host}`;
+    const domains = ['', host, `.${host}`];
+
+    paths.forEach(path => {
+      domains.forEach(domain => {
+        const domainPart = domain ? `; domain=${domain}` : '';
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}${domainPart}`;
+        document.cookie = `${name}=; Max-Age=0; path=${path}${domainPart}`;
+      });
+    });
   }, []);
 
   const clearAllCookies = useCallback(() => {
@@ -122,12 +126,16 @@ const SignInLayer = () => {
     console.log(`[SignInLayer] Redirecionando para: ${afterLogin}`);
     
     setTimeout(() => {
+      // Limpar cookies antes do redirect para evitar 431,
+      // mas MANTER sessionStorage que contém nossa nova sessão
       clearAllCookies();
-      try {
-        window.sessionStorage.clear();
-      } catch {}
+
+      // IMPORTANTE: Não limpamos o sessionStorage aqui pois ele contém o token de acesso
+      // que o Supabase acabou de salvar. Limpar causaria logout imediato.
+
+      console.log(`[SignInLayer] Redirecionando agora para ${afterLogin}`);
       window.location.href = afterLogin;
-    }, 500);
+    }, 100);
   };
 
   const handleRequestAccess = async (e) => {
