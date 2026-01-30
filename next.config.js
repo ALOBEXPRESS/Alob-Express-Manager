@@ -6,14 +6,36 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   reactStrictMode: false,
   experimental: {
-    // Increase header size limit to prevent 431 errors
+    // Desabilitar otimizações que podem causar problemas
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: '2mb',
     },
   },
   // Increase max HTTP header size
   serverRuntimeConfig: {
-    maxHttpHeaderSize: 240000,
+    maxHttpHeaderSize: 32768,
+  },
+  // Headers globais para prevenir cookies
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, private',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+          {
+            key: 'Expires',
+            value: '0',
+          },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

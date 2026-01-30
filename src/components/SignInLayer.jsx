@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { clearAllCookies } from "@/lib/cookie-cleaner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,36 +33,6 @@ const SignInLayer = () => {
     return /\S+@\S+\.\S+/.test(value);
   };
 
-  const deleteCookie = useCallback((name) => {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/pt-br;`;
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/en;`;
-    document.cookie = `${name}=; Max-Age=0; path=/;`;
-    const host = window.location.hostname;
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=${host}`;
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=.${host}`;
-  }, []);
-
-  const clearAllCookies = useCallback(() => {
-    if (typeof document === 'undefined') return;
-    const cookies = document.cookie.split(";");
-    cookies.forEach((cookie) => {
-      const eqPos = cookie.indexOf("=");
-      const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
-      if (name) deleteCookie(name);
-    });
-    console.log("Cleared all cookies.");
-  }, [deleteCookie]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      clearAllCookies();
-      try {
-        window.sessionStorage.clear();
-      } catch {}
-    }
-  }, [clearAllCookies]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -80,9 +51,6 @@ const SignInLayer = () => {
     }
 
     clearAllCookies();
-    try {
-      window.sessionStorage.clear();
-    } catch {}
     console.log("[SignInLayer] Tentando login...");
 
     // 2. Fazer login
@@ -121,13 +89,11 @@ const SignInLayer = () => {
     
     console.log(`[SignInLayer] Redirecionando para: ${afterLogin}`);
     
-    setTimeout(() => {
-      clearAllCookies();
-      try {
-        window.sessionStorage.clear();
-      } catch {}
-      window.location.href = afterLogin;
-    }, 500);
+    // Esperar um pouco para garantir que a sessão foi estabelecida
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    clearAllCookies();
+    router.push(afterLogin);
   };
 
   const handleRequestAccess = async (e) => {

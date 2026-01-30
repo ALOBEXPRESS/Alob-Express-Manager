@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reiniciando Autenticação...</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <h3>Detectamos um problema de conexão.</h3>
+    <p>Estamos limpando seus dados de navegação antigos para restaurar o acesso...</p>
+    <p id="status" style="font-size: 0.8em; color: #666;"></p>
+
+    <script>
+        function deleteAllCookies() {
+            const status = document.getElementById('status');
+            let count = 0;
+            const cookies = document.cookie.split(";");
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i];
+                const eqPos = cookie.indexOf("=");
+                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                
+                // Tenta limpar em todos os domínios possíveis
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + window.location.hostname;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=." + window.location.hostname;
+                
+                count++;
+            }
+            status.innerText = `Limpados ${count} registros antigos.`;
+        }
+
+        function clearStorage() {
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+            } catch (e) {
+                console.error("Storage clear error", e);
+            }
+        }
+
+        // Executar limpeza
+        deleteAllCookies();
+        clearStorage();
+
+        // Redirecionar após breve delay
+        setTimeout(() => {
+            window.location.href = '/pt-br/sign-in?cleaned=true';
+        }, 1500);
+    </script>
+</body>
+</html>

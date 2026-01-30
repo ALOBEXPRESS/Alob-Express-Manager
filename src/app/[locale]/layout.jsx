@@ -1,43 +1,30 @@
+import { use } from 'react';
+import { NextIntlClientProvider } from 'next-intl';
 import PluginInit from "@/helper/PluginInit";
-import "../font.css";
-import "../globals.css";
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
-import {notFound} from 'next/navigation';
-import CookieCleaner from "@/components/CookieCleaner";
-import CookieMonitor from "@/components/CookieMonitor";
-import AuthGuard from "@/components/AuthGuard";
+import CookieCleaner from '@/components/CookieCleaner';
 
-export const metadata = {
-  title: "WowDash NEXT JS - Admin Dashboard Multipurpose Bootstrap 5 Template",
-  description:
-    "Wowdash NEXT JS is a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications.",
-  icons: {
-    icon: "/Logo 2.svg",
-  },
+// Importe as mensagens
+import ptBr from '@/messages/pt-BR.json';
+import en from '@/messages/en.json';
+import es from '@/messages/es.json';
+
+const messages = {
+  'pt-br': ptBr,
+  'en': en,
+  'es': es,
 };
 
-export default async function LocaleLayout({ children, params }) {
-  const { locale } = await params;
-
-  if (!['en', 'pt-br', 'pt-BR'].includes(locale)) {
-    notFound();
-  }
-
-  const messages = await getMessages();
+export default function RootLayout({ children, params }) {
+  const { locale } = use(params);
+  const normalizedLocale = locale?.toLowerCase() === 'pt-br' ? 'pt-br' : locale
+  const resolvedMessages = messages[normalizedLocale] || messages['pt-br'];
 
   return (
-    <html lang={locale} suppressHydrationWarning={true}>
-      <body suppressHydrationWarning={true}>
-        <CookieCleaner />
-        <CookieMonitor />
+    <NextIntlClientProvider locale={normalizedLocale} messages={resolvedMessages}>
+      <CookieCleaner>
         <PluginInit />
-        <NextIntlClientProvider messages={messages}>
-          <AuthGuard>
-            {children}
-          </AuthGuard>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+        {children}
+      </CookieCleaner>
+    </NextIntlClientProvider>
   );
 }

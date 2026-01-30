@@ -1,54 +1,26 @@
 'use client';
 
 import { useEffect } from 'react';
+import { clearAllCookies } from '@/lib/cookie-cleaner';
 
-/**
- * Componente de Limpeza de Cookies
- * 
- * Este componente limpa cookies excessivos automaticamente
- * para prevenir o erro 431 (Request Header Fields Too Large)
- */
-export default function CookieCleaner() {
+export default function CookieCleaner({ children }) {
   useEffect(() => {
-    const cookieString = document.cookie;
-    const cookieSize = new Blob([cookieString]).size;
+    // NÃO limpar na montagem inicial para não destruir sessão ativa
+    // Apenas monitorar e limpar cookies problemáticos
     
-    if (cookieSize > 2000) {
-      console.warn(`⚠️ Cookies muito grandes detectados: ${cookieSize} bytes`);
+    const interval = setInterval(() => {
+      const cookies = document.cookie.split(';').filter(c => c.trim());
+      const totalSize = document.cookie.length;
       
-      const cookies = document.cookie.split(';');
-      const host = window.location.hostname;
-      const domains = ['', host, `.${host}`];
-      const paths = ['/', '/pt-br', '/en'];
-      
-      cookies.forEach(cookie => {
-        const cookieName = cookie.split('=')[0].trim();
-        if (!cookieName) return;
-        
-        paths.forEach(path => {
-          domains.forEach(domain => {
-            const domainPart = domain ? `; domain=${domain}` : '';
-            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}${domainPart}`;
-            document.cookie = `${cookieName}=; Max-Age=0; path=${path}${domainPart}`;
-          });
-        });
-      });
-      
-      const newCookieSize = new Blob([document.cookie]).size;
-      console.log(`✅ Cookies limpos: ${cookieSize} → ${newCookieSize} bytes`);
-      
-      if (newCookieSize > 4000) {
-        console.error('🚨 Cookies ainda muito grandes, limpando TUDO');
-        document.cookie.split(';').forEach(cookie => {
-          const cookieName = cookie.split('=')[0].trim();
-          if (!cookieName) return;
-          document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-        });
-        
-        window.location.reload();
+      // Só limpar se os cookies estiverem MUITO grandes (próximo ao limite)
+      if (totalSize > 6000) {
+        console.warn(`⚠️ Cookies grandes (${totalSize} bytes). Limpando cookies não essenciais...`);
+        clearAllCookies();
       }
-    }
+    }, 10000);
+    
+    return () => clearInterval(interval);
   }, []);
-  
-  return null;
+
+  return <>{children}</>;
 }
