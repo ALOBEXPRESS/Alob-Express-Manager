@@ -6,9 +6,11 @@ import { supabase, getSafeUser } from "@/lib/supabase/client";
 
 const ViewProfileLayer = () => {
   const t = useTranslations('profile');
+  const defaultProfileImage = "/assets/images/user-grid/user-grid-img13.png";
   const [imagePreview, setImagePreview] = useState(
-    "/assets/images/user-grid/user-grid-img13.png"
+    defaultProfileImage
   );
+  const [profileImage, setProfileImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -38,7 +40,9 @@ const ViewProfileLayer = () => {
     if (input.target.files && input.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target.result);
+        const result = e.target.result?.toString() || "";
+        setImagePreview(result || defaultProfileImage);
+        setProfileImage(result);
       };
       reader.readAsDataURL(input.target.files[0]);
     }
@@ -67,7 +71,7 @@ const ViewProfileLayer = () => {
     const metadata = user.user_metadata || {};
     const { data, error: fetchError } = await supabase
       .from("users")
-      .select("full_name,email,phone")
+      .select("full_name,email,phone,avatar_url")
       .eq("id", user.id)
       .maybeSingle();
     if (fetchError) {
@@ -88,8 +92,11 @@ const ViewProfileLayer = () => {
     setDesignation(storedDesignation[0] || "");
     setLanguage(metadata.languages || "");
     setBio(metadata.bio || "");
+    const storedAvatar = data?.avatar_url || "";
+    setProfileImage(storedAvatar);
+    setImagePreview(storedAvatar || defaultProfileImage);
     setLoadingProfile(false);
-  }, [t]);
+  }, [defaultProfileImage, t]);
 
   useEffect(() => {
     loadProfile();
@@ -117,6 +124,7 @@ const ViewProfileLayer = () => {
       full_name: fullName || null,
       email: email || null,
       phone: phone || null,
+      avatar_url: profileImage || null,
     };
     const { error: saveError } = await supabase
       .from("users")
@@ -147,6 +155,18 @@ const ViewProfileLayer = () => {
     setSuccess("");
     await loadProfile();
   };
+  const displayName = fullName || "—";
+  const displayEmail = email || "—";
+  const displayPhone = phone || "—";
+  const displayDepartment = department || "—";
+  const displayDesignation =
+    department === "Design"
+      ? designSpecialties.length
+        ? designSpecialties.join(", ")
+        : "—"
+      : designation || "—";
+  const displayLanguage = language || "—";
+  const displayBio = bio || "—";
   return (
     <div className='row gy-4'>
       <div className='col-lg-4'>
@@ -159,13 +179,13 @@ const ViewProfileLayer = () => {
           <div className='pb-24 ms-16 mb-24 me-16  mt--100'>
             <div className='text-center border border-top-0 border-start-0 border-end-0'>
               <img
-                src='/assets/images/user-grid/user-grid-img14.png'
+                src={imagePreview || defaultProfileImage}
                 alt=''
                 className='border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover'
               />
-              <h6 className='mb-0 mt-16'>Jacob Jones</h6>
+              <h6 className='mb-0 mt-16'>{displayName}</h6>
               <span className='text-secondary-light mb-16'>
-                ifrandom@gmail.com
+                {displayEmail}
               </span>
             </div>
             <div className='mt-24'>
@@ -176,7 +196,7 @@ const ViewProfileLayer = () => {
                     {t('full_name')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : Will Jonto
+                    : {displayName}
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -185,7 +205,7 @@ const ViewProfileLayer = () => {
                     {t('email')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : willjontoax@gmail.com
+                    : {displayEmail}
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -194,7 +214,7 @@ const ViewProfileLayer = () => {
                     {t('phone_number')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : (1) 2536 2561 2365
+                    : {displayPhone}
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -203,7 +223,7 @@ const ViewProfileLayer = () => {
                     {t('department')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : Design
+                    : {displayDepartment}
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -212,7 +232,7 @@ const ViewProfileLayer = () => {
                     {t('designation')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : UI UX Designer
+                    : {displayDesignation}
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -221,7 +241,7 @@ const ViewProfileLayer = () => {
                     {t('languages')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : English
+                    : {displayLanguage}
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1'>
@@ -230,8 +250,7 @@ const ViewProfileLayer = () => {
                     {t('bio')}
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : Lorem Ipsum&nbsp;is simply dummy text of the printing and
-                    typesetting industry.
+                    : {displayBio}
                   </span>
                 </li>
               </ul>

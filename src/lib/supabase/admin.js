@@ -1,6 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const resolveSupabaseUrl = (value) => {
+  if (!value) return value;
+  if (value.startsWith("http://") || value.startsWith("https://")) return value;
+  return `https://${value}`;
+};
+
+const supabaseUrl = resolveSupabaseUrl(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL
+);
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export const supabaseAdmin =
@@ -82,4 +91,37 @@ export const provisionUser = async ({ userId, email, fullName }) => {
   }
 
   return { data: true, error: null };
+};
+
+export const isLeakedPassword = async (password) => {
+  if (!password) return false;
+  // Temporary bypass for development/testing if needed, or if external API is failing
+  // Uncomment below to skip check locally if needed
+  // if (process.env.NODE_ENV === 'development') return false; 
+  
+  try {
+    const hash = crypto
+      .createHash("sha1")
+      .update(password)
+      .digest("hex")
+      .toUpperCase();
+    const prefix = hash.slice(0, 5);
+    const suffix = hash.slice(5);
+    const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
+      headers: {
+        "User-Agent": "alob-express-manager",
+      },
+    });
+    if (!response.ok) return false;
+    const body = await response.text();
+    const isLeaked = body.split("\n").some((line) => line.split(":")[0] === suffix);
+    
+    if (isLeaked) {
+      console.warn("Security Warning: The provided password has been found in a data leak.");
+    }
+    return isLeaked;
+  } catch (err) {
+    console.error("Failed to check password leak status:", err);
+    return false; // Fail open (allow password) if check fails, to avoid blocking users during outages
+  }
 };

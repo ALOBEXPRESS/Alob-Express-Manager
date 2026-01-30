@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -21,16 +21,46 @@ const SignInLayer = () => {
   const [requestLoading, setRequestLoading] = useState(false);
   const [requestMessage, setRequestMessage] = useState("");
 
-  const locale = pathname?.split("/")?.[1];
-  const afterLogin = locale ? `/${locale}` : "/";
+  const pathLocale = pathname?.split("/")?.[1];
+  const validLocales = ["en", "pt-br", "pt-BR"];
+  const locale = validLocales.includes(pathLocale) ? pathLocale : "pt-br";
+  const afterLogin = `/${locale}`;
 
-  useEffect(() => {
-    fetch("/api/admin/bootstrap", { method: "POST" }).catch(() => {});
-  }, []);
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const validateEmail = (value) => {
     return /\S+@\S+\.\S+/.test(value);
   };
+
+  const deleteCookie = useCallback((name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/pt-br;`;
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/en;`;
+    document.cookie = `${name}=; Max-Age=0; path=/;`;
+    const host = window.location.hostname;
+    document.cookie = `${name}=; Max-Age=0; path=/; domain=${host}`;
+    document.cookie = `${name}=; Max-Age=0; path=/; domain=.${host}`;
+  }, []);
+
+  const clearAllCookies = useCallback(() => {
+    if (typeof document === 'undefined') return;
+    const cookies = document.cookie.split(";");
+    cookies.forEach((cookie) => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+      if (name) deleteCookie(name);
+    });
+    console.log("Cleared all cookies.");
+  }, [deleteCookie]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      clearAllCookies();
+      try {
+        window.sessionStorage.clear();
+      } catch {}
+    }
+  }, [clearAllCookies]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,16 +78,37 @@ const SignInLayer = () => {
       setLoading(false);
       return;
     }
-    const { data: signInData, error: signInError } =
-      await supabase.auth.signInWithPassword({
-      email: normalizedEmail,
-      password,
-    });
+
+    clearAllCookies();
+    try {
+      window.sessionStorage.clear();
+    } catch {}
+    console.log("[SignInLayer] Tentando login...");
+
+    // 2. Fazer login
+    let signInData;
+    let signInError;
+    try {
+      const result = await supabase.auth.signInWithPassword({
+        email: normalizedEmail,
+        password,
+      });
+      signInData = result.data;
+      signInError = result.error;
+    } catch (requestError) {
+      console.error("[SignInLayer] Login request error:", requestError);
+      setError("Não foi possível conectar ao Supabase.");
+      setLoading(false);
+      return;
+    }
+    
     if (signInError) {
+      console.error("[SignInLayer] Login error:", signInError);
       setError("Credenciais inválidas. Verifique e tente novamente.");
       setLoading(false);
       return;
     }
+    
     const currentUser = signInData?.user;
     if (!currentUser) {
       setError("Não foi possível validar o usuário.");
@@ -65,31 +116,18 @@ const SignInLayer = () => {
       return;
     }
 
-    const { data: adminRow, error: adminError } = await supabase
-      .from("app_admins")
-      .select("user_id")
-      .eq("user_id", currentUser.id)
-      .maybeSingle();
-
-    const isAdmin = !!adminRow;
-
-    if (!isAdmin) {
-      const { data: profileRow, error: profileError } = await supabase
-        .from("users")
-        .select("status")
-        .eq("id", currentUser.id)
-        .maybeSingle();
-
-      if (profileError || !profileRow || profileRow.status !== "active") {
-        await supabase.auth.signOut();
-        setError("Seu acesso ainda não foi aprovado.");
-        setLoading(false);
-        return;
-      }
-    }
-
-    setSuccess("Login efetuado com sucesso.");
-    router.push(afterLogin);
+    console.log("[SignInLayer] ✅ Login successful!", currentUser.id);
+    setSuccess("Login efetuado com sucesso!");
+    
+    console.log(`[SignInLayer] Redirecionando para: ${afterLogin}`);
+    
+    setTimeout(() => {
+      clearAllCookies();
+      try {
+        window.sessionStorage.clear();
+      } catch {}
+      window.location.href = afterLogin;
+    }, 500);
   };
 
   const handleRequestAccess = async (e) => {
@@ -107,7 +145,9 @@ const SignInLayer = () => {
       .insert({ email: normalizedRequestEmail });
     if (requestError) {
       if (requestError.code === "23505") {
-        setRequestMessage("Solicitação já enviada para este e-mail.");
+        setRequestMessage(
+          "Solicitação já enviada para este e-mail. Se você já tem acesso, use a aba Entrar."
+        );
       } else {
         setRequestMessage("Não foi possível enviar a solicitação.");
       }
@@ -126,6 +166,23 @@ const SignInLayer = () => {
       </div>
       <div className='auth-right py-32 px-24 d-flex flex-column justify-content-center'>
         <div className='max-w-560-px mx-auto w-100'>
+          <div className="d-flex justify-content-end mb-2">
+             <button 
+               type="button" 
+               className="text-xs text-danger"
+               onClick={() => {
+                 // Emergency clear button
+                 document.cookie.split(";").forEach((c) => { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                 });
+                 window.localStorage.clear();
+                 window.sessionStorage.clear();
+                 window.location.reload();
+               }}
+             >
+               Problemas no login? Limpar dados
+             </button>
+          </div>
           <div>
             <Link href='/' className='mb-40 max-w-150-px'>
               <img src='/Logonome-alobexpress 2.png' alt='' className='w-100 h-auto' />

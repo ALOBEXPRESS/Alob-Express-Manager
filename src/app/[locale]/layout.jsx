@@ -4,6 +4,9 @@ import "../globals.css";
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
+import CookieCleaner from "@/components/CookieCleaner";
+import CookieMonitor from "@/components/CookieMonitor";
+import AuthGuard from "@/components/AuthGuard";
 
 export const metadata = {
   title: "WowDash NEXT JS - Admin Dashboard Multipurpose Bootstrap 5 Template",
@@ -17,7 +20,7 @@ export const metadata = {
 export default async function LocaleLayout({ children, params }) {
   const { locale } = await params;
 
-  if (!['en', 'pt-br'].includes(locale)) {
+  if (!['en', 'pt-br', 'pt-BR'].includes(locale)) {
     notFound();
   }
 
@@ -26,9 +29,13 @@ export default async function LocaleLayout({ children, params }) {
   return (
     <html lang={locale} suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
+        <CookieCleaner />
+        <CookieMonitor />
         <PluginInit />
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <AuthGuard>
+            {children}
+          </AuthGuard>
         </NextIntlClientProvider>
       </body>
     </html>

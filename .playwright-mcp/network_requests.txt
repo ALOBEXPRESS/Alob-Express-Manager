@@ -1,0 +1,8 @@
+[POST] http://localhost:3000/api/auth/clear-cookies => [200] OK
+[GET] http://localhost:3000/Logo%202.svg => [200] OK
+[POST] http://localhost:3000/api/admin/bootstrap => [200] OK
+[POST] https://oensqhjnxwpcuanozske.supabase.co/auth/v1/token?grant_type=password => [200] 
+[POST] http://localhost:3000/api/admin/bootstrap
+[POST] http://localhost:3000/api/auth/validate-user => [200] OK
+[GET] http://localhost:3000/pt-br?_rsc=fqwhg => [307] Temporary Redirect
+[GET] http://localhost:3000/pt-br/sign-in => [200] OK

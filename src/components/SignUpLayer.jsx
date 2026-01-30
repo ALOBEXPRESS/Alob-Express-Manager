@@ -27,7 +27,9 @@ const SignUpLayer = () => {
       .insert({ email: normalizedEmail });
     if (requestError) {
       if (requestError.code === "23505") {
-        setMessage("Solicitação já enviada para este e-mail.");
+        setMessage(
+          "Solicitação já enviada para este e-mail. Se você já tem acesso, faça login."
+        );
       } else {
         setMessage("Não foi possível enviar a solicitação.");
       }

@@ -1,4 +1,4 @@
-import { provisionUser, supabaseAdmin } from "@/lib/supabase/admin";
+import { isLeakedPassword, provisionUser, supabaseAdmin } from "@/lib/supabase/admin";
 
 const getAdminUser = async (request) => {
   if (!supabaseAdmin) return null;
@@ -68,7 +68,18 @@ export async function POST(request) {
     return Response.json({ ok: true, invited: false });
   }
 
-  const tempPassword = `Alob@${Math.random().toString(36).slice(-8)}1`;
+  let tempPassword = "";
+  for (let i = 0; i < 5; i += 1) {
+    const candidate = `Alob@${Math.random().toString(36).slice(-8)}1`;
+    const leaked = await isLeakedPassword(candidate);
+    if (!leaked) {
+      tempPassword = candidate;
+      break;
+    }
+  }
+  if (!tempPassword) {
+    return Response.json({ error: "Failed to generate safe password" }, { status: 500 });
+  }
   const { data: createdUser, error: createError } =
     await supabaseAdmin.auth.admin.createUser({
       email: accessRequest.email,

@@ -13,6 +13,8 @@ const Page = () => {
   // Default to localhost:5173 for dev, can be overridden by env var
   const calculatorUrl =
     (process.env.NEXT_PUBLIC_CALCULATOR_URL || "http://localhost:5173").trim();
+  
+  console.log("Rendering Dashboard Page, Calculator URL:", calculatorUrl);
 
   return (
     <MasterLayout>

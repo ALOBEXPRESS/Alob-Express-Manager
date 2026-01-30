@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 
 const intlMiddleware = createMiddleware({
-  locales: ['en', 'pt-br'],
+  locales: ['en', 'pt-br', 'pt-BR'],
   defaultLocale: 'pt-br',
   localeDetection: false
 });
@@ -25,5 +25,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+  matcher: ['/((?!api|_next|_vercel|clear-cookies|.*\\..*).*)']
 };

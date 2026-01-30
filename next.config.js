@@ -5,6 +5,16 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  experimental: {
+    // Increase header size limit to prevent 431 errors
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+  // Increase max HTTP header size
+  serverRuntimeConfig: {
+    maxHttpHeaderSize: 240000,
+  },
   async redirects() {
     return [
       {

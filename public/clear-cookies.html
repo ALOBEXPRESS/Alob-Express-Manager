@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preparando acesso...</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .container {
+      text-align: center;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #4CAF50;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+    
+    .success {
+      color: #4CAF50;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="spinner"></div>
+    <h1>Preparando seu acesso</h1>
+    <p>Aguarde um momento...</p>
+    <p class="success" id="status"></p>
+  </div>
+  
+  <script>
+    (function() {
+      const status = document.getElementById('status');
+      const projectRef = 'oensqhjnxwpcuanozske';
+      
+      function log(msg) {
+        console.log('[ClearCookies] ' + msg);
+        status.textContent = msg;
+      }
+      
+      function getRedirectUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('redirect') || '/pt-br';
+      }
+      
+      function deleteCookie(name) {
+        const paths = ['/', '/pt-br', '/en', '/pt-BR'];
+        const domains = [
+          '',
+          window.location.hostname,
+          '.' + window.location.hostname
+        ];
+        
+        paths.forEach(path => {
+          domains.forEach(domain => {
+            const domainPart = domain ? '; domain=' + domain : '';
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=' + path + domainPart;
+            document.cookie = name + '=; Max-Age=0; path=' + path + domainPart;
+          });
+        });
+      }
+      
+      function cleanCookies() {
+        log('Limpando cookies...');
+        
+        const cookies = document.cookie.split(';');
+        let kept = 0;
+        let deleted = 0;
+        
+        cookies.forEach(cookie => {
+          const name = cookie.split('=')[0].trim();
+          if (!name) return;
+          
+          // Manter APENAS o auth-token do projeto
+          const isAuthToken = name === 'sb-' + projectRef + '-auth-token';
+          
+          if (isAuthToken) {
+            kept++;
+            log('Mantendo: ' + name);
+          } else {
+            deleteCookie(name);
+            deleted++;
+          }
+        });
+        
+        log('Cookies: ' + kept + ' mantido(s), ' + deleted + ' removido(s)');
+        
+        // Verificar tamanho final
+        const finalSize = new Blob([document.cookie]).size;
+        log('Tamanho final: ' + finalSize + ' bytes');
+        
+        return finalSize;
+      }
+      
+      function redirect() {
+        const redirectUrl = getRedirectUrl();
+        log('Redirecionando para: ' + redirectUrl);
+        
+        // Pequeno delay para garantir que cookies foram salvos
+        setTimeout(function() {
+          window.location.href = redirectUrl;
+        }, 500);
+      }
+      
+      // Executar limpeza
+      try {
+        const finalSize = cleanCookies();
+        
+        // Se ainda muito grande, tentar mais uma vez
+        if (finalSize > 1500) {
+          log('Ainda grande, limpando novamente...');
+          cleanCookies();
+        }
+        
+        log('✅ Pronto! Redirecionando...');
+        redirect();
+        
+      } catch (err) {
+        log('Erro: ' + err.message);
+        // Mesmo com erro, tentar redirecionar
+        setTimeout(redirect, 2000);
+      }
+    })();
+  </script>
+</body>
+</html>

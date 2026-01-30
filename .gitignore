@@ -46,3 +46,4 @@ screenshots/
 .env
 security/
 database/
+.env

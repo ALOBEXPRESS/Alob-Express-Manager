@@ -20,16 +20,51 @@ const MasterLayout = ({ children }) => {
   const currentLocale = pathname?.split("/")?.[1] || 'pt-br';
   
   const [currentUser, setCurrentUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
       const { user } = await getSafeUser();
-      if (user) {
-        setCurrentUser(user);
+      if (!user) {
+        setAuthChecked(true);
+        router.push(`/${currentLocale}/sign-in`);
+        return;
       }
+      setCurrentUser(user);
+      setAuthChecked(true);
     };
     getUser();
-  }, []);
+  }, [currentLocale, router]);
+
+  useEffect(() => {
+    if (!authChecked) return;
+    if (typeof window === "undefined") return;
+
+    const openActiveDropdown = () => {
+      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
+      allDropdowns.forEach((dropdown) => {
+        const submenuLinks = dropdown.querySelectorAll(".sidebar-submenu li a");
+        submenuLinks.forEach((link) => {
+          if (
+            link.getAttribute("href") === location ||
+            link.getAttribute("to") === location
+          ) {
+            dropdown.classList.add("open");
+            const submenu = dropdown.querySelector(".sidebar-submenu");
+            if (submenu) {
+              submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+            }
+          }
+        });
+      });
+    };
+
+    openActiveDropdown();
+  }, [authChecked, location]);
+
+  if (!authChecked) {
+    return null;
+  }
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -39,7 +74,7 @@ const MasterLayout = ({ children }) => {
   const withLocale = (href) => {
     if (typeof href !== "string") return href;
     if (href === "#") return href;
-    if (!currentLocale || (currentLocale !== "en" && currentLocale !== "pt-br")) return href;
+    if (!currentLocale || (currentLocale !== "en" && currentLocale !== "pt-br" && currentLocale !== "pt-BR")) return href;
     if (href === "/") return `/${currentLocale}`;
     if (href.startsWith(`/${currentLocale}/`) || href === `/${currentLocale}`) return href;
     if (!href.startsWith("/")) return href;
@@ -76,31 +111,6 @@ const MasterLayout = ({ children }) => {
       }
     }
   };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const openActiveDropdown = () => {
-      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
-      allDropdowns.forEach((dropdown) => {
-        const submenuLinks = dropdown.querySelectorAll(".sidebar-submenu li a");
-        submenuLinks.forEach((link) => {
-          if (
-            link.getAttribute("href") === location ||
-            link.getAttribute("to") === location
-          ) {
-            dropdown.classList.add("open");
-            const submenu = dropdown.querySelector(".sidebar-submenu");
-            if (submenu) {
-              submenu.style.maxHeight = `${submenu.scrollHeight}px`;
-            }
-          }
-        });
-      });
-    };
-
-    openActiveDropdown();
-  }, [location]);
 
   let sidebarControl = () => {
     seSidebarActive(!sidebarActive);
@@ -1326,7 +1336,7 @@ const MasterLayout = ({ children }) => {
                           <span className='text-sm text-secondary-light flex-shrink-0'>
                             12:30 PM
                           </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                          <span className='mt-4 text-xs w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
                             8
                           </span>
                         </div>
@@ -1356,7 +1366,7 @@ const MasterLayout = ({ children }) => {
                           <span className='text-sm text-secondary-light flex-shrink-0'>
                             12:30 PM
                           </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                          <span className='mt-4 text-xs w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
                             2
                           </span>
                         </div>
@@ -1386,7 +1396,7 @@ const MasterLayout = ({ children }) => {
                           <span className='text-sm text-secondary-light flex-shrink-0'>
                             12:30 PM
                           </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                          <span className='mt-4 text-xs w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
                             2
                           </span>
                         </div>
@@ -1416,7 +1426,7 @@ const MasterLayout = ({ children }) => {
                           <span className='text-sm text-secondary-light flex-shrink-0'>
                             12:30 PM
                           </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
+                          <span className='mt-4 text-xs w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
                             2
                           </span>
                         </div>
