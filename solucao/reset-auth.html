@@ -301,7 +301,7 @@
             updateStatus('Redirecionando...', 'info');
             
             // Redireciona para a página de login
-            window.location.href = '/pt-br/sign-in';
+            window.location.href = '/auth/login';
         }
 
         /**
@@ -311,7 +311,7 @@
             console.error('Erro durante limpeza:', e);
             updateStatus('Erro durante a limpeza. Redirecionando...', 'error');
             setTimeout(() => {
-                window.location.href = '/pt-br/sign-in';
+                window.location.href = '/auth/login';
             }, 2000);
         });
 

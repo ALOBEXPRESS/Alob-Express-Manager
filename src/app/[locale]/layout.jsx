@@ -1,7 +1,7 @@
 import { use } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import PluginInit from "@/helper/PluginInit";
-import CookieCleaner from '@/components/CookieCleaner';
+import { SupabaseCookieGuard } from '@/components/SupabaseCookieGuard';
 
 // Importe as mensagens
 import ptBr from '@/messages/pt-BR.json';
@@ -21,10 +21,9 @@ export default function RootLayout({ children, params }) {
 
   return (
     <NextIntlClientProvider locale={normalizedLocale} messages={resolvedMessages}>
-      <CookieCleaner>
-        <PluginInit />
-        {children}
-      </CookieCleaner>
+      <SupabaseCookieGuard />
+      <PluginInit />
+      {children}
     </NextIntlClientProvider>
   );
 }

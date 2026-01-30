@@ -143,8 +143,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
   
   if (isProtectedRoute && !user) {
-    const locale = pathname.split('/')[1] || 'pt-br'
-    const redirectUrl = new URL(`/${locale}/sign-in`, request.url)
+    const redirectUrl = new URL('/auth/login', request.url)
     redirectUrl.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(redirectUrl)
   }

@@ -1,0 +1,36 @@
+# Validação dos Arquivos da Solução
+
+Data de geração: Fri Jan 30 15:10:50 UTC 2026
+
+## Arquivos presentes:
+
+total 61K
+-rw-r--r-- 1 999 root 6.1K Jan 30 15:10 INDEX.md
+-rw-r--r-- 1 999 root 3.7K Jan 30 15:10 README.md
+-rw-r--r-- 1 999 root 9.0K Jan 30 15:10 SOLUCAO_ERRO_431.md
+-rw-r--r-- 1 999 root 1.8K Jan 30 15:10 SupabaseCookieGuard.tsx
+-rw-r--r-- 1 999 root  114 Jan 30 15:10 VALIDACAO.txt
+-rw-r--r-- 1 999 root 6.4K Jan 30 15:10 install.ps1
+-rw-r--r-- 1 999 root 5.2K Jan 30 15:10 install.sh
+-rw-r--r-- 1 999 root 5.1K Jan 30 15:10 middleware.ts
+-rw-r--r-- 1 999 root 2.0K Jan 30 15:10 next.config.js
+-rw-r--r-- 1 999 root  765 Jan 30 15:10 package.json
+-rw-r--r-- 1 999 root 1.1K Jan 30 15:10 reset-auth-page.tsx
+-rw-r--r-- 1 999 root 9.8K Jan 30 15:10 reset-auth.html
+-rw-r--r-- 1 999 root 6.2K Jan 30 15:10 supabase-cookie-manager.ts
+
+## Checksums (MD5):
+
+4f70d1d5e659376f4446c8553706d096  INDEX.md
+51cbea7f1a818457efdc25160e2225d7  README.md
+cabf5c512f7b76ab3ebd1b41264b73ed  SOLUCAO_ERRO_431.md
+15f21baab00db5f7c912aee5ace74ea7  SupabaseCookieGuard.tsx
+ae9e89f5cc63ff3934e8b8574e87e749  VALIDACAO.txt
+dcc18dcff3a2b9981cd7e82ff8cc63a1  install.ps1
+57b3dc3b5b80f114edd4e6e9a6c8d375  install.sh
+1ad34e08e457412a11029c9336b8fec7  middleware.ts
+963a2024a19a07b9f9b854d4570466f4  next.config.js
+63c60880e1b291bac174a8f93fc934ce  package.json
+5edc8a6379e1bbe947de3d0643f9fe8b  reset-auth-page.tsx
+d733b2c557d7779d0088442a73083265  reset-auth.html
+d892bf77b024d876d1babbef50857274  supabase-cookie-manager.ts
