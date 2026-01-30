@@ -13,25 +13,31 @@ export default function CookieCleaner() {
     const cookieString = document.cookie;
     const cookieSize = new Blob([cookieString]).size;
     
-    if (cookieSize > 2000) {
-      console.warn(`⚠️ Cookies muito grandes detectados: ${cookieSize} bytes`);
+    if (cookieSize > 4000) {
+      console.warn(`⚠️ Cookies muito grandes detectados: ${cookieSize} bytes. Iniciando limpeza seletiva...`);
       
       const cookies = document.cookie.split(';');
       const host = window.location.hostname;
       const domains = ['', host, `.${host}`];
-      const paths = ['/', '/pt-br', '/en'];
+      const paths = ['/', '/pt-br', '/en', '/pt-BR'];
       
       cookies.forEach(cookie => {
         const cookieName = cookie.split('=')[0].trim();
         if (!cookieName) return;
         
-        paths.forEach(path => {
-          domains.forEach(domain => {
-            const domainPart = domain ? `; domain=${domain}` : '';
-            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}${domainPart}`;
-            document.cookie = `${cookieName}=; Max-Age=0; path=${path}${domainPart}`;
+        // Priorizar limpeza de cookies que não são do Supabase
+        // Se o tamanho for extremo (> 8000), limpa tudo.
+        const isSupabase = cookieName.startsWith('sb-') || cookieName.includes('supabase');
+
+        if (cookieSize > 8000 || !isSupabase) {
+          paths.forEach(path => {
+            domains.forEach(domain => {
+              const domainPart = domain ? `; domain=${domain}` : '';
+              document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}${domainPart}`;
+              document.cookie = `${cookieName}=; Max-Age=0; path=${path}${domainPart}`;
+            });
           });
-        });
+        }
       });
       
       const newCookieSize = new Blob([document.cookie]).size;

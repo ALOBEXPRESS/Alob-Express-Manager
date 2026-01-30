@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -k \"node --max-http-header-size=240000 node_modules/next/dist/bin/next dev --turbo\" \"pnpm -C dropshipping-calculator-app dev\"",
+    "dev": "concurrently -k \"node --max-http-header-size=1000000 node_modules/next/dist/bin/next dev --turbo\" \"NODE_OPTIONS='--max-http-header-size=1000000' pnpm -C dropshipping-calculator-app dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
