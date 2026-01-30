@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { clearAllCookies } from "@/lib/cookie-cleaner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +11,7 @@ import { Label } from "@/components/ui/label";
 const SignInLayer = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +26,7 @@ const SignInLayer = () => {
   const validLocales = ["en", "pt-br", "pt-BR"];
   const locale = validLocales.includes(pathLocale) ? pathLocale : "pt-br";
   const afterLogin = `/${locale}`;
+  const redirectTo = searchParams?.get("redirectTo") || "";
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -50,7 +51,6 @@ const SignInLayer = () => {
       return;
     }
 
-    clearAllCookies();
     console.log("[SignInLayer] Tentando login...");
 
     // 2. Fazer login
@@ -92,7 +92,6 @@ const SignInLayer = () => {
     // Esperar um pouco para garantir que a sessão foi estabelecida
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    clearAllCookies();
     router.push(afterLogin);
   };
 
@@ -136,14 +135,26 @@ const SignInLayer = () => {
              <button 
                type="button" 
                className="text-xs text-danger"
-               onClick={() => {
-                 // Emergency clear button
-                 document.cookie.split(";").forEach((c) => { 
-                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
-                 });
-                 window.localStorage.clear();
-                 window.sessionStorage.clear();
-                 window.location.reload();
+               onClick={async () => {
+                 try {
+                   await fetch("/api/auth/clear-cookies", { method: "POST" });
+                 } catch {}
+
+                 try {
+                   document.cookie.split(";").forEach((c) => {
+                     document.cookie = c
+                       .replace(/^ +/, "")
+                       .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                   });
+                 } catch {}
+
+                 try {
+                   window.localStorage.clear();
+                   window.sessionStorage.clear();
+                 } catch {}
+
+                 const target = redirectTo || `/${locale}`;
+                 window.location.href = `/reset-auth?redirectTo=${encodeURIComponent(target)}`;
                }}
              >
                Problemas no login? Limpar dados
@@ -254,7 +265,7 @@ const SignInLayer = () => {
               <div className='mt-24 text-center text-sm'>
                 <p className='mb-0'>
                   Precisa de ajuda?{" "}
-                  <Link href='/sign-up' className='text-primary-600 fw-semibold'>
+                  <Link href={`/${locale}/sign-up`} className='text-primary-600 fw-semibold'>
                     Veja detalhes do cadastro
                   </Link>
                 </p>

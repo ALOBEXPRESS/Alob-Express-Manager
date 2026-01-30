@@ -1,38 +1,51 @@
-import { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Limpeza de Sessão - Alob Express',
-  description: 'Corrigindo problema de autenticação',
-}
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
-/**
- * Página de reset de autenticação
- * Esta página redireciona para a versão HTML estática
- */
 export default function ResetAuthPage() {
+  const searchParams = useSearchParams()
+  const [status, setStatus] = useState<'idle' | 'clearing' | 'done'>('idle')
+
+  const redirectTo = searchParams.get('redirectTo') ?? ''
+  const locale = useMemo(() => {
+    const candidate = redirectTo.split('/')[1]
+    return candidate === 'en' || candidate === 'es' || candidate === 'pt-br' ? candidate : 'pt-br'
+  }, [redirectTo])
+
+  useEffect(() => {
+    let cancelled = false
+
+    const run = async () => {
+      setStatus('clearing')
+      try {
+        await fetch('/api/auth/clear-cookies', { method: 'POST', cache: 'no-store' })
+      } catch {}
+
+      try {
+        window.localStorage.clear()
+        window.sessionStorage.clear()
+      } catch {}
+
+      if (cancelled) return
+      setStatus('done')
+
+      const safeTarget =
+        redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//') ? redirectTo : `/${locale}`
+      window.location.replace(safeTarget)
+    }
+
+    run()
+
+    return () => {
+      cancelled = true
+    }
+  }, [locale, redirectTo])
+
   return (
-    <html lang="pt-BR">
-      <head>
-        <meta httpEquiv="refresh" content="0; url=/reset-auth.html" />
-      </head>
-      <body>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          fontFamily: 'sans-serif',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          textAlign: 'center',
-          padding: '20px'
-        }}>
-          <div>
-            <h1>Redirecionando para limpeza de sessão...</h1>
-            <p>Se não for redirecionado automaticamente, <a href="/reset-auth.html" style={{ color: 'white', textDecoration: 'underline' }}>clique aqui</a>.</p>
-          </div>
-        </div>
-      </body>
-    </html>
+    <main style={{ fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif', padding: 24 }}>
+      <h1>Restaurando acesso…</h1>
+      <p>{status === 'clearing' ? 'Limpando cookies e dados locais.' : 'Redirecionando.'}</p>
+    </main>
   )
 }

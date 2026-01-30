@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -k \"node --max-http-header-size=240000 node_modules/next/dist/bin/next dev --turbo -p 3001\" \"pnpm -C dropshipping-calculator-app dev-delayed\" \"node proxy-server.js\"",
-    "dev:next": "node --max-http-header-size=240000 node_modules/next/dist/bin/next dev --turbo -p 3001",
+    "dev": "concurrently -k \"node --max-http-header-size=1000000 start-next.js\" \"pnpm -C dropshipping-calculator-app dev-delayed\" \"node --max-http-header-size=1000000 proxy-server.js\"",
+    "dev:next": "node --max-http-header-size=1000000 start-next.js",
     "dev:vite": "pnpm -C dropshipping-calculator-app dev",
-    "dev:proxy": "node proxy-server.js",
+    "dev:proxy": "node --max-http-header-size=1000000 proxy-server.js",
     "build": "next build",
-    "start": "node --max-http-header-size=240000 node_modules/next/dist/bin/next start -p 3001",
+    "start": "node --max-http-header-size=1000000 node_modules/next/dist/bin/next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
@@ -73,6 +73,7 @@
     "concurrently": "9.1.2",
     "eslint-config-next": "15.0.4",
     "http-proxy": "^1.18.1",
+    "typescript": "5.9.3",
     "webpack": "^5.90.3"
   }
 }

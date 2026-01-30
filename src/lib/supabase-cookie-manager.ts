@@ -224,7 +224,7 @@ export function debugCookies(): void {
 }
 
 // Exporta tudo como default também
-export default {
+const supabaseCookieManager = {
   getSupabaseCookies,
   cleanupSupabaseCookies,
   checkCookieSize,
@@ -232,3 +232,5 @@ export default {
   forceCleanupAllSupabaseCookies,
   debugCookies
 }
+
+export default supabaseCookieManager

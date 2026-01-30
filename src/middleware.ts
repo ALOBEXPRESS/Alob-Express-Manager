@@ -40,7 +40,7 @@ function getSupabaseCookies(request: NextRequest): Map<string, string> {
 function getCurrentAuthCookie(cookies: Map<string, string>): [string, string] | null {
   // Padrão: sb-[project-ref]-auth-token
   for (const [name, value] of cookies.entries()) {
-    if (name.match(/^sb-[a-z]{20}-auth-token$/)) {
+    if (name.match(/^sb-[a-z0-9]{20}-auth-token$/)) {
       return [name, value]
     }
   }
@@ -64,7 +64,6 @@ function cleanupSupabaseCookies(request: NextRequest, response: NextResponse): v
     const [name, value] = currentAuth
     response.cookies.set(name, value, {
       path: '/',
-      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7 // 7 dias
@@ -88,8 +87,10 @@ export async function middleware(request: NextRequest) {
     if (pathname === '/reset-auth') {
       return NextResponse.next()
     }
-    
-    return NextResponse.redirect(new URL('/reset-auth', request.url))
+
+    const redirectUrl = new URL('/reset-auth', request.url)
+    redirectUrl.searchParams.set('redirectTo', pathname)
+    return NextResponse.redirect(redirectUrl)
   }
   
   // 🔄 CAMADA 2: Limpeza Preventiva
@@ -119,10 +120,9 @@ export async function middleware(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
-            // ⚠️ IMPORTANTE: Limita o maxAge para evitar acúmulo
-            const safeOptions = {
-              ...options,
-              maxAge: Math.min(options?.maxAge || 0, 60 * 60 * 24 * 7) // Max 7 dias
+            const safeOptions = { ...options }
+            if (typeof options?.maxAge === 'number') {
+              safeOptions.maxAge = Math.min(options.maxAge, 60 * 60 * 24 * 7)
             }
             response.cookies.set(name, value, safeOptions)
           })
@@ -134,16 +134,18 @@ export async function middleware(request: NextRequest) {
   // Atualiza a sessão (isso pode criar novos cookies)
   const { data: { user } } = await supabase.auth.getUser()
   
-  // 🧹 CAMADA 4: Limpeza Pós-Autenticação
-  // Após atualizar a sessão, remove cookies duplicados
-  cleanupSupabaseCookies(request, response)
-  
   // 🛡️ CAMADA 5: Proteção de Rotas
-  const protectedRoutes = ['/pt-br', '/en', '/es']
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
-  
+  const locale = pathname.split('/')[1] || 'pt-br'
+  const supportedLocales = new Set(['pt-br', 'en', 'es'])
+  const isLocaleRoute = supportedLocales.has(locale)
+  const isPublicAuthRoute =
+    pathname === `/${locale}/sign-in` ||
+    pathname === `/${locale}/sign-up` ||
+    pathname === `/${locale}/forgot-password`
+  const isResetRoute = pathname === '/reset-auth' || pathname === '/reset-auth.html'
+  const isProtectedRoute = isLocaleRoute && !isPublicAuthRoute && !isResetRoute
+
   if (isProtectedRoute && !user) {
-    const locale = pathname.split('/')[1] || 'pt-br'
     const redirectUrl = new URL(`/${locale}/sign-in`, request.url)
     redirectUrl.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(redirectUrl)
@@ -168,6 +170,6 @@ export const config = {
      * - public folder
      * - reset-auth.html (página de reset estática)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|reset-auth\\.html).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*|reset-auth\\.html).*)',
   ],
 }

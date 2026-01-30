@@ -12,7 +12,7 @@ export default defineConfig({
   workers: 1, // Sequencial para não sobrecarregar o dev server
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:8083',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     actionTimeout: 15000,
@@ -20,7 +20,7 @@ export default defineConfig({
   },
   webServer: {
     command: 'npm run dev', // Usar dev para hot reload
-    url: 'http://localhost:3000',
+    url: process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:8083',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },
