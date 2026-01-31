@@ -39,6 +39,9 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dropshipping-calculator-app",
+    "solucao",
+    "docs"
   ]
 }

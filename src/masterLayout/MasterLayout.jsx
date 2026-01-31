@@ -7,7 +7,8 @@ import ThemeInit from "../components/helper/ThemeInit";
 import NextLink from "next/link";
 import { useTranslations } from 'next-intl';
 
-import { supabase, getSafeUser } from "@/lib/supabase/client";
+import { supabase, clearAuthStorage } from "@/lib/supabase/client";
+import { useAuth } from "@/components/AuthProvider";
 
 const MasterLayout = ({ children }) => {
   let pathname = usePathname();
@@ -19,25 +20,10 @@ const MasterLayout = ({ children }) => {
   const tCommon = useTranslations('common');
   const currentLocale = pathname?.split("/")?.[1] || 'pt-br';
   
-  const [currentUser, setCurrentUser] = useState(null);
-  const [authChecked, setAuthChecked] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    const getUser = async () => {
-      const { user } = await getSafeUser();
-      if (!user) {
-        setAuthChecked(true);
-        router.push(`/${currentLocale}/sign-in`);
-        return;
-      }
-      setCurrentUser(user);
-      setAuthChecked(true);
-    };
-    getUser();
-  }, [currentLocale, router]);
-
-  useEffect(() => {
-    if (!authChecked) return;
+    if (loading) return;
     if (typeof window === "undefined") return;
 
     const openActiveDropdown = () => {
@@ -60,14 +46,15 @@ const MasterLayout = ({ children }) => {
     };
 
     openActiveDropdown();
-  }, [authChecked, location]);
+  }, [loading, location]);
 
-  if (!authChecked) {
+  if (loading || !user) {
     return null;
   }
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    clearAuthStorage();
     router.push(`/${currentLocale}/sign-in`);
   };
 
@@ -1602,7 +1589,7 @@ const MasterLayout = ({ children }) => {
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
                         <h6 className='text-lg text-primary-light fw-semibold mb-2'>
-                          {currentUser?.user_metadata?.full_name || currentUser?.email || 'User'}
+                          {user?.user_metadata?.full_name || user?.email || 'User'}
                         </h6>
                         <span className='text-secondary-light fw-medium text-sm'>
                           Admin

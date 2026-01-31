@@ -12,7 +12,7 @@ const Page = () => {
   const t = useTranslations("sidebar");
   // Default to localhost:5173 for dev, can be overridden by env var
   const calculatorUrl =
-    (process.env.NEXT_PUBLIC_CALCULATOR_URL || "http://localhost:5173").trim();
+    (process.env.NEXT_PUBLIC_CALCULATOR_URL || "/__calc").trim();
 
   return (
     <MasterLayout>

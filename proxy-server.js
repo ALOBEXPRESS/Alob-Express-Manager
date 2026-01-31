@@ -23,15 +23,18 @@ const PROXY_UPSTREAM_TIMEOUT_MS = 120000;
 function filterCookies(cookieHeader, allowListRegexes) {
   if (!cookieHeader) return undefined;
   const cookies = cookieHeader.split(';').map((c) => c.trim()).filter(Boolean);
-  const kept = [];
+  const kept = new Map();
 
   for (const cookie of cookies) {
     const name = cookie.split('=')[0]?.trim();
     if (!name) continue;
-    if (allowListRegexes.some((rx) => rx.test(name))) kept.push(cookie);
+    if (allowListRegexes.some((rx) => rx.test(name))) {
+      if (kept.has(name)) kept.delete(name);
+      kept.set(name, cookie);
+    }
   }
 
-  return kept.length > 0 ? kept.join('; ') : undefined;
+  return kept.size > 0 ? Array.from(kept.values()).join('; ') : undefined;
 }
 
 const SUPABASE_COOKIE_ALLOWLIST = [
@@ -202,12 +205,6 @@ function getRouteInfo(req) {
   const host = String(req.headers.host ?? '');
   const url = String(req.url ?? '/');
 
-  if (host.startsWith('app.local')) return { route: 'app', virtualHost: 'app.local' };
-  if (host.startsWith('calc.local')) return { route: 'calc', virtualHost: 'calc.local' };
-  if (host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.startsWith('[::1]')) {
-    return { route: 'app', virtualHost: 'app.local' };
-  }
-
   if (url.startsWith('/__app')) {
     req.url = url.slice('/__app'.length) || '/';
     return { route: 'app', virtualHost: 'app.local' };
@@ -216,6 +213,15 @@ function getRouteInfo(req) {
   if (url.startsWith('/__calc')) {
     req.url = url.slice('/__calc'.length) || '/';
     return { route: 'calc', virtualHost: 'calc.local' };
+  }
+
+  // Handle Vite assets served with __calc prefix but not matched above if slicing was wrong or for assets
+  // Actually the above handles /__calc/src/main.tsx -> /src/main.tsx which is correct for Vite
+  
+  if (host.startsWith('app.local')) return { route: 'app', virtualHost: 'app.local' };
+  if (host.startsWith('calc.local')) return { route: 'calc', virtualHost: 'calc.local' };
+  if (host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.startsWith('[::1]')) {
+    return { route: 'app', virtualHost: 'app.local' };
   }
 
   return { route: null, virtualHost: host };

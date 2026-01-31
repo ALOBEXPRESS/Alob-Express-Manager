@@ -17,21 +17,23 @@ const ThemeInit = () => {
       let nextColor = normalizedStoredColor || defaultThemeColor;
       const { user } = await getSafeUser();
       if (user) {
-        const { data, error } = await supabase
-          .from("users")
-          .select("theme_color")
-          .eq("id", user.id)
-          .maybeSingle();
-        const normalizedDbColor = themeColors.has(data?.theme_color)
-          ? data.theme_color
-          : null;
-        if (!error && normalizedDbColor) {
-          nextColor = normalizedDbColor;
-        } else if (!error && !normalizedDbColor) {
-          await supabase
+        try {
+          const { data, error } = await supabase
             .from("users")
-            .upsert({ id: user.id, theme_color: nextColor }, { onConflict: "id" });
-        }
+            .select("theme_color")
+            .eq("id", user.id)
+            .maybeSingle();
+          const normalizedDbColor = themeColors.has(data?.theme_color)
+            ? data.theme_color
+            : null;
+          if (!error && normalizedDbColor) {
+            nextColor = normalizedDbColor;
+          } else if (!error && !normalizedDbColor) {
+            await supabase
+              .from("users")
+              .upsert({ id: user.id, theme_color: nextColor }, { onConflict: "id" });
+          }
+        } catch {}
       }
       if (!isMounted) return;
       if (typeof window !== "undefined") {

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { clearAuthStorage } from '@/lib/supabase/client'
 
 export default function ResetAuthPage() {
   const searchParams = useSearchParams()
@@ -19,10 +20,7 @@ export default function ResetAuthPage() {
     const run = async () => {
       setStatus('clearing')
       try {
-        await fetch('/api/auth/clear-cookies', { method: 'POST', cache: 'no-store' })
-      } catch {}
-
-      try {
+        clearAuthStorage()
         window.localStorage.clear()
         window.sessionStorage.clear()
       } catch {}
@@ -45,7 +43,7 @@ export default function ResetAuthPage() {
   return (
     <main style={{ fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif', padding: 24 }}>
       <h1>Restaurando acesso…</h1>
-      <p>{status === 'clearing' ? 'Limpando cookies e dados locais.' : 'Redirecionando.'}</p>
+      <p>{status === 'clearing' ? 'Limpando dados locais.' : 'Redirecionando.'}</p>
     </main>
   )
 }

@@ -2,7 +2,8 @@
 import { Icon } from "@iconify/react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from 'next-intl';
-import { supabase, getSafeUser } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
+import { useAuth } from "@/components/AuthProvider";
 
 const ViewProfileLayer = () => {
   const t = useTranslations('profile');
@@ -25,6 +26,7 @@ const ViewProfileLayer = () => {
   const [success, setSuccess] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const { user } = useAuth();
 
   // Toggle function for password field
   const togglePasswordVisibility = () => {
@@ -63,7 +65,6 @@ const ViewProfileLayer = () => {
   const loadProfile = useCallback(async () => {
     setLoadingProfile(true);
     setError("");
-    const { user } = await getSafeUser();
     if (!user) {
       setLoadingProfile(false);
       return;
@@ -96,7 +97,7 @@ const ViewProfileLayer = () => {
     setProfileImage(storedAvatar);
     setImagePreview(storedAvatar || defaultProfileImage);
     setLoadingProfile(false);
-  }, [defaultProfileImage, t]);
+  }, [defaultProfileImage, t, user]);
 
   useEffect(() => {
     loadProfile();
@@ -107,7 +108,6 @@ const ViewProfileLayer = () => {
     setSaving(true);
     setError("");
     setSuccess("");
-    const { user } = await getSafeUser();
     if (!user) {
       setError(t('user_not_found'));
       setSaving(false);

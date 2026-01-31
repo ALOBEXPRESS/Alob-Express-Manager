@@ -289,9 +289,15 @@
             }, 3000);
         }
 
-        /**
-         * Continua para a aplicação
-         */
+        function getRedirectTarget() {
+            const params = new URLSearchParams(window.location.search);
+            const redirectTo = params.get('redirectTo') || '';
+            if (redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+                return redirectTo;
+            }
+            return '/pt-br/sign-in';
+        }
+
         function continueToApp() {
             if (!cleanupComplete) {
                 updateStatus('Aguarde a conclusão da limpeza...', 'error');
@@ -300,8 +306,7 @@
             
             updateStatus('Redirecionando...', 'info');
             
-            // Redireciona para a página de login
-            window.location.href = '/pt-br/sign-in';
+            window.location.href = getRedirectTarget();
         }
 
         /**
@@ -311,7 +316,7 @@
             console.error('Erro durante limpeza:', e);
             updateStatus('Erro durante a limpeza. Redirecionando...', 'error');
             setTimeout(() => {
-                window.location.href = '/pt-br/sign-in';
+                window.location.href = getRedirectTarget();
             }, 2000);
         });
 

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase/client";
+import { supabase, clearAuthStorage } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -56,18 +56,42 @@ const SignInLayer = () => {
     // 2. Fazer login
     let signInData;
     let signInError;
-    try {
-      const result = await supabase.auth.signInWithPassword({
+    const attemptSignIn = async () => {
+      return await supabase.auth.signInWithPassword({
         email: normalizedEmail,
         password,
       });
+    };
+
+    try {
+      const result = await attemptSignIn();
       signInData = result.data;
       signInError = result.error;
     } catch (requestError) {
-      console.error("[SignInLayer] Login request error:", requestError);
-      setError("Não foi possível conectar ao Supabase.");
-      setLoading(false);
-      return;
+      const message = String(requestError?.message ?? "");
+      const isNetworkError =
+        message.includes("Failed to fetch") ||
+        message.includes("ERR_CONNECTION") ||
+        message.includes("NetworkError");
+
+      if (isNetworkError) {
+        await wait(400);
+        try {
+          const result = await attemptSignIn();
+          signInData = result.data;
+          signInError = result.error;
+        } catch (retryError) {
+          console.error("[SignInLayer] Login request error:", retryError);
+          setError("Não foi possível conectar ao Supabase.");
+          setLoading(false);
+          return;
+        }
+      } else {
+        console.error("[SignInLayer] Login request error:", requestError);
+        setError("Não foi possível conectar ao Supabase.");
+        setLoading(false);
+        return;
+      }
     }
     
     if (signInError) {
@@ -88,11 +112,15 @@ const SignInLayer = () => {
     setSuccess("Login efetuado com sucesso!");
     
     console.log(`[SignInLayer] Redirecionando para: ${afterLogin}`);
+
+    try {
+      window.sessionStorage.setItem("alob-auth-pending", String(Date.now()));
+    } catch {}
     
     // Esperar um pouco para garantir que a sessão foi estabelecida
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    router.push(afterLogin);
+    window.location.href = afterLogin;
   };
 
   const handleRequestAccess = async (e) => {
@@ -137,24 +165,15 @@ const SignInLayer = () => {
                className="text-xs text-danger"
                onClick={async () => {
                  try {
-                   await fetch("/api/auth/clear-cookies", { method: "POST" });
+                   await supabase.auth.signOut();
                  } catch {}
 
                  try {
-                   document.cookie.split(";").forEach((c) => {
-                     document.cookie = c
-                       .replace(/^ +/, "")
-                       .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-                   });
+                   clearAuthStorage();
                  } catch {}
 
-                 try {
-                   window.localStorage.clear();
-                   window.sessionStorage.clear();
-                 } catch {}
-
-                 const target = redirectTo || `/${locale}`;
-                 window.location.href = `/reset-auth?redirectTo=${encodeURIComponent(target)}`;
+                const target = redirectTo || `/${locale}`;
+                window.location.href = `/reset-auth.html?redirectTo=${encodeURIComponent(target)}`;
                }}
              >
                Problemas no login? Limpar dados

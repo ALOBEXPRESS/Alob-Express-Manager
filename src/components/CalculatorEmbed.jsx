@@ -2,79 +2,82 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { getActiveOrganizationId } from "@/features/core/services/organization-membership";
-
-const parsePrice = (value) => {
-  if (value === null || value === undefined) return 0;
-  if (typeof value === "number") return value;
-  return Number(String(value).replace(/\./g, "").replace(",", ".")) || 0;
-};
-
-const mapProduct = (row) => {
-  let meta = {};
-  if (row?.description) {
-    try {
-      meta = JSON.parse(row.description);
-    } catch (e) {
-      meta = {};
-    }
-  }
-  return {
-    id: row.id,
-    name: row.name,
-    sku: meta.sku || "",
-    sellingPrice: row.price,
-    imageUrl: meta.imageUrl || "",
-    colorHex: meta.colorHex || "#16A34A",
-    marginStatus: meta.marginStatus || "positive",
-    supplierName: meta.supplierName || "",
-    costPrice: meta.costPrice || 0,
-    marketplace: meta.marketplace || "",
-    accountHolder: meta.accountHolder || "",
-    accountType: meta.accountType || "",
-    netRevenue: meta.netRevenue || 0,
-    variations: meta.variations || [],
-    stockQuantity: row.stock_quantity ?? 0,
-  };
-};
 
 const CalculatorEmbed = ({ src, title }) => {
   const [iframeHeight, setIframeHeight] = useState("800px");
   const [showFallback, setShowFallback] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+  const [authSession, setAuthSession] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const iframeRef = useRef(null);
   const iframeReadyRef = useRef(false);
   const latestProductsRef = useRef([]);
+  const organizationIdRef = useRef(null);
+  const organizationIdPromiseRef = useRef(null);
+  const organizationIdBlockedUntilRef = useRef(0);
+  const syncLoopTokenRef = useRef(0);
 
   const sendToIframe = useCallback((payload) => {
     if (!iframeRef.current?.contentWindow) return;
     iframeRef.current.contentWindow.postMessage(payload, "*");
   }, []);
 
-  const fetchSettings = useCallback(async (organizationId) => {
-    const { data, error } = await supabase
-      .from("organizations")
-      .select("emergency_reserve,working_capital")
-      .eq("id", organizationId)
-      .maybeSingle();
-    if (error || !data) {
-      return { emergencyReserve: 0, workingCapital: 0 };
-    }
-    return {
-      emergencyReserve: data.emergency_reserve ?? 0,
-      workingCapital: data.working_capital ?? 0,
-    };
-  }, []);
+  const callCalculatorApi = useCallback(
+    async (action, payload) => {
+      const token = authSession?.access_token;
+      if (!token) {
+        return { ok: false, status: 401, data: null };
+      }
 
-  const fetchProducts = useCallback(async (organizationId) => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("id,name,price,description,sku,created_at,stock_quantity")
-      .eq("organization_id", organizationId)
-      .like("sku", "calc-%")
-      .order("created_at", { ascending: false });
-    if (error) return [];
-    return (data || []).map(mapProduct);
-  }, []);
+      let response;
+      try {
+        response = await fetch("/api/calculator", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ action, payload }),
+          credentials: "omit",
+        });
+      } catch (error) {
+        return { ok: false, status: 0, data: { error: String(error?.message ?? error) } };
+      }
+
+      let data = null;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      return { ok: response.ok, status: response.status, data };
+    },
+    [authSession?.access_token],
+  );
+
+  const fetchSettings = useCallback(
+    async (organizationId) => {
+      const result = await callCalculatorApi("SETTINGS_GET", { organizationId });
+      if (!result.ok) {
+        return { emergencyReserve: 0, workingCapital: 0 };
+      }
+      return {
+        emergencyReserve: result.data?.emergencyReserve ?? 0,
+        workingCapital: result.data?.workingCapital ?? 0,
+      };
+    },
+    [callCalculatorApi],
+  );
+
+  const fetchProducts = useCallback(
+    async (organizationId) => {
+      const result = await callCalculatorApi("PRODUCTS_LIST", { organizationId });
+      if (!result.ok) return [];
+      return Array.isArray(result.data?.products) ? result.data.products : [];
+    },
+    [callCalculatorApi],
+  );
 
   const syncProducts = useCallback(async (organizationId) => {
     const products = await fetchProducts(organizationId);
@@ -98,24 +101,121 @@ const CalculatorEmbed = ({ src, title }) => {
     [fetchSettings, sendToIframe]
   );
 
+  useEffect(() => {
+    let isMounted = true;
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setAuthUser(data?.session?.user ?? null);
+        setAuthSession(data?.session ?? null);
+        setAuthChecked(true);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setAuthUser(null);
+        setAuthSession(null);
+        setAuthChecked(true);
+      });
+
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return;
+      setAuthUser(session?.user ?? null);
+      setAuthSession(session ?? null);
+      setAuthChecked(true);
+    });
+
+    return () => {
+      isMounted = false;
+      data?.subscription?.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    organizationIdRef.current = null;
+    organizationIdPromiseRef.current = null;
+    organizationIdBlockedUntilRef.current = 0;
+    syncLoopTokenRef.current += 1;
+  }, [authUser?.id]);
+
+  const resolveOrganizationId = useCallback(async () => {
+    if (!authUser?.id) return null;
+    if (organizationIdRef.current) return organizationIdRef.current;
+    const now = Date.now();
+    if (now < organizationIdBlockedUntilRef.current) return null;
+
+    if (organizationIdPromiseRef.current) {
+      return await organizationIdPromiseRef.current;
+    }
+
+    organizationIdPromiseRef.current = (async () => {
+      const result = await callCalculatorApi("ACTIVE_ORG");
+      const organizationId =
+        typeof result.data?.organizationId === "string" ? result.data.organizationId : null;
+      if (organizationId) {
+        organizationIdRef.current = organizationId;
+        organizationIdBlockedUntilRef.current = 0;
+        return organizationId;
+      }
+      organizationIdBlockedUntilRef.current = Date.now() + 1500;
+      return null;
+    })();
+
+    try {
+      return await organizationIdPromiseRef.current;
+    } finally {
+      organizationIdPromiseRef.current = null;
+    }
+  }, [authUser?.id, callCalculatorApi]);
+
+  const startSyncLoop = useCallback(
+    (options = {}) => {
+      if (!authChecked || !authUser?.id) return;
+      const { attemptDelayMs = 500, maxAttempts = 10 } = options;
+      const token = ++syncLoopTokenRef.current;
+
+      const run = async (attempt) => {
+        if (syncLoopTokenRef.current !== token) return;
+        if (!authChecked || !authUser?.id) return;
+
+        const organizationId = await resolveOrganizationId();
+        if (syncLoopTokenRef.current !== token) return;
+
+        if (!organizationId) {
+          if (attempt >= maxAttempts) return;
+          window.setTimeout(
+            () => run(attempt + 1),
+            attemptDelayMs + Math.min(1500, attempt * 250)
+          );
+          return;
+        }
+
+        await syncProducts(organizationId);
+        await syncSettings(organizationId);
+      };
+
+      run(0);
+    },
+    [authChecked, authUser?.id, resolveOrganizationId, syncProducts, syncSettings]
+  );
+
   const handleIframeLoad = useCallback(async () => {
     console.log("CalculatorEmbed: Iframe loaded (network level)");
-    // Note: We do NOT set iframeReadyRef.current = true here anymore.
-    // We wait for the app to send a message (CALCULATOR_HEIGHT or others) to confirm it is running.
-    // However, we still attempt to sync in case it IS ready but just hasn't sent height yet.
-    
-    const organizationId = await getActiveOrganizationId();
-    console.log("CalculatorEmbed: Organization ID:", organizationId);
-    
-    if (!organizationId) {
-      console.warn("CalculatorEmbed: No active organization found.");
+    if (!authChecked || !authUser?.id) {
       latestProductsRef.current = [];
       sendToIframe({ type: "CALCULATOR_PRODUCTS_LIST", products: [] });
       return;
     }
+
+    const organizationId = await resolveOrganizationId();
+    if (!organizationId) {
+      startSyncLoop();
+      return;
+    }
+
     await syncProducts(organizationId);
     await syncSettings(organizationId);
-  }, [sendToIframe, syncProducts, syncSettings]);
+  }, [authChecked, authUser?.id, resolveOrganizationId, sendToIframe, startSyncLoop, syncProducts, syncSettings]);
 
   useEffect(() => {
     iframeReadyRef.current = false;
@@ -130,6 +230,9 @@ const CalculatorEmbed = ({ src, title }) => {
       if (event.data && event.data.type && typeof event.data.type === "string" && event.data.type.startsWith("CALCULATOR_")) {
         iframeReadyRef.current = true;
         setShowFallback(false);
+        if (event.data.type === "CALCULATOR_READY" && authChecked && authUser?.id) {
+          startSyncLoop();
+        }
       }
 
       if (event.data && event.data.type === "CALCULATOR_HEIGHT") {
@@ -140,18 +243,26 @@ const CalculatorEmbed = ({ src, title }) => {
             products: latestProductsRef.current,
           });
         }
-        const organizationId = await getActiveOrganizationId();
-        if (organizationId) {
-          await syncSettings(organizationId);
+        if (authUser?.id) {
+          const organizationId = await resolveOrganizationId();
+          if (organizationId) {
+            await syncSettings(organizationId);
+          } else if (authChecked) {
+            startSyncLoop();
+          }
         }
         return;
       }
 
       if (!event.data || !event.data.type) return;
 
-      const organizationId = await getActiveOrganizationId();
+      const organizationId = authUser?.id ? await resolveOrganizationId() : null;
       if (event.data.type === "CALCULATOR_PRODUCTS_FETCH") {
         if (!organizationId) {
+          if (authChecked && authUser?.id) {
+            startSyncLoop();
+            return;
+          }
           latestProductsRef.current = [];
           sendToIframe({ type: "CALCULATOR_PRODUCTS_LIST", products: [] });
           return;
@@ -162,6 +273,10 @@ const CalculatorEmbed = ({ src, title }) => {
 
       if (event.data.type === "CALCULATOR_SETTINGS_FETCH") {
         if (!organizationId) {
+          if (authChecked && authUser?.id) {
+            startSyncLoop();
+            return;
+          }
           sendToIframe({
             type: "CALCULATOR_SETTINGS",
             emergencyReserve: 0,
@@ -199,80 +314,28 @@ const CalculatorEmbed = ({ src, title }) => {
           return;
         }
 
-        const isEdit = Boolean(payload.id);
-        let existing = null;
-
-        if (!isEdit) {
-          const { data } = await supabase
-            .from("products")
-            .select("id")
-            .eq("organization_id", organizationId)
-            .eq("name", payload.name)
-            .like("sku", "calc-%")
-            .limit(1)
-            .maybeSingle();
-          existing = data;
-        }
-
-        const description = JSON.stringify({
-          sku: payload.sku || "",
-          imageUrl: payload.imageUrl,
-          colorHex: payload.colorHex,
-          marginStatus: payload.marginStatus,
-          supplierName: payload.supplierName,
-          costPrice: parsePrice(payload.costPrice),
-          marketplace: payload.marketplace || "",
-          amazonPlan: payload.amazonPlan,
-          amazonCategory: payload.amazonCategory,
-          netRevenue: parsePrice(payload.netRevenue),
-          accountHolder: payload.accountHolder || "",
-          accountType: payload.accountType || "",
-          variations: payload.variations || [],
+        const result = await callCalculatorApi("PRODUCT_UPSERT", {
+          organizationId,
+          product: payload,
         });
-
-        const normalizedPrice = parsePrice(payload.sellingPrice);
-        const normalizedStock = Math.max(0, Math.floor(parsePrice(payload.stockQuantity)));
-
-        if (!isEdit && existing?.id) {
+        if (!result.ok) {
+          if (result.status === 409) {
+            sendToIframe({
+              type: "CALCULATOR_PRODUCT_ERROR",
+              message: "Produto já cadastrado.",
+            });
+            return;
+          }
           sendToIframe({
             type: "CALCULATOR_PRODUCT_ERROR",
-            message: "Produto já cadastrado.",
+            message: payload.id
+              ? "Não foi possível atualizar o produto."
+              : "Não foi possível cadastrar o produto.",
           });
           return;
         }
 
-        if (isEdit) {
-          const { error } = await supabase
-            .from("products")
-            .update({
-              name: payload.name,
-              description,
-              price: normalizedPrice,
-              stock_quantity: normalizedStock,
-            })
-            .eq("organization_id", organizationId)
-            .eq("id", payload.id)
-            .like("sku", "calc-%");
-          if (error) {
-            sendToIframe({
-              type: "CALCULATOR_PRODUCT_ERROR",
-              message: "Não foi possível atualizar o produto.",
-            });
-            return;
-          }
-        } else {
-          await supabase.from("products").insert({
-            organization_id: organizationId,
-            name: payload.name,
-            description,
-            price: normalizedPrice,
-            stock_quantity: normalizedStock,
-            sku: `calc-${Date.now()}`,
-            is_digital: true,
-          });
-        }
-
-        const products = await fetchProducts(organizationId);
+        const products = Array.isArray(result.data?.products) ? result.data.products : [];
         latestProductsRef.current = products;
         sendToIframe({ type: "CALCULATOR_PRODUCT_SAVED", products });
       }
@@ -293,38 +356,35 @@ const CalculatorEmbed = ({ src, title }) => {
           });
           return;
         }
-        const { error } = await supabase
-          .from("products")
-          .delete()
-          .eq("organization_id", organizationId)
-          .eq("id", payload.id)
-          .like("sku", "calc-%");
-        if (error) {
+        const result = await callCalculatorApi("PRODUCT_DELETE", {
+          organizationId,
+          id: payload.id,
+        });
+        if (!result.ok) {
           sendToIframe({
             type: "CALCULATOR_PRODUCT_ERROR",
             message: "Não foi possível excluir o produto.",
           });
           return;
         }
-        const products = await fetchProducts(organizationId);
+        const products = Array.isArray(result.data?.products) ? result.data.products : [];
         latestProductsRef.current = products;
         sendToIframe({ type: "CALCULATOR_PRODUCT_DELETED", products });
       }
     };
 
     window.addEventListener("message", handleMessage);
-    getActiveOrganizationId().then((organizationId) => {
-      if (organizationId) {
-        syncProducts(organizationId);
-        syncSettings(organizationId);
-      }
-    });
 
     return () => {
       window.removeEventListener("message", handleMessage);
       window.clearTimeout(fallbackTimer);
     };
-  }, [fetchProducts, sendToIframe, syncProducts, syncSettings]);
+  }, [authChecked, authUser?.id, fetchProducts, resolveOrganizationId, sendToIframe, startSyncLoop, syncProducts, syncSettings]);
+
+  useEffect(() => {
+    if (!authUser?.id) return;
+    startSyncLoop({ attemptDelayMs: 400, maxAttempts: 12 });
+  }, [authUser?.id, startSyncLoop]);
 
   return (
     <div className="w-100 position-relative" style={{ height: iframeHeight, minHeight: "100px", transition: "height 0.3s ease" }}>

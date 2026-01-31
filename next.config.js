@@ -51,7 +51,7 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: 'SAMEORIGIN'
           },
           {
             key: 'X-XSS-Protection',
@@ -63,26 +63,19 @@ const nextConfig = {
           },
         ],
       },
-      {
-        // Headers específicos para a página de reset
-        source: '/reset-auth.html',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-store, no-cache, must-revalidate, proxy-revalidate'
-          },
-        ],
-      },
     ];
   },
-  // Rewrites para garantir que reset-auth funcione
   async rewrites() {
     return [
       {
-        source: '/reset-auth',
-        destination: '/reset-auth.html',
+        source: '/__calc',
+        destination: 'http://localhost:5173',
       },
-    ]
+      {
+        source: '/__calc/:path*',
+        destination: 'http://localhost:5173/:path*',
+      },
+    ];
   },
   async redirects() {
     return [

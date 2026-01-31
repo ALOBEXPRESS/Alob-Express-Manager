@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { supabase, getSafeUser } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
+import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -15,6 +16,7 @@ const AccessRequestsLayer = () => {
   const [admin, setAdmin] = useState(false);
   const [actionLoading, setActionLoading] = useState("");
   const [tempPasswords, setTempPasswords] = useState({});
+  const { user, loading: authLoading } = useAuth();
 
   const loadRequests = async () => {
     setLoading(true);
@@ -33,7 +35,7 @@ const AccessRequestsLayer = () => {
 
   useEffect(() => {
     const init = async () => {
-      const { user } = await getSafeUser();
+      if (authLoading) return;
       if (!user) {
         router.push(`/${locale}/sign-in`);
         return;
@@ -52,7 +54,7 @@ const AccessRequestsLayer = () => {
       await loadRequests();
     };
     init();
-  }, [locale, router]);
+  }, [authLoading, locale, router, user]);
 
   const handleAction = async (requestId, action) => {
     setActionLoading(requestId);
