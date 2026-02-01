@@ -113,25 +113,27 @@ export async function POST(request) {
       url: request.url
     });
 
-    const accessToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
-  if (!accessToken) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+    let body = null;
+    try {
+      body = await request.json();
+    } catch {
+      body = null;
+    }
 
-  const supabase = createRequestClient(accessToken);
-  if (!supabase) {
-    return Response.json({ error: "Supabase client not configured" }, { status: 500 });
-  }
+    const tokenFromHeader = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+    const tokenFromBody = typeof body?.accessToken === "string" ? body.accessToken : "";
+    const accessToken = tokenFromHeader || tokenFromBody;
+    if (!accessToken) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  let body = null;
-  try {
-    body = await request.json();
-  } catch {
-    body = null;
-  }
+    const supabase = createRequestClient(accessToken);
+    if (!supabase) {
+      return Response.json({ error: "Supabase client not configured" }, { status: 500 });
+    }
 
-  const action = String(body?.action ?? "");
-  const payload = body?.payload ?? {};
+    const action = String(body?.action ?? "");
+    const payload = body?.payload ?? {};
 
   if (action === "ACTIVE_ORG") {
     const result = await getActiveOrganizationId(supabase);
@@ -326,4 +328,3 @@ export async function POST(request) {
     );
   }
 }
-

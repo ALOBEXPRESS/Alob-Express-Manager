@@ -75,6 +75,14 @@ const nextConfig = {
         source: '/__calc/:path*',
         destination: 'http://localhost:5173/:path*',
       },
+      {
+        source: '/__calc__',
+        destination: 'http://localhost:5173',
+      },
+      {
+        source: '/__calc__/:path*',
+        destination: 'http://localhost:5173/:path*',
+      },
     ];
   },
   async redirects() {
@@ -145,6 +153,12 @@ const nextConfig = {
         hostname: '**.supabase.co',
       },
     ],
+  },
+  webpack(config, { dev }) {
+    if (dev) {
+      config.cache = false;
+    }
+    return config;
   },
 };
  

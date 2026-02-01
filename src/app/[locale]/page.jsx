@@ -10,9 +10,10 @@ export const metadata = {
 
 const Page = () => {
   const t = useTranslations("sidebar");
-  // Default to localhost:5173 for dev, can be overridden by env var
-  const calculatorUrl =
-    (process.env.NEXT_PUBLIC_CALCULATOR_URL || "/__calc").trim();
+  const calculatorUrl = (() => {
+    const raw = (process.env.NEXT_PUBLIC_CALCULATOR_URL || "/__calc").trim();
+    return raw.replace("/__calc__", "/__calc");
+  })();
   
   console.log("Rendering Dashboard Page, Calculator URL:", calculatorUrl);
 

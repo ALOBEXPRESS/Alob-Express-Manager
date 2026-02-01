@@ -165,7 +165,7 @@ const SignInLayer = () => {
                className="text-xs text-danger"
                onClick={async () => {
                  try {
-                   await supabase.auth.signOut();
+                   await supabase.auth.signOut({ scope: "local" });
                  } catch {}
 
                  try {

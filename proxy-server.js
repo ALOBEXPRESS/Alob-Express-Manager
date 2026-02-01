@@ -216,6 +216,11 @@ function getRouteInfo(req) {
     return { route: 'app', virtualHost: 'app.local' };
   }
 
+  if (url.startsWith('/__calc__')) {
+    req.url = url.slice('/__calc__'.length) || '/';
+    return { route: 'calc', virtualHost: 'calc.local' };
+  }
+
   if (url.startsWith('/__calc')) {
     req.url = url.slice('/__calc'.length) || '/';
     return { route: 'calc', virtualHost: 'calc.local' };

@@ -37,9 +37,8 @@ const CalculatorEmbed = ({ src, title }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ action, payload }),
+          body: JSON.stringify({ action, payload, accessToken: token }),
           credentials: "omit",
         });
       } catch (error) {

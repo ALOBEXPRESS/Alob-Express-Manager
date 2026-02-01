@@ -87,7 +87,8 @@ const ThemeLayer = () => {
           } else if (!error && !normalizedDbColor) {
             await supabase
               .from("users")
-              .upsert({ id: user.id, theme_color: nextColor }, { onConflict: "id" });
+              .update({ theme_color: nextColor })
+              .eq("id", user.id);
           }
         }
         if (!isMounted || userHasSelectedTheme.current) return;
@@ -132,7 +133,8 @@ const ThemeLayer = () => {
     if (user) {
       await supabase
         .from("users")
-        .upsert({ id: user.id, theme_color: normalizedColor }, { onConflict: "id" });
+        .update({ theme_color: normalizedColor })
+        .eq("id", user.id);
     }
   };
 

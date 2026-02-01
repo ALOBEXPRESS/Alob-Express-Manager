@@ -1,4 +1,3 @@
-import { use } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import PluginInit from "@/helper/PluginInit";
 import { AuthProvider } from "@/components/AuthProvider";
@@ -14,8 +13,9 @@ const messages = {
   'es': es,
 };
 
-export default function RootLayout({ children, params }) {
-  const { locale } = use(params);
+export default async function RootLayout({ children, params }) {
+  const resolvedParams = await params;
+  const { locale } = resolvedParams ?? {};
   const normalizedLocale = locale?.toLowerCase() === 'pt-br' ? 'pt-br' : locale
   const resolvedMessages = messages[normalizedLocale] || messages['pt-br'];
 

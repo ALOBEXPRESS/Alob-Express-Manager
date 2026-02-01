@@ -53,7 +53,7 @@ const MasterLayout = ({ children }) => {
   }
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
     clearAuthStorage();
     router.push(`/${currentLocale}/sign-in`);
   };

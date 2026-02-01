@@ -31,7 +31,8 @@ const ThemeInit = () => {
           } else if (!error && !normalizedDbColor) {
             await supabase
               .from("users")
-              .upsert({ id: user.id, theme_color: nextColor }, { onConflict: "id" });
+              .update({ theme_color: nextColor })
+              .eq("id", user.id);
           }
         } catch {}
       }
