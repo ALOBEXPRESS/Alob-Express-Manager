@@ -11,6 +11,16 @@ const DEFAULT_LOCALE = 'pt-br'
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const cookieHeader = request.headers.get('cookie') ?? ''
+
+  if (pathname.startsWith('/api/calculator')) {
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.delete('cookie')
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
+  }
   
   const supabaseCookies = cookieHeader
     .split(';')
@@ -26,6 +36,35 @@ export async function middleware(request: NextRequest) {
   const supabaseCookieSize = supabaseCookies.reduce((size, cookie) => size + cookie.raw.length, 0)
 
   if (supabaseCookieSize > MAX_COOKIE_SIZE) {
+    // PROTECT API: If this is the calculator API, strip cookies and proceed
+    // The API uses Bearer token, so cookies are not needed, and they are causing 431 errors.
+    if (pathname.startsWith('/api/calculator')) {
+      console.warn(`[Middleware] Stripping huge cookies (${supabaseCookieSize} bytes) from /api/calculator`);
+      
+      // Create a response that clears cookies
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.delete('cookie');
+      
+      const response = NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+
+      // Also set headers to clear them in the browser to prevent future loops
+      supabaseCookies.forEach(({ name }) => {
+        response.cookies.set({
+          name,
+          value: '',
+          maxAge: 0,
+          path: '/',
+          httpOnly: true,
+        });
+      });
+
+      return response;
+    }
+
     if (pathname === '/reset-auth.html') {
       return NextResponse.next()
     }
@@ -76,8 +115,9 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      * - reset-auth.html (página de reset estática)
+     * - api routes (EXCEPT /api/calculator which we want to process to strip cookies)
      * - __calc (calculator micro-frontend)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*|reset-auth\\.html).*)',
+    '/((?!api(?!/calculator)|_next/static|_next/image|favicon.ico|.*\\..*|reset-auth\\.html).*)',
   ],
 }

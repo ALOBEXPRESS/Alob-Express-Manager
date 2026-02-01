@@ -99,8 +99,21 @@ const fetchSettings = async (supabase, organizationId) => {
 
 export async function POST(request) {
   try {
-    const authHeader = request.headers.get("authorization") ?? "";
-  const accessToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+    // SYSTEMATIC DEBUGGING: Header Instrumentation
+    const cookieHeader = request.headers.get("cookie") || "";
+    const authHeader = request.headers.get("authorization") || "";
+    const totalHeaderSize = [...request.headers.entries()].reduce((acc, [k, v]) => acc + k.length + v.length, 0);
+    const cookieCount = cookieHeader.split(';').length;
+    
+    console.log(`[API/Calculator] Debug:`, {
+      totalHeaderSize,
+      cookieHeaderSize: cookieHeader.length,
+      cookieCount,
+      authHeaderSize: authHeader.length,
+      url: request.url
+    });
+
+    const accessToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
   if (!accessToken) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }

@@ -185,6 +185,12 @@ async function findAvailablePort(startPort, maxPort) {
 function applyCookiePolicy(req, virtualHost) {
   const host = virtualHost ?? (req.headers.host ?? '');
   const cookieHeader = req.headers.cookie;
+  const url = String(req.url ?? '/');
+
+  if (url.startsWith('/api/calculator')) {
+    delete req.headers.cookie;
+    return;
+  }
 
   if (host.startsWith('calc.local')) {
     delete req.headers.cookie;

@@ -16,6 +16,8 @@ const CalculatorEmbed = ({ src, title }) => {
   const organizationIdPromiseRef = useRef(null);
   const organizationIdBlockedUntilRef = useRef(0);
   const syncLoopTokenRef = useRef(0);
+  const syncLoopRunningRef = useRef(false);
+  const syncLoopStartAtRef = useRef(0);
 
   const sendToIframe = useCallback((payload) => {
     if (!iframeRef.current?.contentWindow) return;
@@ -136,6 +138,8 @@ const CalculatorEmbed = ({ src, title }) => {
     organizationIdPromiseRef.current = null;
     organizationIdBlockedUntilRef.current = 0;
     syncLoopTokenRef.current += 1;
+    syncLoopRunningRef.current = false;
+    syncLoopStartAtRef.current = 0;
   }, [authUser?.id]);
 
   const resolveOrganizationId = useCallback(async () => {
@@ -171,27 +175,50 @@ const CalculatorEmbed = ({ src, title }) => {
   const startSyncLoop = useCallback(
     (options = {}) => {
       if (!authChecked || !authUser?.id) return;
-      const { attemptDelayMs = 500, maxAttempts = 10 } = options;
+      const { maxAttempts = 10, minRestartDelayMs = 1500 } = options;
+      const now = Date.now();
+      if (syncLoopRunningRef.current && now - syncLoopStartAtRef.current < minRestartDelayMs) {
+        return;
+      }
+      syncLoopRunningRef.current = true;
+      syncLoopStartAtRef.current = now;
       const token = ++syncLoopTokenRef.current;
+
+      const stopIfCurrent = () => {
+        if (syncLoopTokenRef.current !== token) return;
+        syncLoopRunningRef.current = false;
+      };
 
       const run = async (attempt) => {
         if (syncLoopTokenRef.current !== token) return;
-        if (!authChecked || !authUser?.id) return;
+        if (!authChecked || !authUser?.id) {
+          stopIfCurrent();
+          return;
+        }
 
         const organizationId = await resolveOrganizationId();
         if (syncLoopTokenRef.current !== token) return;
 
         if (!organizationId) {
-          if (attempt >= maxAttempts) return;
+          if (attempt >= maxAttempts) {
+            console.warn("CalculatorEmbed: Max sync attempts reached. Stopping loop.");
+            stopIfCurrent();
+            return;
+          }
+          // Exponential backoff: 1s, 2s, 4s, 8s, max 30s
+          const delay = Math.min(30000, 1000 * Math.pow(2, attempt));
+          console.log(`CalculatorEmbed: Retrying sync in ${delay}ms (attempt ${attempt + 1}/${maxAttempts})`);
+          
           window.setTimeout(
             () => run(attempt + 1),
-            attemptDelayMs + Math.min(1500, attempt * 250)
+            delay
           );
           return;
         }
 
         await syncProducts(organizationId);
         await syncSettings(organizationId);
+        stopIfCurrent();
       };
 
       run(0);
@@ -379,11 +406,11 @@ const CalculatorEmbed = ({ src, title }) => {
       window.removeEventListener("message", handleMessage);
       window.clearTimeout(fallbackTimer);
     };
-  }, [authChecked, authUser?.id, fetchProducts, resolveOrganizationId, sendToIframe, startSyncLoop, syncProducts, syncSettings]);
+  }, [authChecked, authUser?.id, callCalculatorApi, fetchProducts, resolveOrganizationId, sendToIframe, startSyncLoop, syncProducts, syncSettings]);
 
   useEffect(() => {
     if (!authUser?.id) return;
-    startSyncLoop({ attemptDelayMs: 400, maxAttempts: 12 });
+    startSyncLoop({ maxAttempts: 12, minRestartDelayMs: 2000 });
   }, [authUser?.id, startSyncLoop]);
 
   return (
