@@ -110,19 +110,6 @@
   }
 }
 
-@layer components {
-  .calculator-theme-wrapper {
-    @apply relative w-full h-full isolate;
-    /* Ensure it doesn't overlap header/sidebar unless intended */
-    z-index: 1; 
-  }
-
-  /* Fix for Exit button visibility if it exists in the calculator or layout */
-  .calculator-exit-button {
-    @apply z-50 relative;
-  }
-}
-
 /* Calculator Theme Wrapper - Force Light Mode */
 .calculator-theme-wrapper {
   color-scheme: light;
@@ -148,6 +135,20 @@
   --radius: 0.5rem;
 }
 
+.calculator-theme-wrapper,
+.calculator-theme-wrapper * {
+  box-sizing: border-box;
+}
+
+.calculator-theme-wrapper :is(input, select, textarea, button) {
+  font: inherit;
+  color: inherit;
+}
+
+.calculator-theme-wrapper :is(input, select, textarea) {
+  background-color: transparent;
+}
+
 /* Force children to ignore dark mode if specific utility classes are used */
 .calculator-theme-wrapper .dark\:bg-card {
   background-color: hsl(var(--card)) !important;
@@ -158,7 +159,7 @@
 }
 
 /* Ensure Dropdowns from Calculator are on top */
-.dropdown-menu {
+.calculator-theme-wrapper .dropdown-menu {
   z-index: 9999 !important;
 }
 
@@ -297,25 +298,30 @@
 .shadcn-input {
   width: 100%;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  color: #0f172a;
-  background: #ffffff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.shadcn-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+/* --- CALCULATOR FIXES --- */
+.calculator-theme-wrapper input,
+.calculator-theme-wrapper select,
+.calculator-theme-wrapper textarea {
+  background-color: white !important;
+  color: black !important;
+  border-color: #e2e8f0 !important;
 }
 
-.shadcn-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 600;
+.calculator-theme-wrapper .bg-card {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Fix logo size if Tailwind fails */
+.calculator-theme-wrapper img[alt="Alob Express"] {
+  height: 48px !important;
+  width: auto !important;
+}
+
+/* Fix container height */
+.calculator-theme-wrapper > div {
+  min-height: auto !important; /* Override min-h-screen */
+  height: 100%;
 }

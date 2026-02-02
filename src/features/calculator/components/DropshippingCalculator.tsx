@@ -525,7 +525,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
   }, { scope: container });
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden font-sans" ref={container}>
+    <div className="w-full h-full min-h-[600px] bg-black relative overflow-hidden font-sans isolate" ref={container}>
       {/* Video Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
@@ -548,7 +548,8 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
              <img 
                 src={logo} 
                 alt="Alob Express" 
-                className="h-12 object-contain glitch-hover cursor-pointer" 
+                className="h-12 object-contain glitch-hover cursor-pointer"
+                style={{ height: '48px', width: 'auto' }}
                 onClick={() => window.location.reload()} 
              />
           </div>
@@ -558,9 +559,9 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 items-start">
           {/* Painel de Entrada */}
-          <Card className="shadow-xl border-gray-100 animate-on-scroll">
+          <Card className="shadow-xl border-gray-100 animate-on-scroll !bg-white">
             <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
               <div className="flex flex-row items-center gap-2">
                  <Calculator className="w-6 h-6 text-blue-600" />
@@ -1894,7 +1895,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
                 </div>
               </div>
               {showProductsList ? (
-                <Card className="shadow-xl border-gray-100 animate-on-scroll">
+                <Card className="shadow-xl border-gray-100 animate-on-scroll !bg-white">
                   <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                     <div className="flex flex-row items-center gap-2">
                       <Package className="w-6 h-6 text-pink-600" />
@@ -1991,6 +1992,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
               ) : null}
 
               {/* Taxas dos Marketplaces (Informativo) */}
+              <div className="!bg-white rounded-xl">
               <CollapsibleSection title="Taxas dos Marketplaces (Referência)" icon={<AlertCircle className="w-6 h-6 text-blue-600" />}>
                 <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
                   <div className="bg-white rounded-lg p-4 border border-pink-100">
@@ -2035,6 +2037,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
                   </div>
                 </div>
               </CollapsibleSection>
+              </div>
             </div>
           )}
 
