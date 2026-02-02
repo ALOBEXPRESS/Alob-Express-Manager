@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import MasterLayout from "@/masterLayout/MasterLayout";
-import CalculatorEmbed from "@/components/CalculatorEmbed";
+import { CalculatorWrapper } from "@/features/calculator/components/CalculatorWrapper";
 import { useTranslations } from "next-intl";
 
 export const metadata = {
@@ -10,12 +10,6 @@ export const metadata = {
 
 const Page = () => {
   const t = useTranslations("sidebar");
-  const calculatorUrl = (() => {
-    const raw = (process.env.NEXT_PUBLIC_CALCULATOR_URL || "/__calc").trim();
-    return raw.replace("/__calc__", "/__calc");
-  })();
-  
-  console.log("Rendering Dashboard Page, Calculator URL:", calculatorUrl);
 
   return (
     <MasterLayout>
@@ -24,8 +18,8 @@ const Page = () => {
         <div className="col-12">
           <div className="card h-100 radius-8 border-0">
             <div className="card-body p-0">
-              {/* Iframe container with responsive height */}
-              <CalculatorEmbed src={calculatorUrl} title={t("calculator")} />
+              {/* Native Calculator Component */}
+              <CalculatorWrapper />
             </div>
           </div>
         </div>

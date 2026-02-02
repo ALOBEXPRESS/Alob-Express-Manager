@@ -109,11 +109,13 @@ export function AuthProvider({ children }) {
       if (getAuthPending()) {
         const timer = window.setTimeout(() => {
           if (!getAuthPending()) {
+            console.log('[AuthProvider] Redirecting to sign-in (pending expired)', pathname);
             router.replace(`/${locale}/sign-in?redirectTo=${redirectTo}`);
           }
         }, 1200);
         return () => window.clearTimeout(timer);
       }
+      console.log('[AuthProvider] Redirecting to sign-in (no session)', pathname);
       router.replace(`/${locale}/sign-in?redirectTo=${redirectTo}`);
       return;
     }
@@ -125,6 +127,7 @@ export function AuthProvider({ children }) {
         redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')
           ? redirectTo
           : `/${locale}`;
+      console.log('[AuthProvider] Redirecting after login', pathname, '->', safeTarget);
       router.replace(safeTarget);
     }
   }, [pathname, router, searchParams, state.loading, state.session]);

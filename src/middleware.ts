@@ -12,6 +12,10 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const cookieHeader = request.headers.get('cookie') ?? ''
 
+  if (pathname.startsWith('/_next')) {
+    return NextResponse.next()
+  }
+
   if (pathname.startsWith('/api/calculator')) {
     const requestHeaders = new Headers(request.headers)
     requestHeaders.delete('cookie')
@@ -99,6 +103,7 @@ export async function middleware(request: NextRequest) {
     if (!SUPPORTED_LOCALES.has(firstSegment)) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = `/${DEFAULT_LOCALE}${pathname}`
+      console.log(`[Middleware] Locale redirect: ${pathname} -> ${redirectUrl.pathname}`)
       return NextResponse.redirect(redirectUrl)
     }
   }
@@ -118,6 +123,6 @@ export const config = {
      * - api routes (EXCEPT /api/calculator which we want to process to strip cookies)
      * - __calc (calculator micro-frontend)
      */
-    '/((?!api(?!/calculator)|_next/static|_next/image|favicon.ico|.*\\..*|reset-auth\\.html).*)',
+    '/((?!api(?!/calculator)|_next|__calc|favicon.ico|.*\\..*|reset-auth\\.html).*)',
   ],
 }

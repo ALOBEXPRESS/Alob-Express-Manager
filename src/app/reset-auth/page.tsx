@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { clearAuthStorage } from '@/lib/supabase/client'
 
-export default function ResetAuthPage() {
+function ResetAuthContent() {
   const searchParams = useSearchParams()
   const [status, setStatus] = useState<'idle' | 'clearing' | 'done'>('idle')
 
@@ -45,5 +45,13 @@ export default function ResetAuthPage() {
       <h1>Restaurando acesso…</h1>
       <p>{status === 'clearing' ? 'Limpando dados locais.' : 'Redirecionando.'}</p>
     </main>
+  )
+}
+
+export default function ResetAuthPage() {
+  return (
+    <Suspense fallback={<main>Carregando...</main>}>
+      <ResetAuthContent />
+    </Suspense>
   )
 }
