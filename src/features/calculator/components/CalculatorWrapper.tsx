@@ -1,16 +1,13 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const DropshippingCalculator = dynamic(
-  () => import('./DropshippingCalculator'),
-  { ssr: false }
-);
+const CalculatorPage = dynamic(() => import("../CalculatorPage"), {
+  ssr: false,
+});
 
 export const CalculatorWrapper = () => {
   return (
-    <div className="calculator-theme-wrapper">
-      <DropshippingCalculator />
-    </div>
+    <CalculatorPage />
   );
 };

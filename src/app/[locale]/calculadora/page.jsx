@@ -14,14 +14,8 @@ const Page = () => {
   return (
     <MasterLayout>
       <Breadcrumb title={t("calculator")} />
-      <div className="row gy-4 mt-4">
-        <div className="col-12">
-           <div className="card h-100 radius-8 border-0 overflow-hidden">
-             <div className="card-body p-0">
-               <CalculatorWrapper />
-             </div>
-           </div>
-        </div>
+      <div className="mt-4">
+        <CalculatorWrapper />
       </div>
     </MasterLayout>
   );

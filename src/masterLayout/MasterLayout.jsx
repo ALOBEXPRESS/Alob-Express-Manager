@@ -1212,7 +1212,7 @@ const MasterLayout = ({ children }) => {
                       className='w-24 h-24 object-fit-cover rounded-circle'
                     />
                   </button>
-                  <div className='dropdown-menu to-top dropdown-menu-sm'>
+                  <div className='dropdown-menu to-top dropdown-menu-sm' style={{ zIndex: 2000 }}>
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
                         <h6 className='text-lg text-primary-light fw-semibold mb-0'>

@@ -13,7 +13,7 @@ import { useGSAP } from '@gsap/react';
 // import logo from '../imgs/Logonome-alobexpress.png';
 // import videoBackground from '../video/dollar-animate-real.mp4';
 const logo = '/calculator/imgs/Logonome-alobexpress.png';
-const videoBackground = '/calculator/video/dollar-animate-real.mp4';
+const videoBackground = '/assets/video/dollar-animate-real.mp4';
 
 import { CollapsibleSection } from './ui/CollapsibleSection';
 import { TrafficConfig } from './calculator/TrafficConfig';
@@ -525,7 +525,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
   }, { scope: container });
 
   return (
-    <div className="w-full h-full min-h-[600px] bg-black relative overflow-hidden font-sans isolate" ref={container}>
+    <div className="min-h-screen bg-black relative overflow-hidden font-sans" ref={container}>
       {/* Video Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
@@ -548,8 +548,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
              <img 
                 src={logo} 
                 alt="Alob Express" 
-                className="h-12 object-contain glitch-hover cursor-pointer"
-                style={{ height: '48px', width: 'auto' }}
+                className="h-12 object-contain glitch-hover cursor-pointer" 
                 onClick={() => window.location.reload()} 
              />
           </div>
@@ -559,9 +558,9 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-2 gap-6 w-full items-start">
           {/* Painel de Entrada */}
-          <Card className="shadow-xl border-gray-100 animate-on-scroll !bg-white">
+          <Card className="shadow-xl border-gray-100 animate-on-scroll bg-white w-full">
             <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
               <div className="flex flex-row items-center gap-2">
                  <Calculator className="w-6 h-6 text-blue-600" />
@@ -1720,7 +1719,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
           ) : (
             <div className="space-y-4">
               <div className="bg-[#fe2c55] text-white rounded-xl p-5 shadow-lg">
-                <div className="grid gap-6 xl:grid-cols-2 mb-6">
+                <div className="grid gap-6 grid-cols-2 mb-6">
                   {/* Coluna 1: Totais e Reservas */}
                   <div className="rounded-lg bg-white/15 p-3 h-full flex flex-col">
                     <div className="space-y-3 flex-1">
@@ -1895,7 +1894,7 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
                 </div>
               </div>
               {showProductsList ? (
-                <Card className="shadow-xl border-gray-100 animate-on-scroll !bg-white">
+                <Card className="shadow-xl border-gray-100 animate-on-scroll">
                   <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                     <div className="flex flex-row items-center gap-2">
                       <Package className="w-6 h-6 text-pink-600" />
@@ -1992,7 +1991,6 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
               ) : null}
 
               {/* Taxas dos Marketplaces (Informativo) */}
-              <div className="!bg-white rounded-xl">
               <CollapsibleSection title="Taxas dos Marketplaces (Referência)" icon={<AlertCircle className="w-6 h-6 text-blue-600" />}>
                 <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
                   <div className="bg-white rounded-lg p-4 border border-pink-100">
@@ -2037,7 +2035,6 @@ const DropshippingCalculator = ({ accessToken }: { accessToken?: string | null }
                   </div>
                 </div>
               </CollapsibleSection>
-              </div>
             </div>
           )}
 
