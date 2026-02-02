@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const cookieHeader = request.headers.get('cookie') ?? ''
 
-  if (pathname.startsWith('/_next')) {
+  if (pathname.startsWith('/_next') || pathname.startsWith('/@vite')) {
     return NextResponse.next()
   }
 
@@ -123,6 +123,6 @@ export const config = {
      * - api routes (EXCEPT /api/calculator which we want to process to strip cookies)
      * - __calc (calculator micro-frontend)
      */
-    '/((?!api(?!/calculator)|_next|__calc|favicon.ico|.*\\..*|reset-auth\\.html).*)',
+    '/((?!api(?!/calculator)|_next|__calc|favicon.ico|.*\\..*|reset-auth\\.html|@vite).*)',
   ],
 }
